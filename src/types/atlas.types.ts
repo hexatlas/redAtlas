@@ -239,4 +239,13 @@ export interface ModelConfig {
   apiKey: string;
   model: string;
   max_tokens: number;
+  systemPrompt: string;
+}
+
+export interface ChatModelConfigProps {
+  modelConfig: ModelConfig;
+  setModelConfig;
+  models;
+  activeModel;
+  setActiveModel;
 }

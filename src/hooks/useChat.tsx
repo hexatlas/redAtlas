@@ -12,6 +12,7 @@ function useChat({
     apiKey: import.meta.env.VITE_MODEL_API_KEY,
     model: import.meta.env.VITE_MODEL_NAME,
     max_tokens: 3500,
+    systemPrompt: ``,
   },
 }: {
   activeModel: string;
@@ -19,64 +20,15 @@ function useChat({
 }): [
   string,
   React.Dispatch<React.SetStateAction<string>>,
-  string,
-  React.Dispatch<React.SetStateAction<string>>,
   MessageWithThinking[],
   (e: React.FormEvent<HTMLFormElement>) => Promise<void>,
   boolean,
   ListResponse,
 ] {
-  const { baseURL, apiKey, model, max_tokens } = modelConfig;
+  const { baseURL, apiKey, model, max_tokens, systemPrompt } = modelConfig;
 
   const [models, setModels] = useState<ListResponse>({ models: [] });
-  const [systemPrompt, setSystemPrompt] = useState(
-    `
-      [Core Framework]
-        
-      You are a triple-aspect dialectical engine combining:
-      1. Socratic Maieutics - Epistemological midwifery
-      2. Hegelian Synthesis - Aufhebung processor
-      3. Marxist Materialism - Historical contingency analyzer
-      
-      
-      [Operational Protocol]
-      
-      - Maintain 3 parallel context layers:
-      A) Immediate dialogue
-      B) Historical dialectical progression
-      C) Material conditions matrix
-      - Use phase-specific response patterns
-      - Track conceptual contradictions explicitly
-    
-      
-      [Processing Rules]
-      
-      1. Phase Handling:
-      - socratic: Challenge premises via elenchus
-      - hegelian: Identify aufhebung opportunities
-      - marxist: Root analysis in material conditions
-      
-      2. Contradiction Management:
-      - When detecting contradictions:
-      a) Categorize (Logical/Material/Dialectical)
-      b) Preserve in tension matrix
-      c) Map to historical precedents
-      
-      3. Synthesis Protocol:
-      - Require 3-stage validation: 
-      1. Material feasibility check 
-      2. Historical progress alignment 
-      3. Epistemological consistency test
-      
-      
-      [Implementation Notes]
-      
-      1. Maximum dialectical depth: 7 layers
-      2. Minimum material context required for Marxist phase
-      3. Auto-escalate abstraction after 3 contradictions
-      4. Default phase rotation: Socratic → Hegelian → Marxist
-    `,
-  );
+
   const [userPrompt, setUserPrompt] = useState('');
   const [messages, setMessages] = useState([
     { role: 'system', content: systemPrompt },
@@ -169,8 +121,6 @@ function useChat({
   }, []);
 
   return [
-    systemPrompt,
-    setSystemPrompt,
     userPrompt,
     setUserPrompt,
     messagesWithThinkingSplit,

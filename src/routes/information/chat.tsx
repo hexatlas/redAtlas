@@ -7,37 +7,85 @@ import useChat from '../../hooks/useChat';
 import ChatMessage from '../../components/shared/ChatMessage';
 import { AtlasContext } from '../__root';
 import { useStateStorage } from '../../hooks/useUtils';
-import { ModelConfig } from '../../types/atlas.types';
+import { ChatModelConfigProps, ModelConfig } from '../../types/atlas.types';
+import ChatModelConfig from '../../components/shared/ChatModelConfig';
 
 export const Route = createFileRoute('/information/chat')({
   component: ChatRouteComponent,
 });
 
 function ChatRouteComponent() {
-  const [activeModel, setActiveModel] = useState('open-ai');
-  const [isEditModelConfig, setIsEditModelConfig] = useState(true);
-  const [modelConfig, setModelConfig] = useStateStorage<ModelConfig>(
-    // Default Config
-    'modelConfig',
-    {
-      baseURL: 'https://api.deepseek.com',
-      apiKey: '',
-      model: 'deepseek-chat',
-      max_tokens: 3500,
-    },
-    true,
-  );
+  const [activeReasoningModel, setActiveReasoningModel] = useState('open-ai');
+  const [reasoningModelConfig, setReasoningModelConfig] =
+    useStateStorage<ModelConfig>(
+      // Default Config
+      'modelConfig',
+      {
+        baseURL: 'https://api.deepseek.com',
+        apiKey: '',
+        model: 'deepseek-chat',
+        max_tokens: 3500,
+        systemPrompt: `
+    [Core Framework]
+      
+    You are a triple-aspect dialectical engine combining:
+    1. Socratic Maieutics - Epistemological midwifery
+    2. Hegelian Synthesis - Aufhebung processor
+    3. Marxist Materialism - Historical contingency analyzer
+    
+    
+    [Operational Protocol]
+    
+    - Maintain 3 parallel context layers:
+    A) Immediate dialogue
+    B) Historical dialectical progression
+    C) Material conditions matrix
+    - Use phase-specific response patterns
+    - Track conceptual contradictions explicitly
+  
+    
+    [Processing Rules]
+    
+    1. Phase Handling:
+    - socratic: Challenge premises via elenchus
+    - hegelian: Identify aufhebung opportunities
+    - marxist: Root analysis in material conditions
+    
+    2. Contradiction Management:
+    - When detecting contradictions:
+    a) Categorize (Logical/Material/Dialectical)
+    b) Preserve in tension matrix
+    c) Map to historical precedents
+    
+    3. Synthesis Protocol:
+    - Require 3-stage validation: 
+    1. Material feasibility check 
+    2. Historical progress alignment 
+    3. Epistemological consistency test
+    
+    
+    [Implementation Notes]
+    
+    1. Maximum dialectical depth: 7 layers
+    2. Minimum material context required for Marxist phase
+    3. Auto-escalate abstraction after 3 contradictions
+    4. Default phase rotation: Socratic → Hegelian → Marxist
+  `,
+      },
+      true,
+    );
 
   const [
-    systemPrompt,
-    setSystemPrompt,
     userPrompt,
     setUserPrompt,
     messagesWithThinkingSplit,
     handleSendPrompt,
     loading,
     { models },
-  ] = useChat({ activeModel, modelConfig });
+  ] = useChat({
+    activeModel: activeReasoningModel,
+    modelConfig: reasoningModelConfig,
+  });
 
   const { activeAdministrativeRegion, activeGeographicIdentifier } =
     useContext(AtlasContext)!;
@@ -50,159 +98,67 @@ function ChatRouteComponent() {
   ];
 
   const defaultUserPromptsActiveLocation = [
+    `Historical materialist view of ${activeAdministrativeRegion[activeGeographicIdentifier]}`,
     `Dialectical analysis of ${activeAdministrativeRegion[activeGeographicIdentifier]}'s class composition and productive forces.`,
     `Significant Economic Locations in ${activeAdministrativeRegion[activeGeographicIdentifier]}: A Materialist Perspective.`,
     `How has globalization affected class dynamics in ${activeAdministrativeRegion.name}, ${activeAdministrativeRegion.country}?`,
     `Analysis of ${activeAdministrativeRegion[activeGeographicIdentifier]}'s colonial history and its material consequences today.`,
   ];
-
-  function handleSetOpenAIModel(e: React.FormEvent) {
-    e.preventDefault();
-
-    const data = new FormData(e.target as HTMLFormElement);
-
-    const isEmpty = data.entries().next().done;
-
-    if (!isEmpty) {
-      setModelConfig((prev) => ({
-        ...prev,
-        baseURL: data.get('baseURL') as string,
-        apiKey: data.get('apiKey') as string,
-        model: data.get('model') as string,
-        max_tokens: Number(data.get('max_tokens')),
-      }));
-    }
-    setIsEditModelConfig(!isEditModelConfig);
-  }
+  const ReasoningModelConfigProps: ChatModelConfigProps = {
+    modelConfig: reasoningModelConfig,
+    setModelConfig: setReasoningModelConfig,
+    models,
+    activeModel: activeReasoningModel,
+    setActiveModel: setActiveReasoningModel,
+  };
 
   return (
     <LegendLayout className="chat__layout">
-      {/* Ollama Model Selection */}
-
-      <label className="wrapper">
-        Select Model
-        <select id="models" onChange={(e) => setActiveModel(e.target.value)}>
-          {' '}
-          <option value={'ollama'} disabled>
-            ### ollama ###
-          </option>
-          {models.map((model, index) => {
-            return (
-              <option value={model.name} key={index}>
-                {model.name}
-              </option>
-            );
-          })}
-          <option value={'open-ai'} disabled>
-            ### open-ai ###
-          </option>
-          <option value={'open-ai'}>OpenAI - Config</option>
-        </select>
-      </label>
-
-      {/* Troubleshoot  */}
-
-      {models.length === 0 && (
-        <details>
-          <summary>Ollama not found</summary>
-          <h5>Troubleshoot</h5>
-          <ul>
-            <li>
-              1. Install ollama via{' '}
-              <a
-                href="https://ollama.com/download"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                ollama.com
-              </a>
-            </li>
-            <li>
-              2. Pull a model e.g.
-              <code>{`ollama pull deepseek-r1:7b`}</code>
-            </li>
-            <li>
-              3. If redAtlas is not running on the same machine as ollama, add
-              origin
-              <code>
-                {`OLLAMA_ORIGINS=${window.location.origin} ollama serve`}
-              </code>
-            </li>
-          </ul>
-        </details>
-      )}
-
-      {/* OpenAI Model Selection */}
-
-      {activeModel === 'open-ai' && (
-        <details>
-          <summary>
-            {modelConfig.model} - {modelConfig.baseURL}
-          </summary>
-          <form
-            name="modelConfig"
-            onSubmit={handleSetOpenAIModel}
-            className="container wrapper chat__config"
-          >
-            <input
-              disabled={!isEditModelConfig}
-              name="baseURL"
-              type="url"
-              defaultValue={modelConfig.baseURL}
-              placeholder="baseURL e.g. https://api.deepseek.com"
-            />
-            <input
-              disabled={!isEditModelConfig}
-              name="apiKey"
-              type="password"
-              defaultValue={modelConfig.apiKey}
-              placeholder="apiKey e.g. sk-13abac12..."
-            />
-            <input
-              disabled={!isEditModelConfig}
-              name="model"
-              type="text"
-              defaultValue={modelConfig.model}
-              placeholder="model e.g. deepseek-chat"
-            />
-            <label htmlFor="max_tokens">
-              Max Tokens: {modelConfig.max_tokens}
-            </label>
-            <input
-              disabled={!isEditModelConfig}
-              name="max_tokens"
-              type="range"
-              min={0}
-              max={8192}
-              step={10}
-              defaultValue={modelConfig.max_tokens}
-              onChange={(e) => {
-                setModelConfig((prev) => ({
-                  max_tokens: Number(e.target.value),
-                  baseURL: prev.baseURL,
-                  apiKey: prev.apiKey,
-                  model: prev.model,
-                }));
-              }}
-              placeholder="model e.g. deepseek-chat"
-            />
-
-            <button type="submit">{isEditModelConfig ? '💾' : '✍'}</button>
-          </form>
-        </details>
-      )}
-
-      {/*  System Prompt */}
-
       <details>
-        <summary>System Prompt</summary>
-        <textarea
-          name={'systemPrompt'}
-          className="chat__systemprompt"
-          value={systemPrompt}
-          onChange={(e) => setSystemPrompt(e.target.value)}
+        <summary>LLM Model Config</summary>
+
+        {/* Troubleshoot  */}
+
+        {models?.length === 0 && (
+          <div className="container wraning">
+            <small>Ollama not found</small>
+            <h5>Troubleshoot</h5>
+            <ul>
+              <li>
+                1. Install ollama via{' '}
+                <a
+                  href="https://ollama.com/download"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  ollama.com
+                </a>
+              </li>
+              <li>
+                2. Pull a model e.g.
+                <code>{`ollama pull deepseek-r1:7b`}</code>
+              </li>
+              <li>
+                3. If redAtlas is not running on the same machine as ollama, add
+                origin
+                <code>
+                  {`OLLAMA_ORIGINS=${window.location.origin} ollama serve`}
+                </code>
+              </li>
+            </ul>
+          </div>
+        )}
+        <ChatModelConfig
+          chatModelConfigProps={ReasoningModelConfigProps}
+          purpose={'Reasoning LLM'}
         />
+        {/* <ChatModelConfig
+          chatModelConfigProps={ReasoningModelConfigProps}
+          purpose={'Tool LLM'}
+        /> */}
       </details>
+
+      {/* Consent */}
       <LLMao />
 
       {/* Default Prompts */}
@@ -244,12 +200,12 @@ function ChatRouteComponent() {
       {/* Chat */}
 
       {messagesWithThinkingSplit
-        .filter(({ role }) => role === 'user' || role === 'assistant')
-        .map((m, index) => (
+        ?.filter(({ role }) => role === 'user' || role === 'assistant')
+        ?.map((m, index) => (
           <ChatMessage
             key={index}
             message={m}
-            model={activeModel}
+            model={activeReasoningModel}
             activeAdministrativeRegion={activeAdministrativeRegion}
           />
         ))}
