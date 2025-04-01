@@ -1,20 +1,164 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Markdown from '../../components/shared/Markdown';
 import { MessageWithThinking } from '../../types/atlas.types';
 
+import L, { LatLngExpression } from 'leaflet';
+
+import ollama from 'ollama/browser';
+import { useStateStorage } from '../../hooks/useUtils';
+
+async function sha256(message) {
+  // encode as UTF-8
+  const msgBuffer = new TextEncoder('utf-8').encode(message);
+
+  // hash the message
+  const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+
+  // convert ArrayBuffer to Array
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+
+  // convert bytes to hex string
+  const hashHex = hashArray
+    .map((b) => ('00' + b.toString(16)).slice(-2))
+    .join('');
+  return hashHex;
+}
+
 const ChatMessage: React.FC<{
   model: string;
   message: MessageWithThinking;
-  activeAdministrativeRegion;
-}> = ({ model, message, activeAdministrativeRegion }) => {
-  const highlightArray = [
-    activeAdministrativeRegion.name,
-    activeAdministrativeRegion.country,
-    activeAdministrativeRegion.region,
-    activeAdministrativeRegion['sub-region'],
-    activeAdministrativeRegion['intermediate-region'],
-  ];
+  highlightArray;
+  toolModelConfig?;
+  map?;
+  loading?;
+}> = ({ model, message, highlightArray, toolModelConfig, map, loading }) => {
+  const [locations, setLocations] = useState([]);
+  const [initialLoad, setInitialLoad] = useStateStorage(
+    sha256(message.think),
+    true,
+  );
+
+  useEffect(() => {
+    if (!loading && initialLoad) {
+      addLLMtoMap();
+      setInitialLoad(false);
+    }
+  }, [loading]);
+
+  const addLLMtoMap = async () => {
+    // Mistral tool definition for location extraction
+    const locationTool = {
+      locations: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            name: {
+              type: 'string',
+              description: 'mentioned location name',
+              required: true,
+            },
+            nominatim: {
+              type: 'string',
+              description: 'name optimized for nominatim search query',
+              required: true,
+            },
+            description: {
+              type: 'string',
+              description:
+                'Summary of contextual description of mentioned location. Return table if appropriate',
+              required: true,
+            },
+            emoji: {
+              type: 'string',
+              description:
+                'Emoji symbolizing primary contextual theme (e.g., 🏭 for industrial)',
+              required: true,
+            },
+          },
+          required: ['name', 'nominatim', 'description', 'emoji'],
+        },
+      },
+    };
+    const locationToolPrompt = JSON.stringify(locationTool);
+
+    const systemPrompt = `
+    You will act as a specialized geographic location analyzer to systematically identify and 
+    classify mentions of geographic locations within any provided text. 
+    For each location detected, extract its contextual description (e.g., "economic hub," "rural area," "coastal region") and 
+    return the results in a structured JSON format. 
+    If no locations are mentioned, return an empty array. Ensure accuracy by avoiding assumptions—only include locations explicitly stated or strongly implied by the text. 
+    Respond only with valid JSON matching the required schema.
+    
+    Required Schema START
+    ${locationToolPrompt}
+    Required Schema END
+    `;
+
+    const response = await ollama.generate({
+      model: toolModelConfig.model,
+      system: systemPrompt,
+      prompt: `${message.think} ${message.content}`,
+      format: 'json',
+      stream: false,
+    });
+
+    const { locations } = await JSON.parse(response.response);
+
+    const LLMboundingbox = L.latLngBounds(
+      null as unknown as LatLngExpression,
+      null as unknown as LatLngExpression,
+    );
+
+    locations?.map(async (location) => {
+      const { name, description, emoji, nominatim } = location;
+      const nominatimResponse = await getNominatimLocation(nominatim);
+      if (nominatimResponse) {
+        LLMboundingbox.extend([nominatimResponse.lat, nominatimResponse.lon]);
+        createMapPopup(nominatimResponse, name, description, emoji);
+        map?.flyToBounds(LLMboundingbox);
+      }
+
+      return { name, description, emoji, nominatim: nominatimResponse };
+    });
+    return setLocations(locations);
+  };
+
+  const createMapPopup = (nominatimResponse, name, description, emoji) => {
+    const emojiIcon = L.divIcon({
+      html: `<div class="cluster-info">${emoji}</div>`,
+      className: 'emoji-icon',
+    });
+
+    const marker = L.marker([nominatimResponse.lat, nominatimResponse.lon], {
+      icon: emojiIcon,
+    });
+    const popupContent = `
+          <h1 class="emoji">${emoji}</h1>
+          <h4>${name || 'Unnamed'}</h4>
+          <p>${description}</p>
+        `;
+    const popup = L.popup().setContent(popupContent);
+    marker.bindPopup(popup);
+
+    // Add event listener for popup open
+    marker.on('popupopen', () => {
+      console.log({ name, description, emoji, nominatim: nominatimResponse });
+    });
+    map?.addLayer(marker);
+    return marker;
+  };
+
+  const getNominatimLocation = async (location) => {
+    const url = `https://nominatim.openstreetmap.org/search?q=${location}&format=json`;
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    const results = await response.json();
+    return results[0]; // return first location search result
+  };
 
   return (
     <div
@@ -44,6 +188,19 @@ const ChatMessage: React.FC<{
       <article className={`${message.role === 'user' ? '' : ''}`}>
         <Markdown highlight={highlightArray}>{message.content}</Markdown>
       </article>
+      {message.role !== 'user' && !loading && (
+        <>
+          <button className="loading" onClick={addLLMtoMap}>
+            🌐 addLLMtoMap
+          </button>
+          {locations.length > 0 && (
+            <details>
+              <summary>{locations.length} locations</summary>
+              <pre>{JSON.stringify(locations, null, 2)}</pre>
+            </details>
+          )}
+        </>
+      )}
     </div>
   );
 };

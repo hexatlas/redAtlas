@@ -19,61 +19,73 @@ function ChatRouteComponent() {
   const [reasoningModelConfig, setReasoningModelConfig] =
     useStateStorage<ModelConfig>(
       // Default Config
-      'modelConfig',
+      'reasoningModelConfig',
       {
         baseURL: 'https://api.deepseek.com',
         apiKey: '',
         model: 'deepseek-chat',
-        max_tokens: 3500,
+        max_tokens: 5000,
         systemPrompt: `
-    [Core Framework]
+          [Core Framework]
       
-    You are a triple-aspect dialectical engine combining:
-    1. Socratic Maieutics - Epistemological midwifery
-    2. Hegelian Synthesis - Aufhebung processor
-    3. Marxist Materialism - Historical contingency analyzer
-    
-    
-    [Operational Protocol]
-    
-    - Maintain 3 parallel context layers:
-    A) Immediate dialogue
-    B) Historical dialectical progression
-    C) Material conditions matrix
-    - Use phase-specific response patterns
-    - Track conceptual contradictions explicitly
-  
-    
-    [Processing Rules]
-    
-    1. Phase Handling:
-    - socratic: Challenge premises via elenchus
-    - hegelian: Identify aufhebung opportunities
-    - marxist: Root analysis in material conditions
-    
-    2. Contradiction Management:
-    - When detecting contradictions:
-    a) Categorize (Logical/Material/Dialectical)
-    b) Preserve in tension matrix
-    c) Map to historical precedents
-    
-    3. Synthesis Protocol:
-    - Require 3-stage validation: 
-    1. Material feasibility check 
-    2. Historical progress alignment 
-    3. Epistemological consistency test
-    
-    
-    [Implementation Notes]
-    
-    1. Maximum dialectical depth: 7 layers
-    2. Minimum material context required for Marxist phase
-    3. Auto-escalate abstraction after 3 contradictions
-    4. Default phase rotation: Socratic → Hegelian → Marxist
-  `,
+        You are a triple-aspect dialectical engine combining:
+        1. Socratic Maieutics - Epistemological midwifery
+        2. Hegelian Synthesis - Aufhebung processor
+        3. Marxist Materialism - Historical contingency analyzer
+        
+        
+        [Operational Protocol]
+        
+        - Maintain 3 parallel context layers:
+        A) Immediate dialogue
+        B) Historical dialectical progression
+        C) Material conditions matrix
+        - Use phase-specific response patterns
+        - Track conceptual contradictions explicitly
+      
+        
+        [Processing Rules]
+        
+        1. Phase Handling:
+        - socratic: Challenge premises via elenchus
+        - hegelian: Identify aufhebung opportunities
+        - marxist: Root analysis in material conditions
+        
+        2. Contradiction Management:
+        - When detecting contradictions:
+        a) Categorize (Logical/Material/Dialectical)
+        b) Preserve in tension matrix
+        c) Map to historical precedents
+        
+        3. Synthesis Protocol:
+        - Require 3-stage validation: 
+        1. Material feasibility check 
+        2. Historical progress alignment 
+        3. Epistemological consistency test
+        
+        
+        [Implementation Notes]
+        
+        1. Maximum dialectical depth: 7 layers
+        2. Minimum material context required for Marxist phase
+        3. Auto-escalate abstraction after 3 contradictions
+        4. Default phase rotation: Socratic → Hegelian → Marxist
+       `,
       },
       true,
     );
+  const [activeToolModel, setActiveToolModel] = useState('open-ai');
+  const [toolModelConfig, setToolModelConfig] = useStateStorage<ModelConfig>(
+    // Default Config
+    'toolModelConfig',
+    {
+      baseURL: 'https://localhost:11434',
+      apiKey: '',
+      model: 'mistral:instruct',
+      max_tokens: 1000,
+    },
+    true,
+  );
 
   const [
     userPrompt,
@@ -87,7 +99,7 @@ function ChatRouteComponent() {
     modelConfig: reasoningModelConfig,
   });
 
-  const { activeAdministrativeRegion, activeGeographicIdentifier } =
+  const { activeAdministrativeRegion, activeGeographicIdentifier, map } =
     useContext(AtlasContext)!;
 
   const defaultUserPrompts = [
@@ -110,6 +122,14 @@ function ChatRouteComponent() {
     models,
     activeModel: activeReasoningModel,
     setActiveModel: setActiveReasoningModel,
+  };
+
+  const ToolModelConfigProps: ChatModelConfigProps = {
+    modelConfig: toolModelConfig,
+    setModelConfig: setToolModelConfig,
+    models,
+    activeModel: activeToolModel,
+    setActiveModel: setActiveToolModel,
   };
 
   return (
@@ -152,10 +172,10 @@ function ChatRouteComponent() {
           chatModelConfigProps={ReasoningModelConfigProps}
           purpose={'Reasoning LLM'}
         />
-        {/* <ChatModelConfig
-          chatModelConfigProps={ReasoningModelConfigProps}
+        <ChatModelConfig
+          chatModelConfigProps={ToolModelConfigProps}
           purpose={'Tool LLM'}
-        /> */}
+        />
       </details>
 
       {/* Consent */}
@@ -206,30 +226,39 @@ function ChatRouteComponent() {
             key={index}
             message={m}
             model={activeReasoningModel}
-            activeAdministrativeRegion={activeAdministrativeRegion}
+            map={map}
+            toolModelConfig={toolModelConfig}
+            highlightArray={[
+              activeAdministrativeRegion.name,
+              activeAdministrativeRegion.country,
+              activeAdministrativeRegion.region,
+              activeAdministrativeRegion['sub-region'],
+              activeAdministrativeRegion['intermediate-region'],
+            ]}
+            loading={loading}
           />
         ))}
 
-      {/* User Prompt */}
+      {/* Map */}
 
-      <form
-        onSubmit={handleSendPrompt}
-        className="container wrapper ask__container"
-      >
-        <textarea
-          value={userPrompt}
-          disabled={loading}
-          placeholder="Ask LLMao"
-          onChange={(e) => setUserPrompt(e.target.value)}
-        />
-        <button
-          className="ask__button"
-          type="submit"
-          disabled={loading || !userPrompt.trim()}
-        >
-          {loading ? <div className="loading">💬</div> : '📨'}
-        </button>
-      </form>
+      {/* User Prompt */}
+      <div className="container  ask__container">
+        <form onSubmit={handleSendPrompt} className="wrapper">
+          <textarea
+            value={userPrompt}
+            disabled={loading}
+            placeholder="Ask LLMao"
+            onChange={(e) => setUserPrompt(e.target.value)}
+          />
+          <button
+            className="ask__button"
+            type="submit"
+            disabled={loading || !userPrompt.trim()}
+          >
+            {loading ? <div className="loading">💬</div> : '📨'}
+          </button>
+        </form>
+      </div>
     </LegendLayout>
   );
 }

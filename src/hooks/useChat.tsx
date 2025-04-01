@@ -33,7 +33,7 @@ function useChat({
   const [messages, setMessages] = useState([
     { role: 'system', content: systemPrompt },
   ]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const messagesWithThinkingSplit = useMessagesWithThinking(messages);
 
@@ -94,7 +94,6 @@ function useChat({
         let assistantResponse = '';
         for await (const part of ollamaStream) {
           assistantResponse += part.message.content;
-
           setMessages([
             ...messagesWithInput,
             {
