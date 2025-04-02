@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { createFileRoute } from '@tanstack/react-router';
 import LLMao from '../../components/shared/LLMao';
 import LegendLayout from '../../components/shared/LegendLayout';
@@ -81,7 +81,7 @@ function ChatRouteComponent() {
     {
       baseURL: 'https://localhost:11434',
       apiKey: '',
-      model: 'mistral:instruct',
+      model: 'gemma3:12b',
       max_tokens: 1000,
     },
     true,
@@ -225,7 +225,8 @@ function ChatRouteComponent() {
           <ChatMessage
             key={index}
             message={m}
-            model={activeReasoningModel}
+            activeToolModel={activeToolModel}
+            activeReasoningModel={activeReasoningModel}
             map={map}
             toolModelConfig={toolModelConfig}
             highlightArray={[

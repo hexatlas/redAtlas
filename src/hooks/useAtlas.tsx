@@ -60,7 +60,7 @@ function useAtlas(Route): AtlasInterfaceProps {
         navGeographicIdentifierValue[0] as string | number,
       );
 
-  const navBounds = search['bounds'];
+  // const navBounds = search['bounds'];
 
   const sideBarRef = useRef<HTMLInputElement>(null);
   const [state, dispatch] = useReducer<Reducer<AtlasState, AtlasAction>>(
@@ -94,7 +94,7 @@ function useAtlas(Route): AtlasInterfaceProps {
   console.count('useAtlas');
 
   useEffect(() => {
-    console.log(navBounds, 'navBounds');
+    // console.log(navBounds, 'navBounds');
     updateMap();
     // if (map && navBounds)
     //   map?.flyToBounds([

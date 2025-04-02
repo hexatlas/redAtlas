@@ -5,6 +5,7 @@ import { MessageWithThinking } from '../../types/atlas.types';
 
 import L, { LatLngExpression } from 'leaflet';
 
+import OpenAI from 'openai';
 import ollama from 'ollama/browser';
 import { useStateStorage } from '../../hooks/useUtils';
 
@@ -26,13 +27,22 @@ async function sha256(message) {
 }
 
 const ChatMessage: React.FC<{
-  model: string;
+  activeToolModel: string;
+  activeReasoningModel: string;
   message: MessageWithThinking;
   highlightArray;
   toolModelConfig?;
   map?;
   loading?;
-}> = ({ model, message, highlightArray, toolModelConfig, map, loading }) => {
+}> = ({
+  activeToolModel,
+  activeReasoningModel,
+  message,
+  highlightArray,
+  toolModelConfig,
+  map,
+  loading,
+}) => {
   const [locations, setLocations] = useState([]);
   const [initialLoad, setInitialLoad] = useStateStorage(
     sha256(message.think),
@@ -96,33 +106,71 @@ const ChatMessage: React.FC<{
     Required Schema END
     `;
 
-    const response = await ollama.generate({
-      model: toolModelConfig.model,
-      system: systemPrompt,
-      prompt: `${message.think} ${message.content}`,
-      format: 'json',
-      stream: false,
-    });
+    let LLMlocations = [];
 
-    const { locations } = await JSON.parse(response.response);
+    // OPEN AI
+    if (activeToolModel === 'open-ai') {
+      const openai = new OpenAI({
+        baseURL: toolModelConfig.baseURL,
+        apiKey: toolModelConfig.apiKey,
+        dangerouslyAllowBrowser: true,
+        timeout: 60 * 1000,
+      });
+
+      const response = await openai.chat.completions.create({
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: `${message.think} ${message.content}` },
+        ],
+        model: toolModelConfig.model,
+        response_format: {
+          type: 'json_object',
+          ...locationTool,
+        },
+        stream: false,
+      });
+
+      console.log(response);
+
+      const { locations } = await JSON.parse(
+        response.choices[0].message.content as string,
+      );
+      LLMlocations = locations;
+    }
+
+    // OLLAMA
+    if (activeToolModel !== 'open-ai') {
+      const response = await ollama.generate({
+        model: toolModelConfig.model,
+        system: systemPrompt,
+        prompt: `${message.think} ${message.content}`,
+        format: 'json',
+        stream: false,
+      });
+
+      const { locations } = await JSON.parse(response.response);
+      LLMlocations = locations;
+    }
 
     const LLMboundingbox = L.latLngBounds(
       null as unknown as LatLngExpression,
       null as unknown as LatLngExpression,
     );
 
-    locations?.map(async (location) => {
+    LLMlocations?.map(async (location) => {
       const { name, description, emoji, nominatim } = location;
       const nominatimResponse = await getNominatimLocation(nominatim);
       if (nominatimResponse) {
         LLMboundingbox.extend([nominatimResponse.lat, nominatimResponse.lon]);
+        console.log(LLMboundingbox);
+
+        map?.flyToBounds(LLMboundingbox, { padding: [100, 100] });
         createMapPopup(nominatimResponse, name, description, emoji);
-        map?.flyToBounds(LLMboundingbox);
       }
 
       return { name, description, emoji, nominatim: nominatimResponse };
     });
-    return setLocations(locations);
+    return setLocations(LLMlocations);
   };
 
   const createMapPopup = (nominatimResponse, name, description, emoji) => {
@@ -171,7 +219,9 @@ const ChatMessage: React.FC<{
             ? '⏳'
             : '🤖'}
 
-        <span>{message.role === 'user' ? 'You' : `LLMao (${model})`}</span>
+        <span>
+          {message.role === 'user' ? 'You' : `LLMao (${activeReasoningModel})`}
+        </span>
       </span>
       {message.role === 'assistant' && (
         <details open={!message.finishedThinking}>
@@ -188,17 +238,17 @@ const ChatMessage: React.FC<{
       <article className={`${message.role === 'user' ? '' : ''}`}>
         <Markdown highlight={highlightArray}>{message.content}</Markdown>
       </article>
+      {locations.length > 0 && (
+        <details>
+          <summary>{locations.length} locations</summary>
+          <pre>{JSON.stringify(locations, null, 2)}</pre>
+        </details>
+      )}
       {message.role !== 'user' && !loading && (
         <>
           <button className="loading" onClick={addLLMtoMap}>
             🌐 addLLMtoMap
           </button>
-          {locations.length > 0 && (
-            <details>
-              <summary>{locations.length} locations</summary>
-              <pre>{JSON.stringify(locations, null, 2)}</pre>
-            </details>
-          )}
         </>
       )}
     </div>

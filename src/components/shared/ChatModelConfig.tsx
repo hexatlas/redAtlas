@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ChatModelConfigProps } from '../../types/atlas.types';
 
 function ChatModelConfig({
@@ -10,26 +10,20 @@ function ChatModelConfig({
 }) {
   const { modelConfig, setModelConfig, models, activeModel, setActiveModel } =
     chatModelConfigProps;
-  const [isEditModelConfig, setIsEditModelConfig] = useState(true);
 
   function handleSetOpenAIModel(e: React.FormEvent) {
     e.preventDefault();
 
     const data = new FormData(e.target as HTMLFormElement);
 
-    const isEmpty = data.entries().next().done;
-
-    if (!isEmpty) {
-      setModelConfig((prev) => ({
-        ...prev,
-        baseURL: data.get('baseURL') as string,
-        apiKey: data.get('apiKey') as string,
-        model: data.get('model') as string,
-        max_tokens: Number(data.get('max_tokens')),
-        systemPrompt: data.get('systemPrompt') as string,
-      }));
-    }
-    setIsEditModelConfig(!isEditModelConfig);
+    setModelConfig((prev) => ({
+      ...prev,
+      baseURL: data.get('baseURL') as string,
+      apiKey: data.get('apiKey') as string,
+      model: data.get('model') as string,
+      max_tokens: Number(data.get('max_tokens')),
+      systemPrompt: data.get('systemPrompt') as string,
+    }));
   }
 
   {
@@ -75,31 +69,45 @@ function ChatModelConfig({
         {activeModel === 'open-ai' && (
           <>
             <input
-              disabled={!isEditModelConfig}
               name="baseURL"
               type="url"
               defaultValue={modelConfig.baseURL}
               placeholder="baseURL e.g. https://api.deepseek.com"
+              onChange={(e) => {
+                setModelConfig((prev) => ({
+                  ...prev,
+                  baseURL: e.target.value as string,
+                }));
+              }}
             />
             <input
-              disabled={!isEditModelConfig}
               name="apiKey"
               type="password"
               defaultValue={modelConfig.apiKey}
               placeholder="apiKey e.g. sk-13abac12..."
+              onChange={(e) => {
+                setModelConfig((prev) => ({
+                  ...prev,
+                  apiKey: e.target.value as string,
+                }));
+              }}
             />
             <input
-              disabled={!isEditModelConfig}
               name="model"
               type="text"
               defaultValue={modelConfig.model}
               placeholder="model e.g. deepseek-chat"
+              onChange={(e) => {
+                setModelConfig((prev) => ({
+                  ...prev,
+                  model: e.target.value as string,
+                }));
+              }}
             />
             <label htmlFor="max_tokens">
               Max Tokens: {modelConfig.max_tokens}
             </label>
             <input
-              disabled={!isEditModelConfig}
               name="max_tokens"
               type="range"
               min={0}
@@ -130,7 +138,6 @@ function ChatModelConfig({
             }
           />
         )}
-        <button type="submit">{isEditModelConfig ? '💾' : '✍'}</button>
       </form>
     </fieldset>
   );
