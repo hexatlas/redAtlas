@@ -51,12 +51,12 @@ const ChatMessage: React.FC<{
 
   useEffect(() => {
     if (!loading && initialLoad) {
-      addLLMtoMap();
+      extractLocations();
       setInitialLoad(false);
     }
   }, [loading]);
 
-  const addLLMtoMap = async () => {
+  const extractLocations = async () => {
     // Mistral tool definition for location extraction
     const locationTool = {
       locations: {
@@ -151,26 +151,32 @@ const ChatMessage: React.FC<{
       const { locations } = await JSON.parse(response.response);
       LLMlocations = locations;
     }
+    return setLocations(LLMlocations);
+  };
+
+  useEffect(() => {
+    showLocationsOnMap();
+  }, [locations]);
+
+  const showLocationsOnMap = () => {
+    if (locations.length === 0) return;
 
     const LLMboundingbox = L.latLngBounds(
       null as unknown as LatLngExpression,
       null as unknown as LatLngExpression,
     );
 
-    LLMlocations?.map(async (location) => {
+    locations?.map(async (location) => {
       const { name, description, emoji, nominatim } = location;
       const nominatimResponse = await getNominatimLocation(nominatim);
       if (nominatimResponse) {
         LLMboundingbox.extend([nominatimResponse.lat, nominatimResponse.lon]);
-        console.log(LLMboundingbox);
-
         map?.flyToBounds(LLMboundingbox, { padding: [100, 100] });
         createMapPopup(nominatimResponse, name, description, emoji);
       }
 
       return { name, description, emoji, nominatim: nominatimResponse };
     });
-    return setLocations(LLMlocations);
   };
 
   const createMapPopup = (nominatimResponse, name, description, emoji) => {
@@ -248,8 +254,13 @@ const ChatMessage: React.FC<{
       )}
       {message.role !== 'user' && !loading && (
         <>
-          <button className="loading" onClick={addLLMtoMap}>
-            🌐 addLLMtoMap
+          {locations.length === 0 && (
+            <button className="loading" onClick={extractLocations}>
+              🌐 extractLocations
+            </button>
+          )}
+          <button className="loading" onClick={showLocationsOnMap}>
+            🌐 showLocationsOnMap
           </button>
         </>
       )}
