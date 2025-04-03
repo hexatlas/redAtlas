@@ -41,7 +41,11 @@ function ChatModelConfig({
       {/* Ollama Model Selection */}
 
       <label className="wrapper">
-        <select id="models" onChange={(e) => setActiveModel(e.target.value)}>
+        <select
+          id="models"
+          onChange={(e) => setActiveModel(e.target.value)}
+          value={activeModel}
+        >
           <option value={'ollama'} disabled>
             ### ollama ###
           </option>

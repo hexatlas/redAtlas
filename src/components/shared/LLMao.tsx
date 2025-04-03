@@ -1,8 +1,6 @@
 import React from 'react';
-import { useStateStorage } from '../../hooks/useUtils';
 
-function LLMao() {
-  const [consent, setConsent] = useStateStorage('consent', false);
+function LLMao({ consent, setConsent }: { consent; setConsent }) {
   return (
     <>
       {!consent && (

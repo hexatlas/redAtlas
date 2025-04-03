@@ -220,7 +220,9 @@ const ChatMessage: React.FC<{
             : '🤖'}
 
         <span>
-          {message.role === 'user' ? 'You' : `LLMao (${activeReasoningModel})`}
+          {message.role === 'user'
+            ? 'You'
+            : `LLMao (${activeReasoningModel || toolModelConfig.model})`}
         </span>
       </span>
       {message.role === 'assistant' && (

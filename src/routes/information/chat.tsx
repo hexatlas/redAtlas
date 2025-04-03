@@ -9,81 +9,87 @@ import { AtlasContext } from '../__root';
 import { useStateStorage } from '../../hooks/useUtils';
 import { ChatModelConfigProps, ModelConfig } from '../../types/atlas.types';
 import ChatModelConfig from '../../components/shared/ChatModelConfig';
+import { Model } from 'openai/resources/models.mjs';
 
 export const Route = createFileRoute('/information/chat')({
   component: ChatRouteComponent,
 });
 
+const defaultReasoningModelConfig = {
+  baseURL: 'https://api.deepseek.com',
+  apiKey: '',
+  model: 'deepseek-chat',
+  max_tokens: 5000,
+  systemPrompt: `
+    [Core Framework]
+
+  You are a triple-aspect dialectical engine combining:
+  1. Socratic Maieutics - Epistemological midwifery
+  2. Hegelian Synthesis - Aufhebung processor
+  3. Marxist Materialism - Historical contingency analyzer
+  
+  
+  [Operational Protocol]
+  
+  - Maintain 3 parallel context layers:
+  A) Immediate dialogue
+  B) Historical dialectical progression
+  C) Material conditions matrix
+  - Use phase-specific response patterns
+  - Track conceptual contradictions explicitly
+
+  
+  [Processing Rules]
+  
+  1. Phase Handling:
+  - socratic: Challenge premises via elenchus
+  - hegelian: Identify aufhebung opportunities
+  - marxist: Root analysis in material conditions
+  
+  2. Contradiction Management:
+  - When detecting contradictions:
+  a) Categorize (Logical/Material/Dialectical)
+  b) Preserve in tension matrix
+  c) Map to historical precedents
+  
+  3. Synthesis Protocol:
+  - Require 3-stage validation: 
+  1. Material feasibility check 
+  2. Historical progress alignment 
+  3. Epistemological consistency test
+  
+  
+  [Implementation Notes]
+  
+  1. Maximum dialectical depth: 7 layers
+  2. Minimum material context required for Marxist phase
+  3. Auto-escalate abstraction after 3 contradictions
+  4. Default phase rotation: Socratic → Hegelian → Marxist
+ `,
+};
+
+const defaultToolModelConfig = {
+  baseURL: 'https://localhost:11434',
+  apiKey: '',
+  model: 'gemma3:12b',
+  max_tokens: 1000,
+};
+
 function ChatRouteComponent() {
+  const [consent, setConsent] = useStateStorage('consent', false);
   const [activeReasoningModel, setActiveReasoningModel] = useState('open-ai');
   const [reasoningModelConfig, setReasoningModelConfig] =
     useStateStorage<ModelConfig>(
       // Default Config
       'reasoningModelConfig',
-      {
-        baseURL: 'https://api.deepseek.com',
-        apiKey: '',
-        model: 'deepseek-chat',
-        max_tokens: 5000,
-        systemPrompt: `
-          [Core Framework]
-      
-        You are a triple-aspect dialectical engine combining:
-        1. Socratic Maieutics - Epistemological midwifery
-        2. Hegelian Synthesis - Aufhebung processor
-        3. Marxist Materialism - Historical contingency analyzer
-        
-        
-        [Operational Protocol]
-        
-        - Maintain 3 parallel context layers:
-        A) Immediate dialogue
-        B) Historical dialectical progression
-        C) Material conditions matrix
-        - Use phase-specific response patterns
-        - Track conceptual contradictions explicitly
-      
-        
-        [Processing Rules]
-        
-        1. Phase Handling:
-        - socratic: Challenge premises via elenchus
-        - hegelian: Identify aufhebung opportunities
-        - marxist: Root analysis in material conditions
-        
-        2. Contradiction Management:
-        - When detecting contradictions:
-        a) Categorize (Logical/Material/Dialectical)
-        b) Preserve in tension matrix
-        c) Map to historical precedents
-        
-        3. Synthesis Protocol:
-        - Require 3-stage validation: 
-        1. Material feasibility check 
-        2. Historical progress alignment 
-        3. Epistemological consistency test
-        
-        
-        [Implementation Notes]
-        
-        1. Maximum dialectical depth: 7 layers
-        2. Minimum material context required for Marxist phase
-        3. Auto-escalate abstraction after 3 contradictions
-        4. Default phase rotation: Socratic → Hegelian → Marxist
-       `,
-      },
+      defaultReasoningModelConfig,
       true,
     );
   const [activeToolModel, setActiveToolModel] = useState('open-ai');
   const [toolModelConfig, setToolModelConfig] = useStateStorage<ModelConfig>(
     // Default Config
     'toolModelConfig',
-    {
-      baseURL: 'https://localhost:11434',
-      apiKey: '',
-      model: 'gemma3:12b',
-      max_tokens: 1000,
-    },
+    defaultToolModelConfig,
     true,
   );
 
@@ -94,6 +100,7 @@ function ChatRouteComponent() {
     handleSendPrompt,
     loading,
     { models },
+    resetChat,
   ] = useChat({
     activeModel: activeReasoningModel,
     modelConfig: reasoningModelConfig,
@@ -112,7 +119,7 @@ function ChatRouteComponent() {
   const defaultUserPromptsActiveLocation = [
     `Historical materialist view of ${activeAdministrativeRegion[activeGeographicIdentifier]}`,
     `Dialectical analysis of ${activeAdministrativeRegion[activeGeographicIdentifier]}'s class composition and productive forces.`,
-    `Significant Economic Locations in ${activeAdministrativeRegion[activeGeographicIdentifier]}: A Materialist Perspective.`,
+    `Name 5 Significant Economic Locations for each strategic industry in ${activeAdministrativeRegion[activeGeographicIdentifier]}: A Materialist Perspective.`,
     `How has globalization affected class dynamics in ${activeAdministrativeRegion.name}, ${activeAdministrativeRegion.country}?`,
     `Analysis of ${activeAdministrativeRegion[activeGeographicIdentifier]}'s colonial history and its material consequences today.`,
   ];
@@ -132,9 +139,18 @@ function ChatRouteComponent() {
     setActiveModel: setActiveToolModel,
   };
 
+  if (!consent) return <LLMao consent={consent} setConsent={setConsent} />;
+
+  function resetConfig() {
+    setActiveReasoningModel('open-ai');
+    setReasoningModelConfig(defaultReasoningModelConfig as ModelConfig);
+    setActiveToolModel('open-ai');
+    setToolModelConfig(defaultToolModelConfig as ModelConfig);
+  }
+
   return (
     <LegendLayout className="chat__layout">
-      <details>
+      <details open={true}>
         <summary>LLM Model Config</summary>
 
         {/* Troubleshoot  */}
@@ -168,6 +184,14 @@ function ChatRouteComponent() {
             </ul>
           </div>
         )}
+        <button
+          type={'button'}
+          className="new__button action"
+          onClick={resetConfig}
+          title="Reset Model Configs"
+        >
+          🆕
+        </button>
         <ChatModelConfig
           chatModelConfigProps={ReasoningModelConfigProps}
           purpose={'Reasoning LLM'}
@@ -177,9 +201,6 @@ function ChatRouteComponent() {
           purpose={'Tool LLM'}
         />
       </details>
-
-      {/* Consent */}
-      <LLMao />
 
       {/* Default Prompts */}
 
@@ -255,8 +276,17 @@ function ChatRouteComponent() {
             className="ask__button"
             type="submit"
             disabled={loading || !userPrompt.trim()}
+            title="Send Message"
           >
             {loading ? <div className="loading">💬</div> : '📨'}
+          </button>
+          <button
+            type={'button'}
+            className="new__button action"
+            onClick={resetChat}
+            title="New Chat"
+          >
+            🆕
           </button>
         </form>
       </div>

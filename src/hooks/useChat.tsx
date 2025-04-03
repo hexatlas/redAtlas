@@ -24,6 +24,7 @@ function useChat({
   (e: React.FormEvent<HTMLFormElement>) => Promise<void>,
   boolean,
   ListResponse,
+  () => void,
 ] {
   const { baseURL, apiKey, model, max_tokens, systemPrompt } = modelConfig;
 
@@ -33,7 +34,7 @@ function useChat({
   const [messages, setMessages] = useState([
     { role: 'system', content: systemPrompt },
   ]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const messagesWithThinkingSplit = useMessagesWithThinking(messages);
 
@@ -119,6 +120,10 @@ function useChat({
     fetchModels();
   }, []);
 
+  function resetChat() {
+    setMessages([{ role: 'system', content: systemPrompt }]);
+  }
+
   return [
     userPrompt,
     setUserPrompt,
@@ -126,6 +131,7 @@ function useChat({
     handleSendPrompt,
     loading,
     models,
+    resetChat,
   ];
 }
 
@@ -144,12 +150,19 @@ function useMessagesWithThinking(messages: Message[]) {
                 .replace('<think>', ''),
               content: m.content.split('</think>')[1],
             };
-          } else {
+          } else if (m.content.includes('<think>')) {
             return {
               ...m,
               finishedThinking: false,
               think: m.content.replace('<think>', ''),
               content: '',
+            };
+          } else {
+            return {
+              ...m,
+              finishedThinking: false,
+              think: '',
+              content: m.content.replace('<think>', ''),
             };
           }
         }
