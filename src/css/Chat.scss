@@ -8,6 +8,14 @@
     background: var(--surface-atlas-action);
   }
 }
+
+.chat__config {
+  background-color: var(--surface-atlas-page);
+  summary::before {
+    content: '⚙️ ';
+  }
+}
+
 .chat__layout {
   display: grid;
 }

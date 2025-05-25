@@ -150,7 +150,7 @@ function ChatRouteComponent() {
 
   return (
     <LegendLayout className="chat__layout">
-      <details open={true}>
+      <details className={'chat__config'} open={true}>
         <summary>LLM Model Config</summary>
 
         {/* Troubleshoot  */}
