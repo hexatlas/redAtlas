@@ -166,17 +166,21 @@ const ChatMessage: React.FC<{
       null as unknown as LatLngExpression,
     );
 
-    locations?.map(async (location) => {
-      const { name, description, emoji, nominatim } = location;
-      const nominatimResponse = await getNominatimLocation(nominatim);
-      if (nominatimResponse) {
-        LLMboundingbox.extend([nominatimResponse.lat, nominatimResponse.lon]);
-        map?.flyToBounds(LLMboundingbox, { padding: [100, 100] });
-        createMapPopup(nominatimResponse, name, description, emoji);
-      }
+    try {
+      locations?.map(async (location) => {
+        const { name, description, emoji, nominatim } = location;
+        const nominatimResponse = await getNominatimLocation(nominatim);
+        if (nominatimResponse) {
+          LLMboundingbox.extend([nominatimResponse.lat, nominatimResponse.lon]);
+          map?.flyToBounds(LLMboundingbox, { padding: [100, 100] });
+          createMapPopup(nominatimResponse, name, description, emoji);
+        }
 
-      return { name, description, emoji, nominatim: nominatimResponse };
-    });
+        return { name, description, emoji, nominatim: nominatimResponse };
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const createMapPopup = (nominatimResponse, name, description, emoji) => {
