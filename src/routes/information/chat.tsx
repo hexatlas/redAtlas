@@ -118,7 +118,7 @@ function ChatRouteComponent() {
 
   const defaultUserPromptsActiveLocation = [
     `Historical materialist view of ${activeAdministrativeRegion[activeGeographicIdentifier]}`,
-    `Dialectical analysis of ${activeAdministrativeRegion[activeGeographicIdentifier]}'s class composition and productive forces.`,
+    `Dialectical analysis of ${activeAdministrativeRegion[activeGeographicIdentifier]}'s class composition and productive forces and how it materializes in ${activeAdministrativeRegion[activeGeographicIdentifier]}'s politics and government.`,
     `Name 5 Significant Economic Locations for each strategic industry in ${activeAdministrativeRegion[activeGeographicIdentifier]}: A Materialist Perspective.`,
     `How has globalization affected class dynamics in ${activeAdministrativeRegion.name}, ${activeAdministrativeRegion.country}?`,
     `Analysis of ${activeAdministrativeRegion[activeGeographicIdentifier]}'s colonial history and its material consequences today.`,
