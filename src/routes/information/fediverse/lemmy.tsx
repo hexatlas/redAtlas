@@ -106,7 +106,7 @@ function LemmyRouteComponent() {
                     id: 1,
                     label: 'UserDefined',
                     baseUrl:
-                      e.clipboardData.getData('Text') || 'https://chapo.chat/',
+                      e.clipboardData.getData('Text') || 'https://hexbear.net/',
                     community_id: null,
                     default: false,
                   });

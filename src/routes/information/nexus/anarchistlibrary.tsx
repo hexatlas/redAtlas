@@ -79,7 +79,7 @@ function RouteComponent() {
                     )}
                   </div>
                   <HexBear query={book.author}>
-                    Search Author on chapo.chat
+                    Search Author on hexbear.net
                   </HexBear>
                 </div>
               );

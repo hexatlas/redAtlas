@@ -22,7 +22,7 @@ function RouteComponent() {
     <LegendLayout route={Route}>
       <h3>Reading List</h3>
       <a
-        href={`https://bulletins.chapo.chat/posts/readinglist/#${encodeURI(
+        href={`https://bulletins.hexbear.net/posts/readinglist/#${encodeURI(
           activeAdministrativeRegion?.country,
         )
           .toLowerCase()

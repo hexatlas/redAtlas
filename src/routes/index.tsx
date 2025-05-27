@@ -193,7 +193,7 @@ function AtlasHomeComponent() {
           <li>
             <a
               className="wrapper"
-              href="https://chapo.chat"
+              href="https://hexbear.net"
               target="_blank"
               rel="noopener noreferrer"
             >

@@ -58,9 +58,9 @@ const navigationLinks: AtlasNavigation[] = [
 function InformationRouteComponent() {
   const defaultInstance = {
     id: 0,
-    label: 'chapo.chat',
-    baseUrl: 'https://chapo.chat/',
-    community_id: 6, // !news@chapo.chat
+    label: 'hexbear.net',
+    baseUrl: 'https://hexbear.net/',
+    community_id: 6, // !news@hexbear.net
     default: true,
   };
 
@@ -73,7 +73,7 @@ function InformationRouteComponent() {
   const [activeLemmyInstance, setActiveLemmyInstance] =
     useStateStorage<AtlasLemmyInstanceType>(
       'activeLemmyInstance',
-      defaultInstance, // Default: chapo.chat
+      defaultInstance, // Default: hexbear.net
     );
 
   const [activeCommunity, setActiveCommunity] = useStateStorage<CommunityView>(
