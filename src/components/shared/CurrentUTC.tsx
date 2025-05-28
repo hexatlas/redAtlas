@@ -10,7 +10,7 @@ function CurrentUTC() {
     return () => clearInterval(interval);
   }, []);
 
-  return <small className="mute">{currentTime.toUTCString()}</small>;
+  return <>{currentTime.toUTCString()}</>;
 }
 
 export default CurrentUTC;
