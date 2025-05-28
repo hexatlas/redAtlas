@@ -266,7 +266,8 @@ function ChatRouteComponent() {
       {/* User Prompt */}
       <div className="container  ask__container">
         <form onSubmit={handleSendPrompt} className="wrapper">
-          <textarea
+          <input
+            type="text"
             value={userPrompt}
             disabled={loading}
             placeholder="Ask LLMao"

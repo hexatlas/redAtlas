@@ -158,7 +158,7 @@ const ChatMessage: React.FC<{
     showLocationsOnMap();
   }, [locations]);
 
-  const showLocationsOnMap = () => {
+  const showLocationsOnMap = async () => {
     if (locations.length === 0) return;
 
     const LLMboundingbox = L.latLngBounds(
@@ -167,19 +167,20 @@ const ChatMessage: React.FC<{
     );
 
     try {
-      locations?.map(async (location) => {
+      for (const location of locations) {
         const { name, description, emoji, nominatim } = location;
         const nominatimResponse = await getNominatimLocation(nominatim);
-        if (nominatimResponse) {
-          LLMboundingbox.extend([nominatimResponse.lat, nominatimResponse.lon]);
-          map?.flyToBounds(LLMboundingbox, { padding: [100, 100] });
-          createMapPopup(nominatimResponse, name, description, emoji);
-        }
 
-        return { name, description, emoji, nominatim: nominatimResponse };
-      });
+        if (!nominatimResponse) continue;
+
+        LLMboundingbox.extend([nominatimResponse.lat, nominatimResponse.lon]);
+        map?.flyToBounds(LLMboundingbox, { padding: [100, 100] });
+        createMapPopup(nominatimResponse, name, description, emoji);
+
+        await new Promise((resolve) => setTimeout(resolve, 250));
+      }
     } catch (error) {
-      console.log(error);
+      console.error('Error showing locations:', error);
     }
   };
 
@@ -263,9 +264,11 @@ const ChatMessage: React.FC<{
               🌐 extractLocations
             </button>
           )}
-          <button className="loading" onClick={showLocationsOnMap}>
-            🌐 showLocationsOnMap
-          </button>
+          {locations.length > 0 && (
+            <button className="loading" onClick={showLocationsOnMap}>
+              🌐 showLocationsOnMap
+            </button>
+          )}
         </>
       )}
     </div>
