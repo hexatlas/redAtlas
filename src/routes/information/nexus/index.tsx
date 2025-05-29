@@ -9,7 +9,9 @@ export const Route = createFileRoute('/information/nexus/')({
 function NexusHomeComponent() {
   return (
     <LegendLayout route={Route}>
-      <h1>Nexus</h1>
+      <h1>
+        <span>📚</span> Nexus
+      </h1>
       <p>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum provident
         tenetur eum libero. Natus unde architecto non similique, ad minima

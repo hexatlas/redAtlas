@@ -9,7 +9,10 @@ export const Route = createFileRoute('/diplomacy/')({
 function DiplomacyHomeComponent() {
   return (
     <LegendLayout route={Route}>
-      <h1>Diplomacy</h1>
+      <h1>
+        <span>🕊️</span> Diplomacy
+      </h1>
+
       <p>
         This section provides tools for an analysis of diplomatic interactions
         through a Marxist lens, focusing on the interplay between economic

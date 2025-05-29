@@ -9,7 +9,10 @@ export const Route = createFileRoute('/government/')({
 function GovernmentHomeComponent() {
   return (
     <LegendLayout route={Route}>
-      <h1>Government</h1>
+      <h1>
+        <span>🏛️</span> Government
+      </h1>
+
       <p>
         This section examines how government structures operate as tools of
         class rule. It highlights the role of state institutions in maintaining

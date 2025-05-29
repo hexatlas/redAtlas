@@ -9,7 +9,10 @@ export const Route = createFileRoute('/information/')({
 function InformationHomeComponent() {
   return (
     <LegendLayout route={Route}>
-      <h1>Information</h1>
+      <h1>
+        <span>ℹ️</span> Information
+      </h1>
+
       <p>
         This section examines how information is used as a tool of state power.
         It highlights the role of media, education, and communication systems in

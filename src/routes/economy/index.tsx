@@ -9,7 +9,10 @@ export const Route = createFileRoute('/economy/')({
 function EconomyHomeComponent() {
   return (
     <LegendLayout route={Route}>
-      <h1>Economy</h1>
+      <h1>
+        <span>💵</span> Economy
+      </h1>
+
       <p>
         This section provides tools for a critical analysis of global economic
         structures through a Marxist lens. Examine how capitalism drives

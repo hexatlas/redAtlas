@@ -9,8 +9,12 @@ export const Route = createFileRoute('/government/class')({
 function RouteComponent() {
   return (
     <LegendLayout route={Route}>
-      <h3>TO DO: Class Structure </h3>
-      <h6>TO DO: LINK DISCUSSION THREAD TO EVENTUALLY FILL WITH REAL DATA</h6>
+      <h1>
+        <span>🎩</span> Class Structure{' '}
+      </h1>
+      <h6 className="container warning">
+        TO DO: LINK DISCUSSION THREAD TO EVENTUALLY FILL WITH REAL DATA
+      </h6>
 
       <h2>Industrialists</h2>
       <table>

@@ -9,7 +9,9 @@ export const Route = createFileRoute('/economy/map/')({
 function MapHomeComponent() {
   return (
     <LegendLayout route={Route}>
-      <h1>MAP Index</h1>
+      <h1>
+        <span>🌐</span> MAP Index
+      </h1>
       <p>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum provident
         tenetur eum libero. Natus unde architecto non similique, ad minima

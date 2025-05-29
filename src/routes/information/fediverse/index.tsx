@@ -9,7 +9,9 @@ export const Route = createFileRoute('/information/fediverse/')({
 function FediverseHomeComponent() {
   return (
     <LegendLayout route={Route}>
-      <h1>Fediverse</h1>
+      <h1>
+        <span>👥</span> Fediverse
+      </h1>
       <p>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum provident
         tenetur eum libero. Natus unde architecto non similique, ad minima

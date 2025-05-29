@@ -9,7 +9,9 @@ export const Route = createFileRoute('/military/')({
 function MilitaryHomeComponent() {
   return (
     <LegendLayout route={Route}>
-      <h1>Military</h1>
+      <h1>
+        <span>🛡️</span> Military
+      </h1>
       <p>
         This section examines how military power is used to enforce capitalist
         interests and maintain global economic dominance. It highlights the role
