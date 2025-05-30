@@ -9,6 +9,18 @@
   --color-atlas-post-pink: hsla(300, 35%, 50%, 0.5);
 }
 
+[data-theme='old'] {
+  /* colors */
+  --color-atlas-primary: 20 25% 35%; /* Dark Red (#AC130000) */
+  --color-atlas-secondary: 152 40% 70%; /* Black (#000000) */
+  --color-atlas-tertiary: 9 19% 29%; /* Dark Brown (#654321) */
+  --color-atlas-link: 9 80% 20%; /* Dark Crimson (#A52A2A) */
+  --color-atlas-accent: 152 80% 70%; /* Gold (#CD7F32) */
+
+  --color-atlas-dark: 8 23% 20%;
+  --color-atlas-light: 35 40% 60%;
+}
+
 // CW Filter
 
 .lemmy img {
@@ -45,7 +57,7 @@
   color: hsl(var(--color-atlas-dark) / var(--opacity-atlas-3));
 
   &.community__button-active {
-    background-color: var(--surface-atlas-info);
+    background-color: var(--surface-atlas-info-active);
   }
   &:hover {
     background-color: var(--surface-atlas-option);
@@ -55,12 +67,12 @@
 
 .view-more {
   margin: var(--size-atlas-08) 0;
-  background-color: hsl(var(--color-atlas-secondary) / var(--opacity-atlas-3));
-  color: hsl(var(--color-atlas-light) / var(--opacity-atlas-3));
+  background-color: var(--surface-atlas-info);
+  color: var(--text-atlas-info);
   transition: var(--transition-atlas-fast);
 
   &:hover {
-    background-color: hsl(var(--color-atlas-primary));
+    background-color: var(--surface-atlas-page);
     transition: var(--transition-atlas-slow);
   }
 }
@@ -126,7 +138,7 @@ summary.view-more {
     }
     &[data-state='active'] {
       color: hsl(var(--color-atlas-dark) / var(--opacity-atlas-3));
-      background-color: var(--surface-atlas-info);
+      background-color: var(--surface-atlas-info-active);
 
       // z-index: 1;
     }
@@ -243,12 +255,12 @@ p.post-vote {
 }
 
 .commment-vote-score {
-  color: var(--surface-atlas-info);
+  color: var(--surface-atlas-info-active);
   font-weight: 900;
 }
 
 .post-score-positive {
-  color: var(--surface-atlas-info);
+  color: var(--surface-atlas-info-active);
 }
 .post-score-negative {
   color: hsl(var(--color-atlas-secondary) / var(--opacity-atlas-3));
@@ -256,7 +268,7 @@ p.post-vote {
 
 .post-highlight > div > .comment__body {
   @include atlas-shadow(var(--shadow-atlas-inset));
-  background: var(--surface-atlas-info);
+  background: var(--surface-atlas-info-active);
 
   padding: var(--size-atlas-10);
   margin: var(--size-atlas-10);
@@ -322,7 +334,7 @@ p.post-vote {
   /* font-weight: 900; */
 }
 .comment__reply-button:hover {
-  color: var(--surface-atlas-info);
+  color: var(--surface-atlas-info-active);
 }
 
 .comment__reply-button__emoji {
@@ -583,7 +595,7 @@ a.user__name {
 
   background-color: hsl(var(--color-atlas-light) / var(--opacity-atlas-3));
   border: 1px solid hsl(var(--color-atlas-light) / var(--opacity-atlas-3));
-  border-left: var(--size-atlas-14) solid var(--surface-atlas-info);
+  border-left: var(--size-atlas-14) solid var(--surface-atlas-info-active);
 
   animation-duration: var(--time-atlas-1);
   animation-timing-function: var(--timing-atlas-function);
@@ -604,7 +616,7 @@ a.user__name {
 }
 
 .mod-list {
-  background: var(--surface-atlas-info);
+  background: var(--surface-atlas-info-active);
   padding: var(--size-atlas-10);
   display: grid;
   gap: var(--size-atlas-10);
@@ -637,12 +649,12 @@ a.user__name {
   padding: var(--size-atlas-12) var(--size-atlas-10);
   margin-bottom: var(--size-atlas-12);
 
-  background-color: var(--surface-atlas-info);
+  background-color: var(--surface-atlas-info-active);
   color: hsl(var(--color-atlas-dark) / var(--opacity-atlas-3));
 }
 
 .user__info-card-content .user__posts .user__pronouns p {
-  background-color: var(--surface-atlas-info);
+  background-color: var(--surface-atlas-info-active);
   color: hsl(var(--color-atlas-light) / var(--opacity-atlas-2));
 }
 
@@ -652,11 +664,11 @@ a.user__name {
 }
 
 .user__info-card-content-hightlighted {
-  background-color: var(--surface-atlas-info);
+  background-color: var(--surface-atlas-info-active);
 }
 
 .user__info-card-content-hightlighted .user__pronouns p {
-  background-color: var(--surface-atlas-info);
+  background-color: var(--surface-atlas-info-active);
   color: hsl(var(--color-atlas-light) / var(--opacity-atlas-3));
 }
 
@@ -704,7 +716,7 @@ a.user__name {
   &:hover,
   &:focus {
     cursor: pointer;
-    color: var(--surface-atlas-info);
+    color: var(--surface-atlas-info-active);
   }
 }
 
@@ -714,7 +726,7 @@ a.user__name {
 
 .post[data-state='open'] {
   padding-left: var(--size-atlas-10);
-  border-left: var(--size-atlas-14) solid var(--surface-atlas-info);
+  border-left: var(--size-atlas-14) solid var(--surface-atlas-info-active);
 }
 
 [data-state='open'] > [data-state='open'] {

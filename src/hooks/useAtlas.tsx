@@ -1,16 +1,7 @@
 // useAtlas.js
-import React, {
-  useEffect,
-  useRef,
-  useReducer,
-  Reducer,
-  useCallback,
-} from 'react';
+import React, { useEffect, useRef, useReducer, Reducer, useCallback } from 'react';
 import atlasReducer from '../reducer/reducer';
-import {
-  initialState,
-  defaultAdministrativeRegionObject,
-} from '../reducer/reducer';
+import { initialState, defaultAdministrativeRegionObject } from '../reducer/reducer';
 
 import {
   setIsMobile,
@@ -63,15 +54,11 @@ function useAtlas(Route): AtlasInterfaceProps {
   // const navBounds = search['bounds'];
 
   const sideBarRef = useRef<HTMLInputElement>(null);
-  const [state, dispatch] = useReducer<Reducer<AtlasState, AtlasAction>>(
-    atlasReducer,
-    {
-      ...initialState,
-      activeAdministrativeRegion: navAdministrativeRegion,
-      activeGeographicIdentifier:
-        navGeographicIdentifier[0] as GeographicIdentifier,
-    },
-  );
+  const [state, dispatch] = useReducer<Reducer<AtlasState, AtlasAction>>(atlasReducer, {
+    ...initialState,
+    activeAdministrativeRegion: navAdministrativeRegion,
+    activeGeographicIdentifier: navGeographicIdentifier[0] as GeographicIdentifier,
+  });
 
   const {
     isMobile,
@@ -141,12 +128,7 @@ function useAtlas(Route): AtlasInterfaceProps {
       ]),
     );
     if (isLocationSelectMode) {
-      dispatch(
-        setAdministrativeRegionClickHistoryArray([
-          selection,
-          ...activeLocationSelection,
-        ]),
-      );
+      dispatch(setAdministrativeRegionClickHistoryArray([selection, ...activeLocationSelection]));
     }
     updateMap();
   }, [activeAdministrativeRegion, activeGeographicIdentifier, nominatim]);
@@ -158,13 +140,13 @@ function useAtlas(Route): AtlasInterfaceProps {
   };
 
   const style_activeLocationHighlight = {
-    color: 'var(--surface-atlas-info)',
+    color: 'var(--surface-atlas-info-active)',
     fillOpacity: 0.161,
     weight: 0.161,
   };
 
   const style_locationNameHighlight = {
-    color: 'var(--surface-atlas-info)',
+    color: 'var(--surface-atlas-info-active)',
     fillOpacity: 0.161,
     weight: 1.312,
   };
@@ -187,21 +169,17 @@ function useAtlas(Route): AtlasInterfaceProps {
 
   // Handle random
   function handleRandom() {
-    const random = Math.floor(
-      administrativeRegionsData?.features.length * Math.random(),
-    );
+    const random = Math.floor(administrativeRegionsData?.features.length * Math.random());
 
-    const randomAdministrativeRegion = administrativeRegionsData?.features[
-      random
-    ].properties as AdministrativeRegionObject;
+    const randomAdministrativeRegion = administrativeRegionsData?.features[random]
+      .properties as AdministrativeRegionObject;
 
     dispatch(setActiveAdministrativeRegion(randomAdministrativeRegion));
 
     navigate({
       // @ts-expect-error it works
       search: () => ({
-        [activeGeographicIdentifier]:
-          randomAdministrativeRegion[activeGeographicIdentifier],
+        [activeGeographicIdentifier]: randomAdministrativeRegion[activeGeographicIdentifier],
         // bounds: administrativeRegionArray.toBBoxString(),
         id: randomAdministrativeRegion?.id,
       }),
@@ -217,16 +195,10 @@ function useAtlas(Route): AtlasInterfaceProps {
     );
 
     // Check if region needs an update
-    if (
-      activeAdministrativeRegion?.country !== 'country' ||
-      nominatim?.features[0]
-    ) {
-      const isNameMatch = (region, name) =>
-        region.feature?.properties.name === name;
-      const isCountryMatch = (region, country) =>
-        region.feature?.properties.country === country;
-      const isTypeMatch = (region, type, value) =>
-        region.feature?.properties[type] === value;
+    if (activeAdministrativeRegion?.country !== 'country' || nominatim?.features[0]) {
+      const isNameMatch = (region, name) => region.feature?.properties.name === name;
+      const isCountryMatch = (region, country) => region.feature?.properties.country === country;
+      const isTypeMatch = (region, type, value) => region.feature?.properties[type] === value;
 
       // Updates Map View on Location Type or Region Change
       map?.eachLayer((region: Layer) => {
@@ -237,9 +209,7 @@ function useAtlas(Route): AtlasInterfaceProps {
           ) {
             administrativeRegionArray.extend((region as Polyline).getBounds());
           }
-        } else if (
-          isCountryMatch(region, activeAdministrativeRegion?.country)
-        ) {
+        } else if (isCountryMatch(region, activeAdministrativeRegion?.country)) {
           administrativeRegionArray.extend((region as Polyline).getBounds());
         }
       });
@@ -266,10 +236,7 @@ function useAtlas(Route): AtlasInterfaceProps {
           isCountryMatch(region, activeAdministrativeRegion?.country)
         ) {
           (region as Path).setStyle(style_activeLocationHighlight); // Highlight country match
-          if (
-            isNameMatch(region, activeAdministrativeRegion?.name) &&
-            !nominatim
-          ) {
+          if (isNameMatch(region, activeAdministrativeRegion?.name) && !nominatim) {
             (region as Path).setStyle(style_locationNameHighlight); // Highlight name match
           }
         }
@@ -296,8 +263,7 @@ function useAtlas(Route): AtlasInterfaceProps {
         navigate({
           // @ts-expect-error it works
           search: () => ({
-            [activeGeographicIdentifier]:
-              activeAdministrativeRegion[activeGeographicIdentifier],
+            [activeGeographicIdentifier]: activeAdministrativeRegion[activeGeographicIdentifier],
             // bounds: administrativeRegionArray.toBBoxString(),
             id: activeAdministrativeRegion?.id,
           }),
@@ -327,26 +293,20 @@ function useAtlas(Route): AtlasInterfaceProps {
     [dispatch],
   );
 
-  const setMapCallback = useCallback(
-    (map) => dispatch(setMap(map)),
-    [dispatch],
-  );
+  const setMapCallback = useCallback((map) => dispatch(setMap(map)), [dispatch]);
 
   const setIsOpenAtlasMapInterfaceCallback = useCallback(
-    (isOpenAtlasMapInterface) =>
-      dispatch(setIsOpenAtlasMapInterface(isOpenAtlasMapInterface)),
+    (isOpenAtlasMapInterface) => dispatch(setIsOpenAtlasMapInterface(isOpenAtlasMapInterface)),
     [dispatch],
   );
 
   const setIsLocationSelectModeCallback = useCallback(
-    (isLocationSelectMode) =>
-      dispatch(setIsLocationSelectMode(isLocationSelectMode)),
+    (isLocationSelectMode) => dispatch(setIsLocationSelectMode(isLocationSelectMode)),
     [dispatch],
   );
 
   const setActiveLocationSelectionCallback = useCallback(
-    (activeLocationSelection) =>
-      dispatch(setActiveLocationSelection(activeLocationSelection)),
+    (activeLocationSelection) => dispatch(setActiveLocationSelection(activeLocationSelection)),
     [dispatch],
   );
 
@@ -369,11 +329,7 @@ function useAtlas(Route): AtlasInterfaceProps {
 
   const setAdministrativeRegionClickHistoryArrayCallback = useCallback(
     (administrativeRegionClickHistoryArray) =>
-      dispatch(
-        setAdministrativeRegionClickHistoryArray(
-          administrativeRegionClickHistoryArray,
-        ),
-      ),
+      dispatch(setAdministrativeRegionClickHistoryArray(administrativeRegionClickHistoryArray)),
     [dispatch],
   );
 
@@ -400,8 +356,7 @@ function useAtlas(Route): AtlasInterfaceProps {
     activeAdministrativeRegion,
     setActiveAdministrativeRegion: setActiveAdministrativeRegionCallback,
     administrativeRegionClickHistoryArray,
-    setAdministrativeRegionClickHistoryArray:
-      setAdministrativeRegionClickHistoryArrayCallback,
+    setAdministrativeRegionClickHistoryArray: setAdministrativeRegionClickHistoryArrayCallback,
     handleRandom,
   };
 }
@@ -413,17 +368,13 @@ export function getAdministrativeRegionObject(
   GeographicIdentifier: GeographicIdentifier,
   value: string | number,
 ) {
-  if (GeographicIdentifier && value === 'country')
-    return defaultAdministrativeRegionObject;
+  if (GeographicIdentifier && value === 'country') return defaultAdministrativeRegionObject;
 
-  const { features: administrativeRegionsData } =
-    geojsonData as FeatureCollection;
+  const { features: administrativeRegionsData } = geojsonData as FeatureCollection;
 
   const match = administrativeRegionsData.find((administrativeRegionData) => {
     if (administrativeRegionData.properties)
-      return (
-        value === administrativeRegionData.properties[GeographicIdentifier]
-      );
+      return value === administrativeRegionData.properties[GeographicIdentifier];
   });
 
   if (match === undefined) return defaultAdministrativeRegionObject;

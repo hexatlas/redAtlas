@@ -222,43 +222,51 @@ code {
   // Text Colors
   --text-atlas-heading: hsl(var(--color-atlas-red-950));
   --text-atlas-body: hsl(var(--color-atlas-dark));
-  --text-atlas-disabled: hsl(var(--color-atlas-dark));
+  --text-atlas-mute: hsl(var(--color-atlas-dark) / var(--opacity-atlas-2));
+  --text-atlas-disabled: hsl(var(--color-atlas-dark) / var(--opacity-atlas-1));
 
-  --text-atlas-info: hsl(var(--color-atlas-blue-950));
+  --text-atlas-info: hsl(var(--color-atlas-yellow-950));
+  --text-atlas-info-active: hsl(var(--color-atlas-yellow-500));
   --text-atlas-action: hsl(var(--color-atlas-blue-950));
-  --text-atlas-action-hover: hsl(var(--color-atlas-yellow-500));
+  --text-atlas-action-active: hsl(var(--color-atlas-blue-500));
   --text-atlas-option: hsl(var(--color-atlas-red-100));
-  --text-atlas-option--hover: hsl(var(---color-atlas-yellow-500));
+  --text-atlas-option--active: hsl(var(---color-atlas-yellow-500));
+
   --text-atlas-success: hsl(var(--color-atlas-green-950));
-  --text-atlas-warning: hsl(var(--color-atlas-yellow-950));
-  --text-atlas-error: hsl(var(--color-atlas-red-950));
+  --text-atlas-warning: hsl(var(--color-atlas-red-50));
+  --text-atlas-error: hsl(var(--color-atlas-red-50));
 
   // Surface Colors
   --surface-atlas-page: hsl(var(--color-atlas-red-100) / var(--opacity-atlas-2));
+  --surface-atlas-chart: hsl(var(--color-atlas-red-300));
   --surface-atlas-disabled: hsl(var(--color-atlas-neutral-100));
 
   --surface-atlas-info: hsl(var(--color-atlas-yellow-500));
+  --surface-atlas-info-active: hsl(var(--color-atlas-yellow-500));
   --surface-atlas-action: hsl(var(--color-atlas-blue-200));
-  --surface-atlas-action-hover: hsl(var(--color-atlas-yellow-400));
+  --surface-atlas-action-active: hsl(var(--color-atlas-blue-400));
   --surface-atlas-option: hsl(var(--color-atlas-red-700));
-  --surface-atlas-option-hover: hsl(var(--color-atlas-red-800));
+  --surface-atlas-option-active: hsl(var(--color-atlas-red-800));
+
   --surface-atlas-success: hsl(var(--color-atlas-green-100));
   --surface-atlas-warning: hsl(var(--color-atlas-yellow-500));
   --surface-atlas-error: hsl(var(--color-atlas-red-500));
 
   // Border System
-  --border-atlas-active: hsl(var(--color-atlas-red-700));
-  --border-atlas-disabled: hsl(var(--color-atlas-neutral-200));
-  --border-atlas-neutral: hsl(var(--color-atlas-dark));
+  --border-atlas-active: solid 1px hsl(var(--color-atlas-red-700));
+  --border-atlas-disabled: solid 1px hsl(var(--color-atlas-neutral-200));
+  --border-atlas-neutral: solid 1px hsl(var(--color-atlas-dark) / var(--opacity-atlas-2));
 
-  --border-atlas-info: hsl(var(--color-atlas-yellow-500));
-  --border-atlas-action: hsl(var(--color-atlas-blue-200));
-  --border-atlas-action-hover: hsl(var(--color-atlas-yellow-400));
-  --border-atlas-option: hsl(var(--color-atlas-red-700));
-  --border-atlas-option-hover: hsl(var(--color-atlas-red-800));
-  --border-atlas-success: hsl(var(--color-atlas-yellow-100));
-  --border-atlas-warning: hsl(var(--color-atlas-yellow-100));
-  --border-atlas-error: hsl(var(--color-atlas-red-500));
+  --border-atlas-info: solid 1px hsl(var(--color-atlas-yellow-500));
+  --border-atlas-info-active: solid 1px hsl(var(--color-atlas-yellow-500));
+  --border-atlas-action: solid 1px hsl(var(--color-atlas-blue-200));
+  --border-atlas-action-active: solid 1px hsl(var(--color-atlas-blue-400));
+  --border-atlas-option: solid 1px hsl(var(--color-atlas-red-700));
+  --border-atlas-option-active: solid 1px hsl(var(--color-atlas-red-800));
+
+  --border-atlas-success: solid 1px hsl(var(--color-atlas-yellow-100));
+  --border-atlas-warning: solid 1px hsl(var(--color-atlas-yellow-100));
+  --border-atlas-error: solid 1px hsl(var(--color-atlas-red-500));
 
   --border-radius-atlas-1: var(--size-atlas-12) 0;
   --border-radius-atlas-2: var(--size-atlas-14);
@@ -311,37 +319,15 @@ code {
 }
 
 [data-theme='dark'] {
-  --color-atlas-light: 282.86 0% 13%;
-  --color-atlas-dark: 282.86 100% 98.5%;
   input {
     color: hsl(var(--color-atlas-dark));
   }
 }
 
 [data-theme='red'] {
-  --color-atlas-primary: 0 100% 6%;
-  --color-atlas-secondary: 0 0% 0%;
-  --color-atlas-link: 0 59% 41%;
-  --color-atlas-dark: 0 100% 98%;
-  --color-atlas-light: 0 100% 27%;
 }
 
 [data-theme='old'] {
-  --coffee: hsla(20, 25%, 35%, 1);
-  --ash-gray: hsla(152, 9%, 61%, 1);
-  --rose-ebony: hsla(9, 19%, 29%, 1);
-  --van-dyke: hsla(8, 23%, 20%, 1);
-  --lion: hsla(35, 26%, 53%, 1);
-
-  /* colors */
-  --color-atlas-primary: 20 25% 35%; /* Dark Red (#AC130000) */
-  --color-atlas-secondary: 152 40% 70%; /* Black (#000000) */
-  --color-atlas-tertiary: 9 19% 29%; /* Dark Brown (#654321) */
-  --color-atlas-link: 9 80% 20%; /* Dark Crimson (#A52A2A) */
-  --color-atlas-accent: 152 80% 70%; /* Gold (#CD7F32) */
-
-  --color-atlas-dark: 8 23% 20%;
-  --color-atlas-light: 35 40% 60%;
 }
 
 /* Info */
@@ -450,7 +436,7 @@ a {
   border-radius: var(--border-radius-atlas-1);
   transition: var(--transition-atlas-slow);
   &:hover {
-    color: var(--text-atlas-action-hover);
+    color: var(--text-atlas-action-active);
     transition: var(--transition-atlas-fast);
   }
 }
@@ -637,7 +623,7 @@ td {
 
 .highlight {
   @include atlas-shadow(var(--shadow-atlas-inset));
-  background: var(--surface-atlas-info);
+  background: var(--surface-atlas-info-active-active-active);
   color: var(--text-atlas-info);
   padding: 0 var(--size-atlas-10);
   border-radius: var(--border-radius-atlas-1);
@@ -669,7 +655,7 @@ details {
 
   summary {
     padding: var(--size-atlas-10);
-    background-color: var(--surface-atlas-info);
+    background-color: var(--surface-atlas-info-active);
     color: var(--text-atlas-info);
     border-radius: var(--border-radius-atlas-1);
     list-style: none;

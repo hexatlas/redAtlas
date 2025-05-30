@@ -23,7 +23,7 @@ const POSITION_CLASSES: PositionClasses = {
 
 const BOUNDS_STYLE: PathOptions = {
   weight: 0.161,
-  color: 'var(--surface-atlas-info)',
+  color: 'var(--surface-atlas-info-active)',
 };
 
 function MinimapBounds({ parentMap, zoom }: { parentMap: L.Map; zoom: number }) {

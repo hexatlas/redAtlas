@@ -82,7 +82,7 @@ function ChartsRouteComponent() {
         .call(d3.axisBottom(x).ticks(10).tickFormat(d3.format('d')))
         .selectAll('text')
         .attr('transform', 'rotate(-45)')
-        .style('color', 'hsl(var(--color-atlas-light) / var(--opacity-atlas-1))')
+        .style('color', 'var(--text-atlas-body)')
         .style('text-anchor', 'end');
 
       // Add X axis label
@@ -93,7 +93,7 @@ function ChartsRouteComponent() {
         .attr('x', width / 2)
         .attr('y', height + margin.bottom - 5)
         .text('Year')
-        .style('fill', 'hsl(var(--color-atlas-tertiary) / var(--opacity-atlas-3))')
+        .style('fill', 'var(--text-atlas-heading)')
         .style('font-size', 'var(--size-atlas-09)');
 
       // Add Source
@@ -103,7 +103,7 @@ function ChartsRouteComponent() {
         .attr('x', 0)
         .attr('y', height + margin.bottom * 1.312)
         .text(`${String(source).toUpperCase()} | data.imf.org`)
-        .style('fill', 'hsl(var(--color-atlas-light) / var(--opacity-atlas-2))')
+        .style('fill', 'var(--text-atlas-body)')
         .style('font-size', 'var(--size-atlas-09)');
 
       // Add Y axis with label
@@ -118,7 +118,7 @@ function ChartsRouteComponent() {
         .attr('y', -margin.left + 12)
         .attr('x', -height / 2)
         .text(unit)
-        .style('fill', 'hsl(var(--color-atlas-tertiary) / var(--opacity-atlas-3))')
+        .style('fill', 'var(--text-atlas-heading)')
         .style('font-size', 'var(--size-atlas-09)');
 
       // Add chart title (optional)
@@ -129,7 +129,7 @@ function ChartsRouteComponent() {
         .attr('x', width / 2)
         .attr('y', -margin.top / 2)
         .text(`${activeAdministrativeRegion?.country.toUpperCase()} | ${label}`)
-        .style('fill', 'hsl(var(--color-atlas-tertiary) / var(--opacity-atlas-3))')
+        .style('fill', 'var(--text-atlas-heading)')
         .style('font-size', 'var(--size-atlas-09)')
         .style('font-weight', 'bold');
 
@@ -139,7 +139,8 @@ function ChartsRouteComponent() {
         .attr('class', 'grid')
         .call(d3.axisLeft(y).tickSize(-width).tickFormat(''))
         .style('stroke-dasharray', '2,2')
-        .style('stroke-opacity', 'var(--opacity-atlas-1)');
+        .style('fill', 'var(--surface-atlas-chart)')
+        .style('stroke-opacity', 'var(--opacity-atlas-2)');
 
       // Add vertical grid lines
       svg
@@ -154,7 +155,7 @@ function ChartsRouteComponent() {
         .append('path')
         .datum(chartData)
         .attr('fill', 'none')
-        .attr('stroke', 'hsl(var(--color-atlas-tertiary) / var(--opacity-atlas-2))')
+        .attr('stroke', 'var(--surface-atlas-info-active)')
         .attr('stroke-width', 1.312)
         .attr('d', line);
 
@@ -164,8 +165,8 @@ function ChartsRouteComponent() {
         .append('div')
         .attr('class', 'tooltip')
         .style('position', 'absolute')
-        .style('background-color', 'hsl(var(--color-atlas-dark) / var(--opacity-atlas-2))')
-        .style('color', 'hsl(var(--color-atlas-tertiary) / var(--opacity-atlas-3))')
+        .style('background-color', 'var(--surface-atlas-info-active)')
+        .style('color', 'var(--text-atlas-info)')
         .style('padding', 'var(--size-atlas-09)')
         .style('border-radius', 'var(--border-radius-atlas-1)')
         .style('font-size', 'var(--size-atlas-09)')
@@ -176,14 +177,14 @@ function ChartsRouteComponent() {
       const verticalLine = svg
         .append('line')
         .attr('class', 'helper-line')
-        .style('stroke', 'hsl(var(--color-atlas-tertiary) / var(--opacity-atlas-2))')
+        .style('stroke', 'var(--surface-atlas-info-active)')
         .style('stroke-dasharray', '2,2')
         .style('opacity', 0);
 
       const horizontalLine = svg
         .append('line')
         .attr('class', 'helper-line')
-        .style('stroke', 'hsl(var(--color-atlas-tertiary) / var(--opacity-atlas-2))')
+        .style('stroke', 'var(--surface-atlas-info-active)')
         .style('stroke-dasharray', '2,2')
         .style('opacity', 0);
 
@@ -196,7 +197,7 @@ function ChartsRouteComponent() {
         .attr('cx', (d) => x(d.year))
         .attr('cy', (d) => y(d.value))
         .attr('r', 'var(--size-atlas-14)')
-        .attr('fill', 'hsl(var(--color-atlas-tertiary) / var(--opacity-atlas-3))')
+        .attr('fill', 'var(--surface-atlas-info-active)')
         .on('mouseover', function (event, d) {
           // const [mouseX, mouseY] = d3.pointer(event);
 
@@ -226,7 +227,7 @@ function ChartsRouteComponent() {
           // Highlight point
           d3.select(this)
             .attr('r', 'var(--size-atlas-09)')
-            .attr('fill', 'hsl(var(--color-atlas-tertiary) / var(--opacity-atlas-2))');
+            .attr('fill', 'var(--surface-atlas-info-active)');
         })
         .on('mouseout', function () {
           // Hide tooltip
@@ -239,7 +240,7 @@ function ChartsRouteComponent() {
           // Reset point
           d3.select(this)
             .attr('r', 'var(--size-atlas-14)')
-            .attr('fill', 'hsl(var(--color-atlas-tertiary) / var(--opacity-atlas-3))');
+            .attr('fill', 'var(--surface-atlas-info-active)');
         });
 
       svg

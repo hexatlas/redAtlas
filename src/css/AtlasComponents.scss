@@ -83,7 +83,7 @@
   &:hover,
   &.active:hover,
   &.active {
-    background: var(--surface-atlas-info);
+    background: var(--surface-atlas-info-active);
     color: hsl(var(--color-atlas-dark) / var(--opacity-atlas-3));
 
     a {
@@ -155,7 +155,7 @@
     background: hsl(var(--color-atlas-dark) / var(--opacity-atlas-3));
     &:hover,
     &[data-state='open'] {
-      background: var(--surface-atlas-info);
+      background: var(--surface-atlas-info-active);
     }
   }
 
