@@ -71,6 +71,7 @@ function AtlasHomeComponent() {
         <h1 className="emoji" title="atlas" aria-label="atlas">
           red🅰️TLAS
         </h1>
+        <div className="background">🧭</div>
         <div className="background">🗺️</div>
       </section>
 

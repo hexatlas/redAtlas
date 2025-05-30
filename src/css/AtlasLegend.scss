@@ -66,8 +66,14 @@
 
   .hero {
     position: relative;
+    background: hsla(var(--color-atlas-red-700) / var(--opacity-atlas-3));
+    border-radius: var(--border-radius-atlas-1);
     h1 {
-      color: var(--surface-atlas-secondary);
+      &:after {
+        content: '';
+      }
+      background: none;
+      color: var(--text-atlas-info-active);
     }
     .background {
       position: absolute;
@@ -76,7 +82,14 @@
       font-size: var(--size-atlas-06);
       margin: 0 var(--size-atlas-09);
       opacity: var(--opacity-atlas-2);
-      filter: grayscale(0.8);
+      filter: grayscale(0.7);
+    }
+    .background:nth-child(even) {
+      z-index: 1;
+      opacity: var(--opacity-atlas-3);
+      bottom: var(--size-atlas-08);
+      right: var(--size-atlas-07);
+      font-size: var(--size-atlas-07);
     }
   }
 }

@@ -243,6 +243,7 @@ code {
 
   --surface-atlas-info: hsl(var(--color-atlas-yellow-500));
   --surface-atlas-info-active: hsl(var(--color-atlas-yellow-500));
+  --surface-atlas-info-muted: hsl(var(--color-atlas-yellow-200));
   --surface-atlas-action: hsl(var(--color-atlas-blue-200));
   --surface-atlas-action-active: hsl(var(--color-atlas-blue-400));
   --surface-atlas-option: hsl(var(--color-atlas-red-700));
@@ -456,6 +457,7 @@ h6 {
   font-family: var(--font-atlas-sans);
   font-weight: 400;
   line-height: 1;
+  margin-top: var(--size-atlas-08);
   margin-bottom: var(--size-atlas-10);
   text-shadow: var(--shadow-atlas-text);
   color: var(--text-atlas-heading);
@@ -467,9 +469,24 @@ h1 {
   font-family: var(--font-atlas-cursive);
   font-size: clamp(var(--size-atlas-09), 11.089vw + 1rem, var(--size-atlas-07));
   font-weight: 900;
+  background: var(--surface-atlas-info-muted);
+  border-radius: var(--border-radius-atlas-1);
   &:after {
-    content: ' »';
-    opacity: var(--opacity-atlas-1);
+    position: relative;
+    left: calc(var(--size-atlas-08));
+    content: '╞╩╕';
+    font-size: var(--size-atlas-08);
+    color: var(--text-atlas-info-active);
+    text-shadow: none;
+  }
+
+  span:before {
+    content: '┤';
+    position: relative;
+    left: calc(var(--size-atlas-09) * -1);
+    font-size: var(--size-atlas-08);
+    color: var(--text-atlas-info-active);
+    text-shadow: none;
   }
 }
 
@@ -478,8 +495,11 @@ h2 {
   font-size: clamp(var(--size-atlas-10), 6.854vw + 1rem, var(--size-atlas-08));
   font-weight: 900;
   &:before {
-    content: '░ ';
-    opacity: var(--opacity-atlas-2);
+    content: '┤▓';
+    position: relative;
+    left: calc(var(--size-atlas-10) * -1);
+    color: var(--text-atlas-info-active);
+    text-shadow: none;
   }
 }
 
@@ -488,12 +508,26 @@ h2 {
 h3 {
   font-size: clamp(var(--size-atlas-10), 4.236vw + 1rem, var(--size-atlas-08));
   font-weight: 400;
+  &:before {
+    content: '┤░';
+    position: relative;
+    left: calc(var(--size-atlas-10) * -1);
+    color: var(--text-atlas-info-active);
+    text-shadow: none;
+  }
 }
 
 h4 {
   font-size: clamp(var(--size-atlas-09), 2.618vw + 1rem, var(--size-atlas-08));
   text-transform: uppercase;
   font-weight: 900;
+  &:before {
+    content: '┤▒';
+    position: relative;
+    left: calc(var(--size-atlas-10) * -1);
+    color: var(--text-atlas-info-active);
+    text-shadow: none;
+  }
 }
 
 h5 {
@@ -623,7 +657,7 @@ td {
 
 .highlight {
   @include atlas-shadow(var(--shadow-atlas-inset));
-  background: var(--surface-atlas-info-active-active-active);
+  background: var(--surface-atlas-info-active);
   color: var(--text-atlas-info);
   padding: 0 var(--size-atlas-10);
   border-radius: var(--border-radius-atlas-1);
