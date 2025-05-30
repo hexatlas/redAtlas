@@ -23,13 +23,9 @@ function ChartsRouteComponent() {
     useStates
     */
 
-  const {
-    IMFData,
-    isLoading,
-    indicatorsArray,
-    activeIndicator,
-    setActiveIndicator,
-  } = useIMF(activeAdministrativeRegion);
+  const { IMFData, isLoading, indicatorsArray, activeIndicator, setActiveIndicator } = useIMF(
+    activeAdministrativeRegion,
+  );
 
   const { name, label, description, source, unit, dataset } = activeIndicator;
 
@@ -56,9 +52,7 @@ function ChartsRouteComponent() {
         .attr('height', '100%')
         .attr(
           'viewBox',
-          `0 0 ${width + margin.left + margin.right} ${
-            height + margin.top + margin.bottom * 2
-          }`,
+          `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom * 2}`,
         )
         .attr('preserveAspectRatio', 'xMinYMin meet')
         .append('g')
@@ -88,10 +82,7 @@ function ChartsRouteComponent() {
         .call(d3.axisBottom(x).ticks(10).tickFormat(d3.format('d')))
         .selectAll('text')
         .attr('transform', 'rotate(-45)')
-        .style(
-          'color',
-          'hsl(var(--color-atlas-light) / var(--opacity-atlas-1))',
-        )
+        .style('color', 'hsl(var(--color-atlas-light) / var(--opacity-atlas-1))')
         .style('text-anchor', 'end');
 
       // Add X axis label
@@ -102,10 +93,7 @@ function ChartsRouteComponent() {
         .attr('x', width / 2)
         .attr('y', height + margin.bottom - 5)
         .text('Year')
-        .style(
-          'fill',
-          'hsl(var(--color-atlas-tertiary) / var(--opacity-atlas-3))',
-        )
+        .style('fill', 'hsl(var(--color-atlas-tertiary) / var(--opacity-atlas-3))')
         .style('font-size', 'var(--size-atlas-09)');
 
       // Add Source
@@ -130,10 +118,7 @@ function ChartsRouteComponent() {
         .attr('y', -margin.left + 12)
         .attr('x', -height / 2)
         .text(unit)
-        .style(
-          'fill',
-          'hsl(var(--color-atlas-tertiary) / var(--opacity-atlas-3))',
-        )
+        .style('fill', 'hsl(var(--color-atlas-tertiary) / var(--opacity-atlas-3))')
         .style('font-size', 'var(--size-atlas-09)');
 
       // Add chart title (optional)
@@ -144,10 +129,7 @@ function ChartsRouteComponent() {
         .attr('x', width / 2)
         .attr('y', -margin.top / 2)
         .text(`${activeAdministrativeRegion?.country.toUpperCase()} | ${label}`)
-        .style(
-          'fill',
-          'hsl(var(--color-atlas-tertiary) / var(--opacity-atlas-3))',
-        )
+        .style('fill', 'hsl(var(--color-atlas-tertiary) / var(--opacity-atlas-3))')
         .style('font-size', 'var(--size-atlas-09)')
         .style('font-weight', 'bold');
 
@@ -172,10 +154,7 @@ function ChartsRouteComponent() {
         .append('path')
         .datum(chartData)
         .attr('fill', 'none')
-        .attr(
-          'stroke',
-          'hsl(var(--color-atlas-tertiary) / var(--opacity-atlas-2))',
-        )
+        .attr('stroke', 'hsl(var(--color-atlas-tertiary) / var(--opacity-atlas-2))')
         .attr('stroke-width', 1.312)
         .attr('d', line);
 
@@ -185,14 +164,8 @@ function ChartsRouteComponent() {
         .append('div')
         .attr('class', 'tooltip')
         .style('position', 'absolute')
-        .style(
-          'background-color',
-          'hsl(var(--color-atlas-dark) / var(--opacity-atlas-2))',
-        )
-        .style(
-          'color',
-          'hsl(var(--color-atlas-tertiary) / var(--opacity-atlas-3))',
-        )
+        .style('background-color', 'hsl(var(--color-atlas-dark) / var(--opacity-atlas-2))')
+        .style('color', 'hsl(var(--color-atlas-tertiary) / var(--opacity-atlas-3))')
         .style('padding', 'var(--size-atlas-09)')
         .style('border-radius', 'var(--border-radius-atlas-1)')
         .style('font-size', 'var(--size-atlas-09)')
@@ -203,20 +176,14 @@ function ChartsRouteComponent() {
       const verticalLine = svg
         .append('line')
         .attr('class', 'helper-line')
-        .style(
-          'stroke',
-          'hsl(var(--color-atlas-tertiary) / var(--opacity-atlas-2))',
-        )
+        .style('stroke', 'hsl(var(--color-atlas-tertiary) / var(--opacity-atlas-2))')
         .style('stroke-dasharray', '2,2')
         .style('opacity', 0);
 
       const horizontalLine = svg
         .append('line')
         .attr('class', 'helper-line')
-        .style(
-          'stroke',
-          'hsl(var(--color-atlas-tertiary) / var(--opacity-atlas-2))',
-        )
+        .style('stroke', 'hsl(var(--color-atlas-tertiary) / var(--opacity-atlas-2))')
         .style('stroke-dasharray', '2,2')
         .style('opacity', 0);
 
@@ -229,10 +196,7 @@ function ChartsRouteComponent() {
         .attr('cx', (d) => x(d.year))
         .attr('cy', (d) => y(d.value))
         .attr('r', 'var(--size-atlas-14)')
-        .attr(
-          'fill',
-          'hsl(var(--color-atlas-tertiary) / var(--opacity-atlas-3))',
-        )
+        .attr('fill', 'hsl(var(--color-atlas-tertiary) / var(--opacity-atlas-3))')
         .on('mouseover', function (event, d) {
           // const [mouseX, mouseY] = d3.pointer(event);
 
@@ -262,10 +226,7 @@ function ChartsRouteComponent() {
           // Highlight point
           d3.select(this)
             .attr('r', 'var(--size-atlas-09)')
-            .attr(
-              'fill',
-              'hsl(var(--color-atlas-tertiary) / var(--opacity-atlas-2))',
-            );
+            .attr('fill', 'hsl(var(--color-atlas-tertiary) / var(--opacity-atlas-2))');
         })
         .on('mouseout', function () {
           // Hide tooltip
@@ -278,10 +239,7 @@ function ChartsRouteComponent() {
           // Reset point
           d3.select(this)
             .attr('r', 'var(--size-atlas-14)')
-            .attr(
-              'fill',
-              'hsl(var(--color-atlas-tertiary) / var(--opacity-atlas-3))',
-            );
+            .attr('fill', 'hsl(var(--color-atlas-tertiary) / var(--opacity-atlas-3))');
         });
 
       svg
@@ -304,26 +262,12 @@ function ChartsRouteComponent() {
     return <svg ref={svgRef}></svg>;
   };
 
-  const YearsList = ({
-    data,
-    indicator,
-    country,
-  }: {
-    data;
-    indicator: { name };
-    country;
-  }) => {
+  const YearsList = ({ data, indicator, country }: { data; indicator: { name }; country }) => {
     const { name } = indicator;
 
     // Check if the indicator.name and country exist in the data
     if (!data[name] || !data[name][country] || data === undefined) {
-      return (
-        <>
-          {!isLoading && (
-            <div>No data available for the specified name and country.</div>
-          )}
-        </>
-      );
+      return <>{!isLoading && <div>No data available for the specified name and country.</div>}</>;
     }
 
     // Extracting years and values from the object
@@ -333,11 +277,7 @@ function ChartsRouteComponent() {
     return (
       <>
         <LineChart data={yearsData} />
-        <Collapsible.Root
-          className="CollapsibleRoot"
-          open={open}
-          onOpenChange={setOpen}
-        >
+        <Collapsible.Root className="CollapsibleRoot" open={open} onOpenChange={setOpen}>
           <div
             style={{
               display: 'flex',
@@ -371,11 +311,7 @@ function ChartsRouteComponent() {
                 {years.map((year) => (
                   <tr
                     key={year}
-                    className={
-                      Number(year) === new Date().getFullYear()
-                        ? 'highlight'
-                        : ''
-                    }
+                    className={Number(year) === new Date().getFullYear() ? 'highlight' : ''}
                   >
                     <td>{year}</td>
                     <td>
@@ -401,7 +337,7 @@ function ChartsRouteComponent() {
       <div className="container">
         <h3>Where does line go? </h3>
         <select
-          className="action"
+          className="option"
           value={activeIndicator?.name}
           onChange={(e) => {
             return setActiveIndicator(
@@ -412,11 +348,7 @@ function ChartsRouteComponent() {
           }}
         >
           {indicatorsArray.map((indicator, index) => (
-            <option
-              key={index}
-              className="dropdown-menu-radio-item"
-              value={indicator.name}
-            >
+            <option key={index} className="dropdown-menu-radio-item" value={indicator.name}>
               {indicator.label}
             </option>
           ))}
@@ -432,11 +364,7 @@ function ChartsRouteComponent() {
         />
       )}
 
-      <Collapsible.Root
-        className="CollapsibleRoot"
-        open={open}
-        onOpenChange={setOpen}
-      >
+      <Collapsible.Root className="CollapsibleRoot" open={open} onOpenChange={setOpen}>
         <div
           style={{
             display: 'flex',

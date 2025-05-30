@@ -26,26 +26,22 @@
     gap: var(--size-atlas-10);
     align-items: center;
     padding: var(--size-atlas-10);
-    background-color: hsl(var(--color-atlas-light) / var(--opacity-atlas-3));
+    background-color: var(--surface-atlas-option);
 
     span {
       @include atlas-shadow(var(--shadow-atlas-1));
 
-      color: hsl(var(--color-atlas-dark) / var(--opacity-atlas-3));
+      color: var(--text-atlas-info);
       background-color: hsl(var(--color-atlas-accent) / var(--opacity-atlas-3));
     }
   }
 
   .filter-expand {
     @include atlas-shadow(var(--shadow-atlas-1));
-    background-color: hsl(
-      var(--color-atlas-secondary) / var(--opacity-atlas-3)
-    );
+    background-color: var(--surface-atlas-option);
     margin-bottom: var(--size-atlas-12);
     &[data-state='open'] {
-      background-color: hsl(
-        var(--color-atlas-primary) / var(--opacity-atlas-3)
-      );
+      background-color: var(--surface-atlas-option);
       color: hsl(var(--color-atlas-light) / var(--opacity-atlas-3));
     }
   }
@@ -87,7 +83,7 @@
   &:hover,
   &.active:hover,
   &.active {
-    background: hsl(var(--color-atlas-accent) / var(--opacity-atlas-2));
+    background: var(--surface-atlas-info);
     color: hsl(var(--color-atlas-dark) / var(--opacity-atlas-3));
 
     a {
@@ -159,7 +155,7 @@
     background: hsl(var(--color-atlas-dark) / var(--opacity-atlas-3));
     &:hover,
     &[data-state='open'] {
-      background: hsl(var(--color-atlas-accent) / var(--opacity-atlas-2));
+      background: var(--surface-atlas-info);
     }
   }
 

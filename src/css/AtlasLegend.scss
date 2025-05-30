@@ -3,10 +3,7 @@
 @media only screen and (min-width: 768px) {
   .atlas {
     display: grid;
-    grid-template-columns: 1.6180339887498948482fr minmax(
-        var(--size-atlas-00),
-        1fr
-      );
+    grid-template-columns: 1.6180339887498948482fr minmax(var(--size-atlas-00), 1fr);
   }
 }
 
@@ -19,7 +16,7 @@
   max-height: 100vh;
   z-index: 999;
   position: relative;
-  background: hsla(var(--color-atlas-light) / var(--opacity-atlas-2));
+  background: var(--surface-atlas-page);
   .search-input-wrapper {
     position: sticky;
     top: 0;
@@ -29,7 +26,7 @@
     @include atlas-shadow(var(--shadow-atlas-1));
     font-family: var(--font-atlas-emoji);
     margin: var(--size-atlas-10);
-    background-color: hsl(var(--color-atlas-light) / var(--opacity-atlas-2));
+    background-color: var(--surface-atlas-option);
     border: 1px solid hsl(var(--color-atlas-light) / var(--opacity-atlas-3));
     border: none;
     border-right: var(--size-atlas-14) solid
@@ -43,16 +40,11 @@
     button {
       font-family: var(--font-atlas-emoji);
       margin: 0;
-      background-color: hsl(var(--color-atlas-light) / var(--opacity-atlas-2));
-      border-bottom: 1px solid
-        hsl(var(--color-atlas-dark) / var(--opacity-atlas-1));
+      background-color: var(--surface-atlas-option);
+      border-bottom: 1px solid var(--surface-atlas-red-950);
       &:hover {
-        background: hsl(
-          var(--color-atlas-primary) / var(--opacity-atlas-3)
-        ) !important;
-        color: hsl(
-          var(--color-atlas-light) / var(--opacity-atlas-3)
-        ) !important;
+        background: var(--surface-atlas-option-hover) !important;
+        color: var(--text-atlas-option-hover) !important;
         border-radius: var(--size-atlas-14);
         opacity: 1;
       }
@@ -69,12 +61,9 @@
     border: 1px solid hsl(var(--color-atlas-light) / var(--opacity-atlas-1));
     border-right: var(--size-atlas-14) solid
       hsl(var(--color-atlas-secondary) / var(--opacity-atlas-3));
-    background-color: hsl(var(--color-atlas-light) / var(--opacity-atlas-3));
-
+    background-color: var(--surface-atlas-option);
     &:hover {
-      background-color: hsl(
-        var(--color-atlas-primary) / var(--opacity-atlas-3)
-      );
+      background-color: var(--surface-atlas-option-hover);
     }
   }
 
@@ -118,7 +107,7 @@
   padding: var(--size-atlas-10);
 
   @include atlas-shadow(var(--shadow-atlas-1));
-  background: hsl(var(--color-atlas-dark) / var(--opacity-atlas-1));
+  background: var(--surface-atlas-red-950);
   color: hsl(var(--color-atlas-dark) / var(--opacity-atlas-2));
 }
 
@@ -126,7 +115,7 @@
 
 .active-geographic-identifier {
   color: hsl(var(--color-atlas-dark) / var(--opacity-atlas-3)) !important;
-  background: hsl(var(--color-atlas-accent) / var(--opacity-atlas-2));
+  background: var(--surface-atlas-info);
   @include atlas-shadow(var(--shadow-atlas-1));
 }
 
@@ -224,9 +213,7 @@
 
     &:hover {
       @include atlas-shadow(var(--shadow-atlas-inset));
-      background-color: hsl(
-        var(--color-atlas-primary) / var(--opacity-atlas-2)
-      );
+      background-color: hsl(var(--color-atlas-primary) / var(--opacity-atlas-2));
       color: hsl(var(--color-atlas-light) / var(--opacity-atlas-3));
     }
   }
@@ -244,9 +231,7 @@
       padding: var(--size-atlas-12) var(--size-atlas-10);
       &:hover {
         @include atlas-shadow(var(--shadow-atlas-inset));
-        background-color: hsl(
-          var(--color-atlas-primary) / var(--opacity-atlas-3)
-        );
+        background-color: var(--surface-atlas-option);
         color: hsl(var(--color-atlas-light) / var(--opacity-atlas-3));
         cursor: pointer;
       }
@@ -260,7 +245,7 @@
     width: var(--size-atlas-08);
     &:hover {
       transform: rotate(-90deg) scale(1.61);
-      color: hsl(var(--color-atlas-primary) / var(--opacity-atlas-3));
+      color: var(--surface-atlas-option);
     }
   }
 }
@@ -288,8 +273,7 @@
     }
 
     .location-name-click-history {
-      border-top: solid 1px
-        hsl(var(--color-atlas-dark) / var(--opacity-atlas-1));
+      border-top: solid 1px var(--surface-atlas-red-950);
       margin: 0;
       max-height: 30vh;
       overflow-y: scroll;
@@ -311,7 +295,7 @@
   align-items: center;
   gap: var(--size-atlas-14);
 
-  background-color: hsl(var(--color-atlas-accent) / var(--opacity-atlas-2));
+  background-color: var(--surface-atlas-info);
   color: hsl(var(--color-atlas-dark) / var(--opacity-atlas-3));
   border: 1px solid hsl(var(--color-atlas-accent) / var(--opacity-atlas-3));
 
@@ -437,7 +421,7 @@
 }
 
 .dropdown-menu-subtrigger[data-state='open'] {
-  background-color: hsl(var(--color-atlas-primary) / var(--opacity-atlas-3));
+  background-color: var(--surface-atlas-option);
   color: hsl(var(--color-atlas-light) / var(--opacity-atlas-3));
 }
 
@@ -454,7 +438,7 @@
 .dropdown-menu-radio-item[data-highlighted],
 .dropdown-menu-subtrigger[data-highlighted] {
   @include atlas-shadow(var(--shadow-atlas-inset));
-  background-color: hsl(var(--color-atlas-primary) / var(--opacity-atlas-3));
+  background-color: var(--surface-atlas-option);
   color: hsl(var(--color-atlas-light) / var(--opacity-atlas-3));
 }
 
@@ -467,7 +451,7 @@
 
 .dropdown-menu-separator {
   height: 1px;
-  background-color: hsl(var(--color-atlas-dark) / var(--opacity-atlas-1));
+  background-color: var(--surface-atlas-red-950);
   margin: var(--size-atlas-12);
 }
 
@@ -508,7 +492,7 @@
 
 .button-emoji:hover {
   @include atlas-shadow(var(--shadow-atlas-inset));
-  background-color: hsl(var(--color-atlas-primary) / var(--opacity-atlas-3));
+  background-color: var(--surface-atlas-option);
   color: hsl(var(--color-atlas-light) / var(--opacity-atlas-3));
   transition: var(--transition-atlas-slow);
 }
@@ -600,8 +584,7 @@
         overflow-y: scroll;
 
         border-left: none;
-        border-top: 1px solid
-          hsl(var(--color-atlas-accent) / var(--opacity-atlas-2));
+        border-top: 1px solid var(--surface-atlas-info);
       }
       border-radius: 0;
       &:focus {
@@ -664,16 +647,16 @@
   border-bottom: none;
   border-bottom-right-radius: 0;
   background: var(--surface-atlas-option);
-  animation: tab-animation var(--time-atlas-4) var(--timing-atlas-function)
-    infinite alternate-reverse;
+  animation: tab-animation var(--time-atlas-4) var(--timing-atlas-function) infinite
+    alternate-reverse;
   &:nth-child(even),
   &:nth-child(odd) {
-    animation: tab-animation var(--time-atlas-4) var(--time-atlas-1)
-      var(--timing-atlas-function) infinite;
+    animation: tab-animation var(--time-atlas-4) var(--time-atlas-1) var(--timing-atlas-function)
+      infinite;
   }
   &:nth-child(odd) {
-    animation: tab-animation var(--time-atlas-4) var(--time-atlas-2)
-      var(--timing-atlas-function) infinite alternate-reverse;
+    animation: tab-animation var(--time-atlas-4) var(--time-atlas-2) var(--timing-atlas-function)
+      infinite alternate-reverse;
   }
 }
 .emoji-label {
@@ -692,8 +675,7 @@
   @include atlas-shadow(var(--shadow-atlas-1));
   animation: none;
   border: 1px solid hsl(var(--color-atlas-light) / var(--opacity-atlas-2));
-  border-left: var(--size-atlas-14) solid
-    hsl(var(--color-atlas-accent) / var(--opacity-atlas-3));
+  border-left: var(--size-atlas-14) solid hsl(var(--color-atlas-accent) / var(--opacity-atlas-3));
   border-bottom: none;
   background-color: var(--surface-atlas-info);
 }
@@ -705,10 +687,8 @@
 
 .tabs__trigger[aria-disabled='true'] {
   @include atlas-shadow(none);
-  color: hsl(var(--color-atlas-dark) / var(--opacity-atlas-1));
-  background-color: hsl(
-    var(--color-atlas-dark) / var(--opacity-atlas-2)
-  ) !important;
+  color: var(--text-atlas-red-950);
+  background-color: hsl(var(--color-atlas-dark) / var(--opacity-atlas-2)) !important;
 }
 
 @keyframes tab-animation {

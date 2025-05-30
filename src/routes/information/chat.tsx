@@ -78,13 +78,12 @@ const defaultToolModelConfig = {
 function ChatRouteComponent() {
   const [consent, setConsent] = useStateStorage('consent', false);
   const [activeReasoningModel, setActiveReasoningModel] = useState('open-ai');
-  const [reasoningModelConfig, setReasoningModelConfig] =
-    useStateStorage<ModelConfig>(
-      // Default Config
-      'reasoningModelConfig',
-      defaultReasoningModelConfig,
-      true,
-    );
+  const [reasoningModelConfig, setReasoningModelConfig] = useStateStorage<ModelConfig>(
+    // Default Config
+    'reasoningModelConfig',
+    defaultReasoningModelConfig,
+    true,
+  );
   const [activeToolModel, setActiveToolModel] = useState('open-ai');
   const [toolModelConfig, setToolModelConfig] = useStateStorage<ModelConfig>(
     // Default Config
@@ -106,8 +105,7 @@ function ChatRouteComponent() {
     modelConfig: reasoningModelConfig,
   });
 
-  const { activeAdministrativeRegion, activeGeographicIdentifier, map } =
-    useContext(AtlasContext)!;
+  const { activeAdministrativeRegion, activeGeographicIdentifier, map } = useContext(AtlasContext)!;
 
   const defaultUserPrompts = [
     'What is dialectical and historical materialism?',
@@ -156,17 +154,13 @@ function ChatRouteComponent() {
         {/* Troubleshoot  */}
 
         {models?.length === 0 && (
-          <div className="container wraning">
+          <div className="container warning">
             <small>Ollama not found</small>
             <h5>Troubleshoot</h5>
             <ul>
               <li>
                 1. Install ollama via{' '}
-                <a
-                  href="https://ollama.com/download"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <a href="https://ollama.com/download" target="_blank" rel="noopener noreferrer">
                   ollama.com
                 </a>
               </li>
@@ -175,18 +169,15 @@ function ChatRouteComponent() {
                 <code>{`ollama pull deepseek-r1:7b`}</code>
               </li>
               <li>
-                3. If redAtlas is not running on the same machine as ollama, add
-                origin
-                <code>
-                  {`OLLAMA_ORIGINS=${window.location.origin} ollama serve`}
-                </code>
+                3. If redAtlas is not running on the same machine as ollama, add origin
+                <code>{`OLLAMA_ORIGINS=${window.location.origin} ollama serve`}</code>
               </li>
             </ul>
           </div>
         )}
         <button
           type={'button'}
-          className="new__button action"
+          className="new__button warning"
           onClick={resetConfig}
           title="Reset Model Configs"
         >
@@ -196,10 +187,7 @@ function ChatRouteComponent() {
           chatModelConfigProps={ReasoningModelConfigProps}
           purpose={'Reasoning LLM'}
         />
-        <ChatModelConfig
-          chatModelConfigProps={ToolModelConfigProps}
-          purpose={'Tool LLM'}
-        />
+        <ChatModelConfig chatModelConfigProps={ToolModelConfigProps} purpose={'Tool LLM'} />
       </details>
 
       {/* Default Prompts */}
@@ -207,28 +195,20 @@ function ChatRouteComponent() {
       {messagesWithThinkingSplit.length === 1 && (
         <>
           {activeAdministrativeRegion.country === 'country' ? (
-            <div className="container wrapper ">
+            <div className="container wrapper">
               {defaultUserPrompts.map((prompt, index) => (
                 <form onSubmit={handleSendPrompt} key={index}>
-                  <button
-                    type="submit"
-                    onClick={() => setUserPrompt(prompt)}
-                    className="action"
-                  >
+                  <button type="submit" onClick={() => setUserPrompt(prompt)} className="option">
                     {prompt}
                   </button>
                 </form>
               ))}
             </div>
           ) : (
-            <div className="container wrapper ">
+            <div className="container wrapper">
               {defaultUserPromptsActiveLocation.map((prompt, index) => (
                 <form onSubmit={handleSendPrompt} key={index}>
-                  <button
-                    type="submit"
-                    onClick={() => setUserPrompt(prompt)}
-                    className="action"
-                  >
+                  <button type="submit" onClick={() => setUserPrompt(prompt)} className="option">
                     {prompt}
                   </button>
                 </form>
@@ -264,7 +244,7 @@ function ChatRouteComponent() {
       {/* Map */}
 
       {/* User Prompt */}
-      <div className="container  ask__container">
+      <div className="container ask__container">
         <form onSubmit={handleSendPrompt} className="wrapper">
           <input
             type="text"
@@ -274,7 +254,7 @@ function ChatRouteComponent() {
             onChange={(e) => setUserPrompt(e.target.value)}
           />
           <button
-            className="ask__button"
+            className="ask__button action"
             type="submit"
             disabled={loading || !userPrompt.trim()}
             title="Send Message"
@@ -283,7 +263,7 @@ function ChatRouteComponent() {
           </button>
           <button
             type={'button'}
-            className="new__button action"
+            className="new__button warning"
             onClick={resetChat}
             title="New Chat"
           >

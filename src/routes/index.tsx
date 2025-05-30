@@ -20,11 +20,7 @@ export const Route = createFileRoute('/')({
 });
 
 function AtlasHomeComponent() {
-  const [currentTheme, setCurrentTheme] = useStateStorage<string>(
-    'AtlasTheme',
-    'system',
-    true,
-  );
+  const [currentTheme, setCurrentTheme] = useStateStorage<string>('AtlasTheme', 'system', true);
 
   const themes = [
     { value: 'dark', label: '🌙 Dark' },
@@ -46,9 +42,7 @@ function AtlasHomeComponent() {
 
     if (currentTheme === 'system') {
       // Check system preference
-      const prefersDark = window.matchMedia(
-        '(prefers-color-scheme: dark)',
-      ).matches;
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       body?.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
 
       // Listen for system theme changes
@@ -73,26 +67,27 @@ function AtlasHomeComponent() {
 
   return (
     <LegendLayout route={Route}>
-      <section className="container hero option">
+      <section className="container hero">
         <h1 className="emoji" title="atlas" aria-label="atlas">
           red🅰️TLAS
         </h1>
         <div className="background">🗺️</div>
       </section>
+
+      {/* INSTRUCTIONS */}
       <section>
         <h2>Instructions</h2>
-        <ul className="container neutral">
+        <ul className="container">
           <li>
-            <b>Select Country:</b> Choose a country, by using search, clicking
-            on the map, or 🎲 for a random pick to analyze its tools of state
-            power.
+            <b>Select Country:</b> Choose a country, by using search, clicking on the map, or 🎲 for
+            a random pick to analyze its tools of state power.
             <AtlasLocationSearch />
           </li>
 
           <li>
             <b>State Power Options:</b>
             <ul className="wrapper">
-              <li className="container action">
+              <li className="container option">
                 💵{' '}
                 <Link
                   search={search}
@@ -103,7 +98,7 @@ function AtlasHomeComponent() {
                   Economy
                 </Link>
               </li>
-              <li className="container action">
+              <li className="container option">
                 ℹ️{' '}
                 <Link
                   search={search}
@@ -114,7 +109,7 @@ function AtlasHomeComponent() {
                   Information
                 </Link>
               </li>
-              <li className="container action">
+              <li className="container option">
                 🕊️{' '}
                 <Link
                   search={search}
@@ -125,7 +120,7 @@ function AtlasHomeComponent() {
                   Diplomacy
                 </Link>
               </li>
-              <li className="container action">
+              <li className="container option">
                 🛡️{' '}
                 <Link
                   search={search}
@@ -136,7 +131,7 @@ function AtlasHomeComponent() {
                   Military Power
                 </Link>
               </li>
-              <li className="container action">
+              <li className="container option">
                 🏛️{' '}
                 <Link
                   search={search}
@@ -150,12 +145,12 @@ function AtlasHomeComponent() {
             </ul>
           </li>
           <li>
-            🗺️ <b>Map Layers:</b> Switch between satellite, terrain, or
-            boundaries.
+            🗺️ <b>Map Layers:</b> Switch between satellite, terrain, or boundaries.
           </li>
         </ul>
       </section>
 
+      {/* THEME */}
       <section>
         <h2>Theme</h2>
         <div className="theme-selector">
@@ -166,7 +161,7 @@ function AtlasHomeComponent() {
             id="theme-select"
             value={currentTheme}
             onChange={handleThemeChange}
-            className="theme-select"
+            className="theme-select option"
           >
             {themes.map((theme) => (
               <option key={theme.value} value={theme.value}>
@@ -174,22 +169,25 @@ function AtlasHomeComponent() {
               </option>
             ))}
           </select>
-          <blockquote className="container light">
-            <i className="option">Attention:</i> Select an{' '}
-            <span className="action">
-              <i>option</i>
-            </span>{' '}
-            to reveal{' '}
-            <span className="info">
-              <i>selected information</i>
-            </span>
-            .
-          </blockquote>
         </div>
+
+        <blockquote className="container light">
+          <i className="action">Attention:</i> Select an{' '}
+          <span className="option">
+            <i>option</i>
+          </span>{' '}
+          to reveal{' '}
+          <span className="info">
+            <i>selected information</i>
+          </span>
+          .
+        </blockquote>
       </section>
+
+      {/* POWERED BY */}
       <section id="credits">
         <small>Powered by:</small>
-        <ul className="container wrapper light">
+        <ul className="wrapper">
           <li>
             <a
               className="wrapper"
@@ -218,11 +216,7 @@ function AtlasHomeComponent() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <img
-                src={openstreetmap}
-                alt="OpenStreetMaps Logo"
-                className="custom-icon"
-              />{' '}
+              <img src={openstreetmap} alt="OpenStreetMaps Logo" className="custom-icon" />{' '}
             </a>
           </li>
           <li>
@@ -232,11 +226,7 @@ function AtlasHomeComponent() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <img
-                src={prolewiki}
-                alt="ProleWiki Logo"
-                className="custom-icon"
-              />{' '}
+              <img src={prolewiki} alt="ProleWiki Logo" className="custom-icon" />{' '}
             </a>
           </li>
 
@@ -280,11 +270,7 @@ function AtlasHomeComponent() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <img
-                src={natopedia}
-                alt="Wikipedia Logo"
-                className="custom-icon"
-              />{' '}
+              <img src={natopedia} alt="Wikipedia Logo" className="custom-icon" />{' '}
             </a>
           </li>
 
@@ -305,11 +291,7 @@ function AtlasHomeComponent() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <img
-                src={openweather}
-                alt="Openweather Logo"
-                className="custom-icon"
-              />{' '}
+              <img src={openweather} alt="Openweather Logo" className="custom-icon" />{' '}
             </a>
           </li>
         </ul>

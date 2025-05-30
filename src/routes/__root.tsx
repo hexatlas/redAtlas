@@ -4,7 +4,7 @@ import { createRootRoute } from '@tanstack/react-router';
 // import { TanStackRouterDevtools } from '@tanstack/router-devtools';
 // import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
-import '../css/Atlas.scss';
+import '../css/Index.scss';
 
 // Import Components
 import AtlasMap from '../components/map/Index';

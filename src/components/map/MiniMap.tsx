@@ -1,13 +1,7 @@
 import React from 'react';
 
 import { useCallback, useMemo, useState } from 'react';
-import {
-  MapContainer,
-  TileLayer,
-  useMap,
-  Rectangle,
-  useMapEvent,
-} from 'react-leaflet';
+import { MapContainer, TileLayer, useMap, Rectangle, useMapEvent } from 'react-leaflet';
 import { LeafletContextInterface, useEventHandlers } from '@react-leaflet/core';
 import { PathOptions } from 'leaflet';
 
@@ -29,16 +23,10 @@ const POSITION_CLASSES: PositionClasses = {
 
 const BOUNDS_STYLE: PathOptions = {
   weight: 0.161,
-  color: 'hsl(var(--color-atlas-primary))',
+  color: 'var(--surface-atlas-info)',
 };
 
-function MinimapBounds({
-  parentMap,
-  zoom,
-}: {
-  parentMap: L.Map;
-  zoom: number;
-}) {
+function MinimapBounds({ parentMap, zoom }: { parentMap: L.Map; zoom: number }) {
   const minimap = useMap();
 
   // Clicking a point on the minimap sets the parent's map center
@@ -100,9 +88,7 @@ export default function MiniMapControl({
         zoomControl={false}
       >
         <TileLayer
-          url={
-            "https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png'"
-          }
+          url={"https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png'"}
           maxZoom={18}
           attribution={
             'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community'

@@ -19,7 +19,7 @@
   width: 100% !important;
   background: hsl(var(--color-atlas-light) / var(--opacity-atlas-1));
   padding: var(--size-atlas-10) !important;
-  border: 1px solid hsl(var(--color-atlas-accent) / var(--opacity-atlas-2));
+  border: 1px solid var(--surface-atlas-info);
   border-radius: var(--border-radius-atlas-1) !important;
   margin-bottom: var(--size-atlas-10);
   border-collapse: inherit !important;
@@ -32,8 +32,6 @@
 
 .infobox th,
 .infobox td {
-  border-color: hsl(
-    var(--color-atlas-light) / var(--opacity-atlas-1)
-  ) !important;
+  border-color: hsl(var(--color-atlas-light) / var(--opacity-atlas-1)) !important;
   /* border: none !important; */
 }

@@ -95,24 +95,6 @@ Geopolitical visualization platform for socioeconomic, military, and infrastruct
               └── Armed Forces
 ```
 
-## Visual Language
-
-### Color Scheme
-
-| Purpose   | Color     | Example Use   |
-| --------- | --------- | ------------- |
-| Primary   | `#AC1200` | Main actions  |
-| Secondary | `#13AB00` | Notifications |
-| Tertiary  | `#ACAB00` | Highlights    |
-
-_Attention_ [Secondary]: Select an _option_ [Primary] to reveal _selected information_ [Tertiary].
-
-### Sizes
-
-- Base unit: ϕ (phi = 1.618 ratio)
-- Header sizes: ϕ³ → ϕ² → ϕ
-- Body text: 1rem (16px)
-
 ## Development Setup
 
 ### Prerequisites
