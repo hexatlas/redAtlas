@@ -9,8 +9,7 @@ export const Route = createFileRoute('/information/nexus/natopedia')({
 });
 
 function RouteComponent() {
-  const { activeGeographicIdentifier, activeAdministrativeRegion } =
-    useContext(AtlasContext)!;
+  const { activeGeographicIdentifier, activeAdministrativeRegion } = useContext(AtlasContext)!;
 
   const wikiURL = 'https://en.wikipedia.org/w';
   const isProleWiki = false;
@@ -24,54 +23,23 @@ function RouteComponent() {
   return (
     <LegendLayout route={Route}>
       <>
-        {isProleWiki ? (
-          <>
-            <p>
-              Please consider contributing knowledge on{' '}
-              <a
-                href={`https://en.prolewiki.org/?search=${encodeURI(
-                  activeAdministrativeRegion[
-                    activeGeographicIdentifier
-                  ] as string,
-                )}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {activeAdministrativeRegion[activeGeographicIdentifier]} on{' '}
-                {wikiURL}
-              </a>
-            </p>
-
+        <h1>
+          <span></span>Natopedia
+        </h1>
+        <>
+          <p>
+            Please consider providing context on{' '}
             <a
-              href={`https://en.prolewiki.org/wiki/Category:Library_works_about_${encodeURI(
-                activeAdministrativeRegion?.country,
+              href={`${wikiURL}?search=${encodeURI(
+                activeAdministrativeRegion[activeGeographicIdentifier] as string,
               )}`}
               target="_blank"
               rel="noopener noreferrer"
             >
-              📚📕 All library works about {activeAdministrativeRegion?.country}{' '}
-              on ProleWiki.
+              {activeAdministrativeRegion[activeGeographicIdentifier]} on {wikiURL}
             </a>
-          </>
-        ) : (
-          <>
-            <p>
-              Please consider correcting information on{' '}
-              <a
-                href={`${wikiURL}?search=${encodeURI(
-                  activeAdministrativeRegion[
-                    activeGeographicIdentifier
-                  ] as string,
-                )}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {activeAdministrativeRegion[activeGeographicIdentifier]} on{' '}
-                {wikiURL}
-              </a>
-            </p>
-          </>
-        )}
+          </p>
+        </>
         <hr />
         <br />
         {isLoading && <p className="map-info__loading-emoji">🔍</p>}

@@ -53,15 +53,16 @@
 .community__button {
   @include atlas-shadow(var(--shadow-atlas-inset));
   height: var(--size-atlas-08);
-  background-color: hsl(var(--color-atlas-light) / var(--opacity-atlas-3));
-  color: hsl(var(--color-atlas-dark) / var(--opacity-atlas-3));
+  background-color: var(--surface-atlas-option);
+  color: var(--text-atlas-option);
 
   &.community__button-active {
     background-color: var(--surface-atlas-info-active);
+    color: var(--text-atlas-info);
   }
   &:hover {
-    background-color: var(--surface-atlas-option);
-    color: hsl(var(--color-atlas-light) / var(--opacity-atlas-3));
+    background-color: var(--surface-atlas-info);
+    color: var(--text-atlas-info);
   }
 }
 
@@ -88,8 +89,8 @@ summary.view-more {
 
 .community__info-card-content {
   .user__pronouns p {
-    background-color: hsl(var(--color-atlas-light) / var(--opacity-atlas-1));
-    color: hsl(var(--color-atlas-dark) / var(--opacity-atlas-2));
+    background-color: var(--surface-atlas-page);
+    border-radius: var(--border-radius-atlas-1);
   }
 
   a.user__name {
@@ -184,8 +185,10 @@ summary.view-more {
   margin: var(--size-atlas-13) 0;
 }
 .comment__info-container {
-  display: flex;
+  display: grid;
+  grid-auto-flow: column;
   align-items: center;
+  justify-content: start;
   gap: var(--size-atlas-09);
   margin: var(--size-atlas-13) 0;
   button {
@@ -219,8 +222,9 @@ summary.view-more {
   font-weight: 900;
   padding: var(--size-atlas-12) var(--size-atlas-10);
 
-  background-color: hsl(var(--color-atlas-light) / var(--opacity-atlas-1));
-  color: hsl(var(--color-atlas-light) / var(--opacity-atlas-2));
+  background-color: var(--surface-atlas-page-inverse);
+  color: var(--text-atlas-body-inverse);
+  border-radius: var(--border-radius-atlas-1);
 }
 
 .community__stats p {
@@ -246,12 +250,13 @@ summary.view-more {
 p.post-vote,
 sub.post-vote,
 sup.post-vote {
-  color: hsl(var(--color-atlas-light) / var(--opacity-atlas-2));
+  color: var(--text-atlas-mute);
 }
 
 p.post-vote {
   text-align: center;
   font-size: var(--size-atlas-09);
+  color: var(--surface-atlas-page);
 }
 
 .commment-vote-score {
@@ -263,7 +268,7 @@ p.post-vote {
   color: var(--surface-atlas-info-active);
 }
 .post-score-negative {
-  color: hsl(var(--color-atlas-secondary) / var(--opacity-atlas-3));
+  color: var(--text-atlas-warning);
 }
 
 .post-highlight > div > .comment__body {
@@ -563,7 +568,7 @@ p.post-vote {
 }
 
 a.user__name {
-  color: hsl(var(--color-atlas-light) / var(--opacity-atlas-3));
+  color: var(--text-atlas-page);
   font-weight: bold;
   font-size: clamp(var(--size-atlas-10), 1.618vw + 1rem, var(--size-atlas-09));
 }
@@ -616,7 +621,6 @@ a.user__name {
 }
 
 .mod-list {
-  background: var(--surface-atlas-info-active);
   padding: var(--size-atlas-10);
   display: grid;
   gap: var(--size-atlas-10);
@@ -627,7 +631,6 @@ a.user__name {
 }
 
 .user__info-card-content .mod-list a {
-  color: hsl(var(--color-atlas-dark) / var(--opacity-atlas-3));
 }
 
 .mod-user {
@@ -648,14 +651,10 @@ a.user__name {
   @include atlas-shadow(var(--shadow-atlas-inset));
   padding: var(--size-atlas-12) var(--size-atlas-10);
   margin-bottom: var(--size-atlas-12);
-
-  background-color: var(--surface-atlas-info-active);
-  color: hsl(var(--color-atlas-dark) / var(--opacity-atlas-3));
+  background-color: var(--surface-atlas-page);
 }
 
 .user__info-card-content .user__posts .user__pronouns p {
-  background-color: var(--surface-atlas-info-active);
-  color: hsl(var(--color-atlas-light) / var(--opacity-atlas-2));
 }
 
 .user__info-card-content h5,
@@ -664,12 +663,11 @@ a.user__name {
 }
 
 .user__info-card-content-hightlighted {
-  background-color: var(--surface-atlas-info-active);
+  background-color: var(--surface-atlas-page);
 }
 
 .user__info-card-content-hightlighted .user__pronouns p {
-  background-color: var(--surface-atlas-info-active);
-  color: hsl(var(--color-atlas-light) / var(--opacity-atlas-3));
+  background-color: var(--surface-atlas-page);
 }
 
 .user__info-card-content[data-side='top'],
@@ -711,12 +709,12 @@ a.user__name {
 /* Collapse */
 
 .comment__collapsible-trigger {
-  color: hsl(var(--color-atlas-light) / var(--opacity-atlas-2));
+  color: var(--text-atlas-action-active);
   margin: var(--size-atlas-10);
   &:hover,
   &:focus {
     cursor: pointer;
-    color: var(--surface-atlas-info-active);
+    color: var(--surface-atlas-action);
   }
 }
 

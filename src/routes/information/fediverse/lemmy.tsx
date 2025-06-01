@@ -76,6 +76,9 @@ function LemmyRouteComponent() {
   return (
     <LegendLayout route={Route} className={'lemmy'}>
       <>
+        <h1>
+          <span></span>Hexbear
+        </h1>
         {editLemmyInstance ? (
           <div className="search-input-wrapper">
             <button
@@ -105,8 +108,7 @@ function LemmyRouteComponent() {
                   setActiveLemmyInstance({
                     id: 1,
                     label: 'UserDefined',
-                    baseUrl:
-                      e.clipboardData.getData('Text') || 'https://hexbear.net/',
+                    baseUrl: e.clipboardData.getData('Text') || 'https://hexbear.net/',
                     community_id: null,
                     default: false,
                   });
@@ -126,11 +128,7 @@ function LemmyRouteComponent() {
             >
               🔻
             </button>
-            <a
-              href={activeLemmyInstance.baseUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a href={activeLemmyInstance.baseUrl} target="_blank" rel="noopener noreferrer">
               <span>{activeLemmyInstance.baseUrl}</span>
             </a>
           </div>
@@ -161,8 +159,7 @@ function LemmyRouteComponent() {
                 onClick={() => setActiveCommunity(null)}
               >
                 <span className="prefix">c/</span>
-                {activeCommunity &&
-                  activeCommunity?.community?.name} ⨯
+                {activeCommunity && activeCommunity?.community?.name} ⨯
               </button>
             </CommunityInfoCard>
           )}
@@ -189,8 +186,7 @@ function LemmyRouteComponent() {
                 <button
                   key={counts?.community_id}
                   className={`community__button ${
-                    counts?.community_id ===
-                      activeCommunity?.counts?.community_id &&
+                    counts?.community_id === activeCommunity?.counts?.community_id &&
                     'community__button-active'
                   }`}
                   role="button"
@@ -208,15 +204,9 @@ function LemmyRouteComponent() {
               );
             })}
         </div>
-        <div className="settings">
-          <Tabs.Root
-            value={activeSearchType}
-            onValueChange={setActiveSearchType}
-          >
-            <Tabs.List
-              className="setting-container"
-              aria-label="Select SearchType"
-            >
+        <div className="container wrapper">
+          <Tabs.Root value={activeSearchType} onValueChange={setActiveSearchType}>
+            <Tabs.List className="setting-container" aria-label="Select SearchType">
               {searchTypes.map((searchType, index) => (
                 <Tabs.Trigger
                   key={index}
@@ -229,14 +219,8 @@ function LemmyRouteComponent() {
             </Tabs.List>
           </Tabs.Root>
 
-          <Tabs.Root
-            value={activeListingType}
-            onValueChange={setActiveListingType}
-          >
-            <Tabs.List
-              className="setting-container"
-              aria-label="Select ListingType"
-            >
+          <Tabs.Root value={activeListingType} onValueChange={setActiveListingType}>
+            <Tabs.List className="setting-container" aria-label="Select ListingType">
               {listingTypes.map((listingType, index) => (
                 <Tabs.Trigger
                   key={index}
@@ -250,16 +234,9 @@ function LemmyRouteComponent() {
           </Tabs.Root>
 
           <Tabs.Root value={activeSortType} onValueChange={setActiveSortType}>
-            <Tabs.List
-              className="setting-container"
-              aria-label="Select SortType"
-            >
+            <Tabs.List className="setting-container" aria-label="Select SortType">
               {sortTypes.map((sortType, index) => (
-                <Tabs.Trigger
-                  key={index}
-                  value={sortType as unknown as string}
-                  className="setting"
-                >
+                <Tabs.Trigger key={index} value={sortType as unknown as string} className="setting">
                   {sortType.label}
                 </Tabs.Trigger>
               ))}
@@ -306,9 +283,7 @@ function LemmyRouteComponent() {
         )}
         <button
           className="view-more"
-          onClick={() =>
-            setCurrentSearchResultPage(currentSearchResultPage + 1)
-          }
+          onClick={() => setCurrentSearchResultPage(currentSearchResultPage + 1)}
         >
           View More
         </button>
@@ -318,9 +293,7 @@ function LemmyRouteComponent() {
           href={encodeURI(
             `${activeLemmyInstance.baseUrl}search?q=${encodeURIComponent(
               handleSearchQuery(),
-            )}&type=${activeSearchType.value}&listingType=${
-              activeListingType.value
-            }&communityId=${
+            )}&type=${activeSearchType.value}&listingType=${activeListingType.value}&communityId=${
               activeCommunity?.counts?.community_id
             }&page=${currentSearchResultPage}&sort=${activeSortType.value}`,
           )}

@@ -10,10 +10,7 @@ import { CommentView, GetComments, LemmyHttp } from 'lemmy-js-client';
 import { TimeAgo } from '../../hooks/useDataTransform';
 import LemmyUser from './User';
 import LemmyCommunity from './Community';
-import {
-  AtlasLemmyCommentSortType,
-  AtlasLemmyInstanceType,
-} from '../../types/api.types';
+import { AtlasLemmyCommentSortType, AtlasLemmyInstanceType } from '../../types/api.types';
 import { InformationContext } from '../../routes/information';
 import Markdown from '../shared/Markdown';
 import { AtlasContext } from '../../routes/__root';
@@ -41,8 +38,7 @@ function Comment({
   const [replies, setReplies] = useState<CommentView[]>();
 
   const { activeCommunity } = useContext(InformationContext)!;
-  const { activeAdministrativeRegion, activeGeographicIdentifier } =
-    useContext(AtlasContext)!;
+  const { activeAdministrativeRegion, activeGeographicIdentifier } = useContext(AtlasContext)!;
 
   function handleReplies() {
     const client: LemmyHttp = new LemmyHttp(lemmyInstance?.baseUrl);
@@ -80,15 +76,9 @@ function Comment({
         </Collapsible.Trigger>
         {/* AVATAR PROFILE PICTURE */}
 
-        <LemmyUser
-          view={commentView}
-          lemmyInstance={lemmyInstance}
-          showInfoCard={showUserAvatar}
-        />
+        <LemmyUser view={commentView} lemmyInstance={lemmyInstance} showInfoCard={showUserAvatar} />
 
-        {commentView?.comment.distinguished && (
-          <p className="comment__alert">📌</p>
-        )}
+        {commentView?.comment.distinguished && <p className="comment__alert">📌</p>}
 
         {/* Score Count / Upvotes / Downvotes */}
         <p className="comment__votes">
@@ -108,9 +98,7 @@ function Comment({
             {commentView?.counts.score}
           </span>
           {Number(commentView?.counts.downvotes) === 0 || (
-            <sub className={`post-vote comment__votes--down`}>
-              {commentView?.counts.downvotes}
-            </sub>
+            <sub className={`post-vote comment__votes--down`}>{commentView?.counts.downvotes}</sub>
           )}
         </p>
 
@@ -133,36 +121,26 @@ function Comment({
             </a>
           )}
 
-          {commentDepth < 1 &&
-            activeCommunity?.id != commentView?.community?.id && (
-              <LemmyCommunity
-                view={commentView}
-                lemmyInstance={lemmyInstance}
-                showCommunityIcon={
-                  activeCommunity?.id != commentView?.community?.id
-                }
-              />
-            )}
-          {commentDepth < 1 &&
-            (commentView?.post?.nsfw || commentView?.community?.nsfw) && (
-              <p className="comment__alert">NSFW</p>
-            )}
+          {commentDepth < 1 && activeCommunity?.id != commentView?.community?.id && (
+            <LemmyCommunity
+              view={commentView}
+              lemmyInstance={lemmyInstance}
+              showCommunityIcon={activeCommunity?.id != commentView?.community?.id}
+            />
+          )}
+          {commentDepth < 1 && (commentView?.post?.nsfw || commentView?.community?.nsfw) && (
+            <p className="comment__alert">NSFW</p>
+          )}
 
           {/* Comment Body */}
-          {commentView?.comment?.removed && (
-            <p className="comment__body">🚮 Comment removed.</p>
-          )}
-          {commentView?.comment?.deleted && (
-            <p className="comment__body">🗑️ Comment deleted.</p>
-          )}
+          {commentView?.comment?.removed && <p className="comment__body">🚮 Comment removed.</p>}
+          {commentView?.comment?.deleted && <p className="comment__body">🗑️ Comment deleted.</p>}
           {!(commentView?.comment?.removed || commentView?.comment?.deleted) &&
             commentView?.comment.content && (
               <Markdown
                 className="comment__body"
                 highlight={[
-                  activeAdministrativeRegion[
-                    activeGeographicIdentifier as string
-                  ],
+                  activeAdministrativeRegion[activeGeographicIdentifier as string],
                   activeAdministrativeRegion.country,
                 ]}
               >
@@ -171,9 +149,7 @@ function Comment({
             )}
 
           {/* Replies */}
-          <div
-            className={`comment__replies comment__replies--depth-${(commentDepth % 7) + 1}`}
-          >
+          <div className={`comment__replies comment__replies--depth-${(commentDepth % 7) + 1}`}>
             {/* Reply Count */}
             {commentView?.counts.child_count > 0 && !replies && (
               <p

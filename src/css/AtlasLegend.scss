@@ -619,7 +619,17 @@
   flex-shrink: 0;
   display: flex;
   gap: var(--size-atlas-12);
-  margin: 0 var(--size-atlas-12);
+  margin: var(--size-atlas-16) var(--size-atlas-12);
+
+  &:before {
+    content: '▒┤';
+    position: absolute;
+    left: calc(var(--size-atlas-08) * -1);
+    font-size: var(--size-atlas-08);
+    margin-top: var(--size-atlas-09);
+    color: var(--text-atlas-info-active);
+    text-shadow: none;
+  }
 }
 
 .nexus-card .tabs__list {
@@ -679,7 +689,7 @@
 }
 
 .tabs__trigger:hover {
-  background-color: var(--surface-atlas-option) !important;
+  background-color: var(--surface-atlas-action) !important;
 }
 .tabs__trigger[data-status='active'] {
   @include atlas-shadow(var(--shadow-atlas-1));
@@ -692,7 +702,7 @@
 .tabs__trigger:focus {
   position: relative;
   @include atlas-shadow(var(--shadow-atlas-1));
-  background-color: var(--surface-atlas-option);
+  background-color: var(--surface-atlas-action) !important;
 }
 
 .tabs__trigger[aria-disabled='true'] {

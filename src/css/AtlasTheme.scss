@@ -222,6 +222,7 @@ code {
   // Text Colors
   --text-atlas-heading: hsl(var(--color-atlas-red-950));
   --text-atlas-body: hsl(var(--color-atlas-dark));
+  --text-atlas-body-inverse: hsl(var(--color-atlas-light) / var(--opacity-atlas-3));
   --text-atlas-mute: hsl(var(--color-atlas-dark) / var(--opacity-atlas-2));
   --text-atlas-disabled: hsl(var(--color-atlas-dark) / var(--opacity-atlas-1));
 
@@ -238,6 +239,7 @@ code {
 
   // Surface Colors
   --surface-atlas-page: hsl(var(--color-atlas-red-100) / var(--opacity-atlas-2));
+  --surface-atlas-page-inverse: hsl(var(--color-atlas-red-700) / var(--opacity-atlas-2));
   --surface-atlas-chart: hsl(var(--color-atlas-red-300));
   --surface-atlas-disabled: hsl(var(--color-atlas-neutral-100));
 
@@ -471,14 +473,6 @@ h1 {
   font-weight: 900;
   background: var(--surface-atlas-info-muted);
   border-radius: var(--border-radius-atlas-1);
-  &:after {
-    position: relative;
-    left: calc(var(--size-atlas-08));
-    content: '╞╩╕';
-    font-size: var(--size-atlas-08);
-    color: var(--text-atlas-info-active);
-    text-shadow: none;
-  }
 
   span:before {
     content: '┤';

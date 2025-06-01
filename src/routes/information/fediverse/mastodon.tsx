@@ -15,8 +15,7 @@ export const Route = createFileRoute('/information/fediverse/mastodon')({
 });
 
 function MastodonRouteComponent() {
-  const { activeGeographicIdentifier, activeAdministrativeRegion } =
-    useContext(AtlasContext)!;
+  const { activeGeographicIdentifier, activeAdministrativeRegion } = useContext(AtlasContext)!;
 
   const { mastodonPosts, isLoading } = useMastodon(
     activeAdministrativeRegion,
@@ -34,10 +33,10 @@ function MastodonRouteComponent() {
   return (
     <LegendLayout route={Route}>
       <>
-        <h3>
-          Latest Posts on{' '}
-          {activeAdministrativeRegion[activeGeographicIdentifier]}
-        </h3>
+        <h1>
+          <span></span>Mastodon
+        </h1>
+        <h3>Latest Posts on {activeAdministrativeRegion[activeGeographicIdentifier]}</h3>
 
         {isLoading && <p className="map-info__loading-emoji">🔍</p>}
         {mastodonPosts &&
@@ -60,23 +59,13 @@ function MastodonRouteComponent() {
                   <div>
                     <h2>{post.account.display_name}</h2>{' '}
                     <div className="feed-post-container">
-                      <p className="feed-post-stat">
-                        {post.account.statuses_count} Posts
-                      </p>
-                      <p className="feed-post-stat">
-                        {post.account.following_count} Following
-                      </p>
-                      <p className="feed-post-stat">
-                        {post.account.followers_count} Followers
-                      </p>
+                      <p className="feed-post-stat">{post.account.statuses_count} Posts</p>
+                      <p className="feed-post-stat">{post.account.following_count} Following</p>
+                      <p className="feed-post-stat">{post.account.followers_count} Followers</p>
                     </div>
                     <small>
                       {post.account.bot && <span>🤖</span>}
-                      <a
-                        href={post.account.uri}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
+                      <a href={post.account.uri} target="_blank" rel="noopener noreferrer">
                         {post.account.acct}
                       </a>
                     </small>
@@ -93,11 +82,7 @@ function MastodonRouteComponent() {
                 {post.edited_at && <span>🖊️</span>}
                 {' 🗓️ '}
 
-                <TimeAgo
-                  dateString={
-                    post?.edited_at ? post.edited_at : post.created_at
-                  }
-                />
+                <TimeAgo dateString={post?.edited_at ? post.edited_at : post.created_at} />
               </p>
               {post?.media_attachments.length > 0 && (
                 <div
@@ -159,19 +144,11 @@ function MastodonRouteComponent() {
                       🗓️ <TimeAgo dateString={post?.card.published_at} />
                     </span>
                   )}
-                  {post?.card.provider_name && (
-                    <h6>{post?.card.provider_name}</h6>
-                  )}
+                  {post?.card.provider_name && <h6>{post?.card.provider_name}</h6>}
                   {post?.card.title && <h3>{post?.card.title}</h3>}
-                  {post?.card.author_name && (
-                    <small>👤 {post?.card.author_name}</small>
-                  )}
+                  {post?.card.author_name && <small>👤 {post?.card.author_name}</small>}
                   {post?.card.description && <p>{post?.card.description}</p>}
-                  {post?.card.url && (
-                    <small className="post-card-link">
-                      🔗 {post?.card.url}
-                    </small>
-                  )}
+                  {post?.card.url && <small className="post-card-link">🔗 {post?.card.url}</small>}
                 </a>
               )}
 
@@ -197,12 +174,7 @@ function MastodonRouteComponent() {
                 <p>🔄 {post.reblogs_count}</p>
                 <p>⭐ {post.favourites_count}</p>
               </div>
-              <a
-                className="post-link"
-                href={post.url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <a className="post-link" href={post.url} target="_blank" rel="noopener noreferrer">
                 🔗 <small>{post.url}</small>
               </a>
             </div>
