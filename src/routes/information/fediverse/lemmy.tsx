@@ -8,7 +8,7 @@ import Post from '../../../components/lemmy/Post';
 import CommunityInfoCard from '../../../components/lemmy/CommunityInfoCard';
 
 // https://www.radix-ui.com/primitives/docs/components/tabs
-import * as Tabs from '@radix-ui/react-tabs';
+import * as Menubar from '@radix-ui/react-menubar';
 
 import { searchTypes } from '../../../types/api.types';
 import LegendLayout from '../../../components/shared/LegendLayout';
@@ -204,45 +204,78 @@ function LemmyRouteComponent() {
               );
             })}
         </div>
-        <div className="container wrapper">
-          <Tabs.Root value={activeSearchType} onValueChange={setActiveSearchType}>
-            <Tabs.List className="setting-container" aria-label="Select SearchType">
-              {searchTypes.map((searchType, index) => (
-                <Tabs.Trigger
-                  key={index}
-                  value={searchType as unknown as string}
-                  className="setting"
-                >
-                  {searchType.label}
-                </Tabs.Trigger>
-              ))}
-            </Tabs.List>
-          </Tabs.Root>
 
-          <Tabs.Root value={activeListingType} onValueChange={setActiveListingType}>
-            <Tabs.List className="setting-container" aria-label="Select ListingType">
-              {listingTypes.map((listingType, index) => (
-                <Tabs.Trigger
-                  key={index}
-                  value={listingType as unknown as string}
-                  className="setting"
-                >
-                  {listingType.label}
-                </Tabs.Trigger>
-              ))}
-            </Tabs.List>
-          </Tabs.Root>
+        <Menubar.Root className="wrapper">
+          {/* SEARCH TYPE - Post/Comments */}
+          <Menubar.Menu>
+            <Menubar.Trigger className="option" aria-label="Select SearchType">
+              {activeSearchType.label}
+            </Menubar.Trigger>
+            <Menubar.Portal>
+              <Menubar.Content className="menu__content" align="start">
+                <Menubar.RadioGroup value={activeSearchType} onValueChange={setActiveSearchType}>
+                  {searchTypes.map((searchType, index) => (
+                    <Menubar.RadioItem
+                      className="option wrapper"
+                      key={index}
+                      value={searchType as unknown as string}
+                    >
+                      <Menubar.ItemIndicator className="info">»</Menubar.ItemIndicator>
+                      {searchType.label}
+                    </Menubar.RadioItem>
+                  ))}
+                </Menubar.RadioGroup>
+              </Menubar.Content>
+            </Menubar.Portal>
+          </Menubar.Menu>
 
-          <Tabs.Root value={activeSortType} onValueChange={setActiveSortType}>
-            <Tabs.List className="setting-container" aria-label="Select SortType">
-              {sortTypes.map((sortType, index) => (
-                <Tabs.Trigger key={index} value={sortType as unknown as string} className="setting">
-                  {sortType.label}
-                </Tabs.Trigger>
-              ))}
-            </Tabs.List>
-          </Tabs.Root>
-        </div>
+          {/* LISTING TYPE - Local, Global Scope */}
+          <Menubar.Menu>
+            <Menubar.Trigger className="option" aria-label="Select SearchType">
+              {activeListingType.label}
+            </Menubar.Trigger>
+            <Menubar.Portal>
+              <Menubar.Content className="menu__content" align="start">
+                <Menubar.RadioGroup value={activeListingType} onValueChange={setActiveListingType}>
+                  {listingTypes.map((listingType, index) => (
+                    <Menubar.RadioItem
+                      className="option wrapper"
+                      key={index}
+                      value={listingType as unknown as string}
+                    >
+                      <Menubar.ItemIndicator className="info">»</Menubar.ItemIndicator>
+                      {listingType.label} {listingType.value}
+                    </Menubar.RadioItem>
+                  ))}
+                </Menubar.RadioGroup>
+              </Menubar.Content>
+            </Menubar.Portal>
+          </Menubar.Menu>
+
+          {/* SORTING TYPE - Hot, Active, Most Comments, Top Day, etc. */}
+          <Menubar.Menu>
+            <Menubar.Trigger className="option" aria-label="Select SearchType">
+              {activeSortType.label}
+            </Menubar.Trigger>
+            <Menubar.Portal>
+              <Menubar.Content className="menu__content" align="start">
+                <Menubar.RadioGroup value={activeSortType} onValueChange={setActiveSortType}>
+                  {sortTypes.map((sortType, index) => (
+                    <Menubar.RadioItem
+                      className="option wrapper"
+                      key={index}
+                      value={sortType as unknown as string}
+                    >
+                      <Menubar.ItemIndicator className="info">»</Menubar.ItemIndicator>
+                      {sortType.label} {sortType.value}
+                    </Menubar.RadioItem>
+                  ))}
+                </Menubar.RadioGroup>
+              </Menubar.Content>
+            </Menubar.Portal>
+          </Menubar.Menu>
+        </Menubar.Root>
+
         {comments && activeSearchType.value === 'Comments' && (
           <div className="comment__replies">
             {comments.length > 0 &&
@@ -282,7 +315,7 @@ function LemmyRouteComponent() {
           </div>
         )}
         <button
-          className="view-more"
+          className="action"
           onClick={() => setCurrentSearchResultPage(currentSearchResultPage + 1)}
         >
           View More

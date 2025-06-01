@@ -61,8 +61,8 @@
     color: var(--text-atlas-info);
   }
   &:hover {
-    background-color: var(--surface-atlas-info);
-    color: var(--text-atlas-info);
+    background-color: var(--surface-atlas-action);
+    color: var(--text-atlas-action);
   }
 }
 
@@ -88,22 +88,6 @@ summary.view-more {
 /* Comunity Info Card */
 
 .community__info-card-content {
-  .user__pronouns p {
-    background-color: var(--surface-atlas-page);
-    border-radius: var(--border-radius-atlas-1);
-  }
-
-  a.user__name {
-    color: hsl(var(--color-atlas-dark) / var(--opacity-atlas-3));
-  }
-
-  -hightlighted {
-    background-color: hsl(var(--color-atlas-secondary) / var(--opacity-atlas-2));
-  }
-
-  .community__name a {
-    color: hsl(var(--color-atlas-dark) / var(--opacity-atlas-3));
-  }
 }
 
 /* Lemmy Settings */
@@ -333,13 +317,14 @@ p.post-vote {
 .comment__reply-button {
   padding: var(--size-atlas-09) var(--size-atlas-08);
   font-style: italic;
+  cursor: pointer;
 }
 .comment__reply-button span {
   font-size: var(--size-atlas-09);
   /* font-weight: 900; */
 }
 .comment__reply-button:hover {
-  color: var(--surface-atlas-info-active);
+  color: var(--surface-atlas-action-active);
 }
 
 .comment__reply-button__emoji {
@@ -491,9 +476,8 @@ p.post-vote {
 /* User Info Card */
 
 .user__card-tabs {
-  background-color: hsl(var(--color-atlas-dark) / var(--opacity-atlas-2));
-  padding: var(--size-atlas-10);
-
+  background-color: var(--surface-atlas-page);
+  border-radius: var(--border-radius-atlas-1);
   @include atlas-shadow(var(--shadow-atlas-1));
 }
 
@@ -508,8 +492,8 @@ p.post-vote {
   height: var(--size-atlas-08);
 
   cursor: pointer;
-  background-color: hsl(var(--color-atlas-light) / var(--opacity-atlas-1));
-  color: hsl(var(--color-atlas-light) / var(--opacity-atlas-2));
+  background-color: var(--surface-atlas-info);
+  color: var(--text-atlas-info);
   text-align: center;
   font-weight: 900;
 }
@@ -598,8 +582,8 @@ a.user__name {
   /* width: 100%; */
   /* min-width: var(--size-atlas-00); */
 
-  background-color: hsl(var(--color-atlas-light) / var(--opacity-atlas-3));
-  border: 1px solid hsl(var(--color-atlas-light) / var(--opacity-atlas-3));
+  background-color: var(--surface-atlas-page);
+  border: var(--border-atlas-neutral);
   border-left: var(--size-atlas-14) solid var(--surface-atlas-info-active);
 
   animation-duration: var(--time-atlas-1);
@@ -651,7 +635,8 @@ a.user__name {
   @include atlas-shadow(var(--shadow-atlas-inset));
   padding: var(--size-atlas-12) var(--size-atlas-10);
   margin-bottom: var(--size-atlas-12);
-  background-color: var(--surface-atlas-page);
+  background-color: var(--surface-atlas-info);
+  color: var(--text-atlas-info);
 }
 
 .user__info-card-content .user__posts .user__pronouns p {
@@ -663,11 +648,13 @@ a.user__name {
 }
 
 .user__info-card-content-hightlighted {
-  background-color: var(--surface-atlas-page);
+  background-color: var(--surface-atlas-info);
+  color: var(--text-atlas-info);
 }
 
 .user__info-card-content-hightlighted .user__pronouns p {
-  background-color: var(--surface-atlas-page);
+  background-color: var(--surface-atlas-info);
+  color: var(--text-atlas-info);
 }
 
 .user__info-card-content[data-side='top'],
@@ -697,7 +684,7 @@ a.user__name {
 }
 
 .user__posts {
-  background-color: hsl(var(--color-atlas-dark) / var(--opacity-atlas-3));
+  background-color: var(--surface-atlas-page);
   color: hsl(var(--color-atlas-light) / var(--opacity-atlas-3));
   padding: var(--size-atlas-10);
 
@@ -708,13 +695,18 @@ a.user__name {
 
 /* Collapse */
 
+.comment__collapsible-root {
+  background-color: var(--surface-atlas-page);
+  border-radius: var(--border-radius-atlas-1);
+}
+
 .comment__collapsible-trigger {
-  color: var(--text-atlas-action-active);
+  color: var(--text-atlas-mute);
   margin: var(--size-atlas-10);
   &:hover,
   &:focus {
     cursor: pointer;
-    color: var(--surface-atlas-action);
+    color: var(--text-atlas-action-active);
   }
 }
 

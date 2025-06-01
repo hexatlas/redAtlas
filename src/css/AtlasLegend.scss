@@ -141,7 +141,7 @@
   width: fit-content;
 
   background-color: var(--surface-atlas-page);
-  border: 1px solid hsl(var(--color-atlas-light) / var(--opacity-atlas-3));
+  border: var(--border-atlas-neutral);
   border-right: var(--size-atlas-14) solid
     hsl(var(--color-atlas-secondary) / var(--opacity-atlas-3));
 
@@ -223,8 +223,8 @@
 
     &:hover {
       @include atlas-shadow(var(--shadow-atlas-inset));
-      background-color: var(--surface-atlas-option);
-      color: var(--text-atlas-option);
+      background-color: var(--surface-atlas-action);
+      color: var(--text-atlas-action);
     }
   }
   .button-emoji,
@@ -370,6 +370,12 @@
       // width: 100%;
     }
   }
+}
+
+// MENUBAR
+
+.menu__content {
+  z-index: 999;
 }
 
 // DROPDOWN

@@ -258,7 +258,7 @@ code {
   // Border System
   --border-atlas-active: solid 1px hsl(var(--color-atlas-red-700));
   --border-atlas-disabled: solid 1px hsl(var(--color-atlas-neutral-200));
-  --border-atlas-neutral: solid 1px hsl(var(--color-atlas-dark) / var(--opacity-atlas-2));
+  --border-atlas-neutral: solid 1px hsl(var(--color-atlas-light) / var(--opacity-atlas-2));
 
   --border-atlas-info: solid 1px hsl(var(--color-atlas-yellow-500));
   --border-atlas-info-active: solid 1px hsl(var(--color-atlas-yellow-500));
@@ -600,10 +600,10 @@ td {
 }
 
 .layout {
-  padding: var(--size-atlas-10);
+  padding: var(--size-atlas-12);
   overflow: scroll;
   > * {
-    margin-bottom: var(--size-atlas-09);
+    margin-bottom: var(--size-atlas-10);
   }
   a {
     background: none;

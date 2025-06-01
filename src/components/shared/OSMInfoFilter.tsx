@@ -52,9 +52,7 @@ function AtlasOSMInfoFilter({
               } ${value} `; // Element must match the filter
             })}{' '}
           </p>
-          <Collapsible.Trigger className="filter-title emoji-label">
-            🎚️
-          </Collapsible.Trigger>
+          <Collapsible.Trigger className="filter-title emoji-label">🎚️</Collapsible.Trigger>
           <Collapsible.Content
             className="filter-menu"
             aria-label={`Filter options ${name}`}
@@ -62,11 +60,7 @@ function AtlasOSMInfoFilter({
           >
             {filterKeys &&
               filterKeys.map((key, index) => (
-                <div
-                  key={index}
-                  className="filter-field"
-                  aria-label={`${key} filter option`}
-                >
+                <div key={index} className="filter-field" aria-label={`${key} filter option`}>
                   <label htmlFor={key} className="sr-only">
                     {getFilterOptions(key).length}
                   </label>
@@ -75,18 +69,14 @@ function AtlasOSMInfoFilter({
                     value={selectedFilters[key] || ''}
                     onChange={(e) => handleFilterChange(key, e.target.value)}
                     aria-controls="list"
+                    className="option"
                   >
-                    <option
-                      value=""
-                      className="filter-field-reset"
-                      defaultChecked
-                    >
+                    <option value="" className="filter-field-reset" defaultChecked>
                       ({getFilterOptions(key).length}) {key}
                     </option>
                     {getFilterOptions(key).map((option: string, index) => (
                       <option key={index} value={option.toString()}>
-                        {iconMap &&
-                          (iconMap[option]?.options?.html as ReactNode)}{' '}
+                        {iconMap && (iconMap[option]?.options?.html as ReactNode)}{' '}
                         {option.toString()}
                       </option>
                     ))}

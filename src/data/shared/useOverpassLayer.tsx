@@ -96,10 +96,7 @@ export default function useOverpassLayer(
 
         wayMembers.forEach((member) => {
           if (member.geometry) {
-            const coordinates = member.geometry.map((point) => [
-              point.lat,
-              point.lon,
-            ]);
+            const coordinates = member.geometry.map((point) => [point.lat, point.lon]);
             addPolylineWithMarker(clusters, coordinates, tags, element);
           }
         });
