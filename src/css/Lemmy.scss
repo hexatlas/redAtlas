@@ -240,16 +240,16 @@ sup.post-vote {
 p.post-vote {
   text-align: center;
   font-size: var(--size-atlas-09);
-  color: var(--surface-atlas-page);
+  color: var(--text-atlas-mute);
 }
 
 .commment-vote-score {
-  color: var(--surface-atlas-info-active);
+  color: var(--text-atlas-success);
   font-weight: 900;
 }
 
 .post-score-positive {
-  color: var(--surface-atlas-info-active);
+  color: var(--text-atlas-success);
 }
 .post-score-negative {
   color: var(--text-atlas-warning);
@@ -496,6 +496,7 @@ p.post-vote {
   color: var(--text-atlas-info);
   text-align: center;
   font-weight: 900;
+  border-radius: var(--border-radius-atlas-1);
 }
 
 .post__thumbnail {
@@ -552,7 +553,6 @@ p.post-vote {
 }
 
 a.user__name {
-  color: var(--text-atlas-page);
   font-weight: bold;
   font-size: clamp(var(--size-atlas-10), 1.618vw + 1rem, var(--size-atlas-09));
 }
@@ -681,16 +681,6 @@ a.user__name {
 
 .user__info-card-arrow {
   fill: white;
-}
-
-.user__posts {
-  background-color: var(--surface-atlas-page);
-  color: hsl(var(--color-atlas-light) / var(--opacity-atlas-3));
-  padding: var(--size-atlas-10);
-
-  max-height: calc(var(--size-atlas-00) * 2);
-  overflow-y: scroll;
-  @include atlas-shadow(var(--shadow-atlas-1));
 }
 
 /* Collapse */
