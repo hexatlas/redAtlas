@@ -8,6 +8,7 @@ import AtlasOSMSettings from './OSMSettings';
 import AtlasOSMInfoList from './OSMInfoList';
 import AtlasOSMInfoFilter from './OSMInfoFilter';
 import AtlasOSMInfoDetail from './OSMInfoDetail';
+import { ReactNode } from '@tanstack/react-router';
 
 function MapInformationComponent({
   name,
