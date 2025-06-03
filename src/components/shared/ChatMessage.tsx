@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import Markdown from '../../components/shared/Markdown';
-import { MessageWithThinking } from '../../types/atlas.types';
+import { MessageWithThinking, GeneratedLocations } from '../../types/atlas.types';
 
 import L, { LatLngExpression } from 'leaflet';
 
@@ -41,7 +41,7 @@ const ChatMessage: React.FC<{
   map,
   loading,
 }) => {
-  const [locations, setLocations] = useState([]);
+  const [locations, setLocations] = useState<GeneratedLocations[]>([]);
   const [initialLoad, setInitialLoad] = useStateStorage(sha256(message.think), true);
 
   useEffect(() => {
@@ -210,6 +210,7 @@ const ChatMessage: React.FC<{
         const nominatimResponse = await getNominatimLocation(nominatim);
 
         if (!nominatimResponse) continue;
+        location.nominatimResponse = nominatimResponse;
 
         LLMboundingbox.extend([nominatimResponse.lat, nominatimResponse.lon]);
         map?.flyToBounds(LLMboundingbox, { padding: [100, 100] });

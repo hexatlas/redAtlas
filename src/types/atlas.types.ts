@@ -110,14 +110,10 @@ export interface AtlasInterfaceProps {
   setNominatim: (nominatim: NominatimResponse) => void;
 
   activeGeographicIdentifier: GeographicIdentifier;
-  setActiveGeographicIdentifier: (
-    activeGeographicIdentifier: GeographicIdentifier,
-  ) => void;
+  setActiveGeographicIdentifier: (activeGeographicIdentifier: GeographicIdentifier) => void;
 
   activeAdministrativeRegion: AdministrativeRegionObject;
-  setActiveAdministrativeRegion: (
-    activeAdministrativeRegion: AdministrativeRegionObject,
-  ) => void;
+  setActiveAdministrativeRegion: (activeAdministrativeRegion: AdministrativeRegionObject) => void;
 
   administrativeRegionClickHistoryArray: LocationSelection[];
   setAdministrativeRegionClickHistoryArray: (
@@ -125,9 +121,7 @@ export interface AtlasInterfaceProps {
   ) => void;
 
   activeLocationSelection: LocationSelection[];
-  setActiveLocationSelection: (
-    activeLocationSelection: LocationSelection[],
-  ) => void;
+  setActiveLocationSelection: (activeLocationSelection: LocationSelection[]) => void;
 
   handleRandom;
 }
@@ -233,6 +227,14 @@ export type MessageWithThinking = Message & {
   finishedThinking?: boolean;
   think?: string;
 };
+
+export interface GeneratedLocations {
+  name: string;
+  description: string;
+  emoji: string;
+  nominatim: string;
+  nominatimResponse?: unknown;
+}
 
 export interface ModelConfig {
   baseURL: string;

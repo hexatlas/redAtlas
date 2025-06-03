@@ -634,6 +634,9 @@ td {
 }
 
 .layout {
+  min-height: calc(100dvh - var(--size-atlas-04));
+  background-color: var(--surface-atlas-page);
+  outline: var(--outline-atlas-neutral);
   padding: var(--size-atlas-09);
   padding-top: calc(var(--size-atlas-09) / var(--line-height-atlas));
   overflow: scroll;

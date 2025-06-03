@@ -16,7 +16,15 @@
   max-height: 100vh;
   z-index: 999;
   position: relative;
-  background: var(--surface-atlas-page);
+  background-image: linear-gradient(#ffffff var(--size-atlas-16), transparent var(--size-atlas-16)),
+    linear-gradient(90deg, #ffffff var(--size-atlas-16), transparent var(--size-atlas-16)),
+    linear-gradient(#ffffff var(--size-atlas-15), transparent var(--size-atlas-15)),
+    linear-gradient(90deg, #ffffff var(--size-atlas-15), #ffeeee var(--size-atlas-15));
+  background-size:
+    var(--size-atlas-07) var(--size-atlas-07),
+    var(--size-atlas-07) var(--size-atlas-07),
+    var(--size-atlas-12) var(--size-atlas-12),
+    var(--size-atlas-12) var(--size-atlas-12);
 
   .settings {
     @include atlas-shadow(var(--shadow-atlas-1));
@@ -101,6 +109,7 @@
 
 @media only screen and (min-width: 768px) {
   #legend {
+    overflow: scroll;
     .settings {
       position: fixed;
       left: 0;
@@ -109,12 +118,10 @@
 }
 
 .legend__footer {
-  margin: var(--size-atlas-12);
+  outline: var(--outline-atlas-neutral);
   padding: var(--size-atlas-10);
-
-  @include atlas-shadow(var(--shadow-atlas-1));
-  background: var(--surface-atlas-red-950);
-  color: hsl(var(--color-atlas-dark) / var(--opacity-atlas-2));
+  background-color: var(--surface-atlas-page-inverse);
+  color: var(--text-atlas-body-inverse);
 }
 
 /* MAP INTERFACE */
@@ -265,12 +272,13 @@
 
 @media only screen and (max-width: 768px) {
   .map-interface {
+    @include atlas-shadow(none);
     position: relative;
     z-index: 0;
-    top: var(--size-atlas-14);
+    top: 0;
     left: 0;
     right: 0;
-    padding: 0;
+    padding: var(--size-atlas-10);
     width: unset;
     max-width: unset;
 
@@ -544,57 +552,8 @@
   display: flex;
   flex-direction: column;
   position: relative;
-}
-
-#tabs {
-  @include atlas-shadow(var(--shadow-atlas-1));
-  padding-top: var(--size-atlas-12);
-  z-index: 9999;
-  overflow: hidden;
-  overflow-y: scroll;
-  height: 100%;
-  max-height: 100vh;
-  max-height: 100dvh;
-  .tabs__content {
-    @include atlas-shadow(var(--shadow-atlas-1));
-
-    padding: 0;
-    height: 100%;
-    height: 100vh;
-    height: calc(100vh - var(--size-atlas-07));
-    .tabs__content {
-      border-left: var(--size-atlas-14) solid
-        hsl(var(--color-atlas-accent) / var(--opacity-atlas-3));
-      padding: var(--size-atlas-16);
-      @include atlas-shadow(var(--shadow-atlas-inset));
-      flex-grow: 1;
-      outline: none;
-      border-top: none;
-      border-right: none;
-      padding-bottom: var(--size-atlas-07);
-      .tabs__content {
-        overflow: hidden;
-        overflow-y: scroll;
-
-        border-left: none;
-        border-top: 1px solid var(--surface-atlas-info-active);
-      }
-      border-radius: 0;
-      &:focus {
-        @include atlas-shadow(var(--shadow-atlas-1));
-      }
-      .banner-image {
-        margin-bottom: var(--size-atlas-10);
-      }
-    }
-  }
-}
-
-@media only screen and (max-width: 768px) {
-  #tabs {
-    & > * {
-      margin: 0;
-    }
+  header {
+    background-color: var(--surface-atlas-page);
   }
 }
 
@@ -603,16 +562,6 @@
   display: flex;
   gap: var(--size-atlas-12);
   margin: var(--size-atlas-16) var(--size-atlas-12);
-
-  &:before {
-    content: '▒┤';
-    position: absolute;
-    left: calc(var(--size-atlas-08) * -1);
-    font-size: var(--size-atlas-08);
-    margin-top: var(--size-atlas-09);
-    color: var(--text-atlas-info-active);
-    text-shadow: none;
-  }
 }
 
 .nexus-card .tabs__list {
