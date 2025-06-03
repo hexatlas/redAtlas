@@ -77,10 +77,10 @@ function LemmyRouteComponent() {
     <LegendLayout route={Route} className={'lemmy'}>
       <>
         <h1>
-          <span></span>Hexbear
+          Hexbear<span></span>
         </h1>
         {editLemmyInstance ? (
-          <div className="search-input-wrapper">
+          <div className="wrapper">
             <button
               role="button"
               title="Reset Lemmy to Hexbear"
@@ -145,7 +145,7 @@ function LemmyRouteComponent() {
             />
           </CommunityInfoCard>
         )}
-        <div className="search-input-wrapper">
+        <div className="wrapper">
           {activeCommunity?.community && (
             <CommunityInfoCard
               lemmyInstance={activeLemmyInstance}

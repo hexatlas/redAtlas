@@ -20,43 +20,30 @@ function AtlasLocationSearch() {
     setActiveAdministrativeRegion,
   } = useContext(AtlasContext)!;
 
-  const {
-    handleSearchInputChange,
-    handleCLickSearchResult,
-    searchTerm,
-    searchResults,
-    loading,
-  } = useNominatim(
-    setActiveGeographicIdentifier,
-    activeAdministrativeRegion,
-    setActiveAdministrativeRegion,
-    setNominatim,
-    setIsOpenAtlasMapInterface,
-    map,
-  );
+  const { handleSearchInputChange, handleCLickSearchResult, searchTerm, searchResults, loading } =
+    useNominatim(
+      setActiveGeographicIdentifier,
+      activeAdministrativeRegion,
+      setActiveAdministrativeRegion,
+      setNominatim,
+      setIsOpenAtlasMapInterface,
+      map,
+    );
 
   const { country } = activeAdministrativeRegion;
 
   return (
-    <div id="location-search" aria-label="Location Search">
+    <>
       <div className="wrapper" aria-label="Location Search">
-        <form
-          className="wrapper wrapper__search"
-          role="search"
-          aria-label="Search Location Form"
-        >
+        <form role="search" aria-label="Search Location Form">
           <label htmlFor="search-input" className="sr-only">
             Search Location in {country}
           </label>
           <input
             className="search-input"
             type="search"
-            placeholder={`Search Location ${
-              country !== 'country' ? `in ${country}` : ''
-            }`}
-            aria-label={`Search Location ${
-              country !== 'country' ? `in ${country}` : ''
-            }`}
+            placeholder={`Search Location ${country !== 'country' ? `in ${country}` : ''}`}
+            aria-label={`Search Location ${country !== 'country' ? `in ${country}` : ''}`}
             value={searchTerm}
             onChange={handleSearchInputChange}
           />
@@ -102,7 +89,7 @@ function AtlasLocationSearch() {
           <small className="search-licence">{searchResults[0]?.licence}</small>
         </ul>
       )}
-    </div>
+    </>
   );
 }
 

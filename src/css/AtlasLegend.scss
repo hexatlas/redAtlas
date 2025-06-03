@@ -17,10 +17,6 @@
   z-index: 999;
   position: relative;
   background: var(--surface-atlas-page);
-  .search-input-wrapper {
-    position: sticky;
-    top: 0;
-  }
 
   .settings {
     @include atlas-shadow(var(--shadow-atlas-1));
@@ -124,7 +120,6 @@
 /* MAP INTERFACE */
 
 .active-geographic-identifier {
-  color: hsl(var(--color-atlas-dark) / var(--opacity-atlas-3)) !important;
   background: var(--surface-atlas-info-active);
   @include atlas-shadow(var(--shadow-atlas-1));
 }
@@ -141,9 +136,10 @@
   width: fit-content;
 
   background-color: var(--surface-atlas-page);
-  border: var(--border-atlas-neutral);
+
   border-right: var(--size-atlas-14) solid
     hsl(var(--color-atlas-secondary) / var(--opacity-atlas-3));
+  border-radius: var(--border-radius-atlas-1);
 
   text-align: end;
 
@@ -206,7 +202,6 @@
     height: 0;
     opacity: 0;
     transition: var(--transition-atlas-slow);
-    color: hsl(var(--color-atlas-dark) / var(--opacity-atlas-3));
     padding: var(--size-atlas-10);
     padding-left: var(--size-atlas-08);
     font-weight: 900;
@@ -214,11 +209,12 @@
     cursor: pointer;
     white-space: pre-line;
     word-wrap: break-word;
-
+    background: none;
     &.active-geographic-identifier {
       display: inherit;
       height: inherit;
       opacity: 1;
+      background: var(--surface-atlas-info);
     }
 
     &:hover {
@@ -317,7 +313,7 @@
   .map-button {
     @include atlas-shadow(var(--shadow-atlas-1));
     font-size: var(--size-atlas-08);
-    background-color: hsl(var(--color-atlas-light) / var(--opacity-atlas-3));
+    background-color: var(--surface-atlas-page);
     padding: var(--size-atlas-10);
     text-shadow: var(--shadow-atlas-text);
     min-width: var(--size-atlas-07);
@@ -346,30 +342,7 @@
   max-width: var(--size-atlas-06);
   background: var(--surface-atlas-info-active);
   white-space: pre;
-  @include atlas-shadow(var(--shadow-atlas-1));
-  &:hover {
-    color: hsl(var(--color-atlas-light) / var(--opacity-atlas-3));
-  }
-}
-
-.search-input-wrapper {
-  padding: var(--size-atlas-12);
-
-  display: flex;
-  gap: var(--size-atlas-16);
-  overflow: hidden;
-
-  .search-form {
-    @include atlas-shadow(var(--shadow-atlas-inset));
-
-    // z-index: 9;
-
-    .search-input {
-      background: white;
-      @include atlas-shadow(var(--shadow-atlas-inset));
-      // width: 100%;
-    }
-  }
+  outline: var(--outline-atlas-1);
 }
 
 // MENUBAR
@@ -396,7 +369,7 @@
   max-height: 90vh;
   overflow-y: scroll;
 
-  border: 1px solid hsl(var(--color-atlas-light) / var(--opacity-atlas-3));
+  border: 1px solid var(--surface-atlas-page);
   border-right: var(--size-atlas-14) solid
     hsl(var(--color-atlas-secondary) / var(--opacity-atlas-3));
 
@@ -438,7 +411,7 @@
 
 .dropdown-menu-subtrigger[data-state='open'] {
   background-color: var(--surface-atlas-option);
-  color: hsl(var(--color-atlas-light) / var(--opacity-atlas-3));
+  color: var(--surface-atlas-page);
 }
 
 .dropdown-menu-item[data-disabled],
@@ -455,7 +428,7 @@
 .dropdown-menu-subtrigger[data-highlighted] {
   @include atlas-shadow(var(--shadow-atlas-inset));
   background-color: var(--surface-atlas-option);
-  color: hsl(var(--color-atlas-light) / var(--opacity-atlas-3));
+  color: var(--surface-atlas-page);
 }
 
 .dropdown-menu-label {
@@ -500,7 +473,7 @@
 }
 .expand {
   font-family: var(--font-atlas-emoji);
-  color: hsl(var(--color-atlas-light) / var(--opacity-atlas-3));
+  color: var(--surface-atlas-page);
   background-color: transparent;
   max-width: var(--size-atlas-07);
   justify-self: flex-end;
@@ -509,7 +482,7 @@
 .button-emoji:hover {
   @include atlas-shadow(var(--shadow-atlas-inset));
   background-color: var(--surface-atlas-option);
-  color: hsl(var(--color-atlas-light) / var(--opacity-atlas-3));
+  color: var(--surface-atlas-page);
   transition: var(--transition-atlas-slow);
 }
 .button-emoji:focus {
@@ -653,8 +626,8 @@
 }
 
 .tabs__trigger {
-  @include atlas-shadow(var(--shadow-atlas-inset));
   height: var(--size-atlas-07);
+  outline: var(--outline-atlas-1);
   width: var(--size-atlas-04);
   font-family: var(--font-atlas-emoji);
   line-height: 1;
@@ -698,7 +671,7 @@
   background-color: var(--surface-atlas-action) !important;
 }
 .tabs__trigger[data-status='active'] {
-  @include atlas-shadow(var(--shadow-atlas-1));
+  @include atlas-shadow(var(--shadow-atlas-inset));
   animation: none;
   border: 1px solid hsl(var(--color-atlas-light) / var(--opacity-atlas-2));
   border-left: var(--size-atlas-14) solid hsl(var(--color-atlas-accent) / var(--opacity-atlas-3));

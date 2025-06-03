@@ -149,7 +149,7 @@ function ChatRouteComponent() {
   return (
     <LegendLayout className="chat__layout">
       <h1>
-        <span></span>LLMao
+        LLMao<span>🗨️</span>
       </h1>
       <details className={'chat__config'} open={true}>
         <summary>LLM Model Config</summary>

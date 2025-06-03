@@ -66,7 +66,72 @@ function AtlasHomeComponent() {
   const search = Route.useSearch();
 
   return (
-    <LegendLayout route={Route}>
+    <LegendLayout
+      route={Route}
+      footer={
+        <section id="credits">
+          <small>Powered by:</small>
+          <ul className="wrapper">
+            <li>
+              <a href="https://hexbear.net" target="_blank" rel="noopener noreferrer">
+                <img src={hexbear} alt="Lemmy Logo" className="custom-icon" />{' '}
+              </a>
+            </li>
+
+            <li>
+              <a href="https://leafletjs.com" target="_blank" rel="noopener noreferrer">
+                <img src={leaflet} alt="Leaflet Logo" className="custom-icon" />{' '}
+              </a>
+            </li>
+            <li>
+              <a href="https://www.openstreetmap.org" target="_blank" rel="noopener noreferrer">
+                <img src={openstreetmap} alt="OpenStreetMaps Logo" className="custom-icon" />{' '}
+              </a>
+            </li>
+            <li>
+              <a href="https://prolewiki.org" target="_blank" rel="noopener noreferrer">
+                <img src={prolewiki} alt="ProleWiki Logo" className="custom-icon" />{' '}
+              </a>
+            </li>
+
+            <li>
+              <a href="https://github.com/LemmyNet" target="_blank" rel="noopener noreferrer">
+                <img src={lemmy} alt="Lemmy Logo" className="custom-icon" />{' '}
+              </a>
+            </li>
+
+            <li>
+              <a href="https://chat.deepseek.com" target="_blank" rel="noopener noreferrer">
+                <img src={deepseek} alt="deepseek Logo" className="custom-icon" />{' '}
+              </a>
+            </li>
+
+            <li>
+              <a href="https://ollama.com" target="_blank" rel="noopener noreferrer">
+                <img src={ollamaLogo} alt="ollama Logo" className="custom-icon" />{' '}
+              </a>
+            </li>
+
+            <li>
+              <a href="https://wikipedia.org" target="_blank" rel="noopener noreferrer">
+                <img src={natopedia} alt="Wikipedia Logo" className="custom-icon" />{' '}
+              </a>
+            </li>
+
+            <li>
+              <a href="https://mastodon.social" target="_blank" rel="noopener noreferrer">
+                <img src={mastodon} alt="Mastodon Logo" className="custom-icon" />{' '}
+              </a>
+            </li>
+            <li>
+              <a href="https://openweather.co.uk" target="_blank" rel="noopener noreferrer">
+                <img src={openweather} alt="Openweather Logo" className="custom-icon" />{' '}
+              </a>
+            </li>
+          </ul>
+        </section>
+      }
+    >
       <section className="container hero">
         <h1 className="emoji" title="atlas" aria-label="atlas">
           red🅰️TLAS
@@ -78,77 +143,75 @@ function AtlasHomeComponent() {
       {/* INSTRUCTIONS */}
       <section>
         <h2>Instructions</h2>
-        <ul className="container">
-          <li>
-            <b>Select Country:</b> Choose a country, by using search, clicking on the map, or 🎲 for
-            a random pick to analyze its tools of state power.
-            <AtlasLocationSearch />
-          </li>
+        <h3>Select Country</h3>
+        <p>
+          Choose a country, by using search, clicking on the map, or 🎲 for a random pick to analyze
+          its tools of state power.
+        </p>
+        <AtlasLocationSearch />
+        <li>
+          <h3>State Power Options</h3>
+          <ul className="wrapper">
+            <li className="container option">
+              💵{' '}
+              <Link
+                search={search}
+                className="legend__link"
+                to={'/economy'}
+                aria-label={'economy link'}
+              >
+                Economy
+              </Link>
+            </li>
+            <li className="container option">
+              ℹ️{' '}
+              <Link
+                search={search}
+                className="legend__link"
+                to={'/information'}
+                aria-label={'information link'}
+              >
+                Information
+              </Link>
+            </li>
+            <li className="container option">
+              🕊️{' '}
+              <Link
+                search={search}
+                className="legend__link"
+                to={'/diplomacy'}
+                aria-label={'diplomacy link'}
+              >
+                Diplomacy
+              </Link>
+            </li>
+            <li className="container option">
+              🛡️{' '}
+              <Link
+                search={search}
+                className="legend__link"
+                to={'/military'}
+                aria-label={'security link'}
+              >
+                Military Power
+              </Link>
+            </li>
+            <li className="container option">
+              🏛️{' '}
+              <Link
+                search={search}
+                className="legend__link"
+                to={'/government'}
+                aria-label={'government link'}
+              >
+                Government
+              </Link>
+            </li>
+          </ul>
+        </li>
+        <h3>Map Layers 🗺️</h3>
 
-          <li>
-            <b>State Power Options:</b>
-            <ul className="wrapper">
-              <li className="container option">
-                💵{' '}
-                <Link
-                  search={search}
-                  className="legend__link"
-                  to={'/economy'}
-                  aria-label={'economy link'}
-                >
-                  Economy
-                </Link>
-              </li>
-              <li className="container option">
-                ℹ️{' '}
-                <Link
-                  search={search}
-                  className="legend__link"
-                  to={'/information'}
-                  aria-label={'information link'}
-                >
-                  Information
-                </Link>
-              </li>
-              <li className="container option">
-                🕊️{' '}
-                <Link
-                  search={search}
-                  className="legend__link"
-                  to={'/diplomacy'}
-                  aria-label={'diplomacy link'}
-                >
-                  Diplomacy
-                </Link>
-              </li>
-              <li className="container option">
-                🛡️{' '}
-                <Link
-                  search={search}
-                  className="legend__link"
-                  to={'/military'}
-                  aria-label={'security link'}
-                >
-                  Military Power
-                </Link>
-              </li>
-              <li className="container option">
-                🏛️{' '}
-                <Link
-                  search={search}
-                  className="legend__link"
-                  to={'/government'}
-                  aria-label={'government link'}
-                >
-                  Government
-                </Link>
-              </li>
-            </ul>
-          </li>
-          <li>
-            🗺️ <b>Map Layers:</b> Switch between satellite, terrain, or boundaries.
-          </li>
-        </ul>
+        <p>Switch between satellite, terrain, or boundaries.</p>
       </section>
 
       {/* THEME */}
@@ -185,117 +248,41 @@ function AtlasHomeComponent() {
         </blockquote>
       </section>
 
-      {/* POWERED BY */}
-      <section id="credits">
-        <small>Powered by:</small>
+      {/* CONTRIBUTE */}
+      <section>
+        <h2>Contribute</h2>
         <ul className="wrapper">
-          <li>
-            <a
-              className="wrapper"
-              href="https://hexbear.net"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img src={hexbear} alt="Lemmy Logo" className="custom-icon" />{' '}
-            </a>
+          <li className="container neutral">
+            <input type="checkbox" name="FOSS" checked />
+            <label htmlFor="FOSS">Self-Hostable</label>
           </li>
-
-          <li>
-            <a
-              className="wrapper"
-              href="https://leafletjs.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img src={leaflet} alt="Leaflet Logo" className="custom-icon" />{' '}
-            </a>
+          <li className="container neutral">
+            <input type="checkbox" name="FOSS" checked />
+            <label htmlFor="FOSS">Privacy</label>
           </li>
-          <li>
-            <a
-              className="wrapper"
-              href="https://www.openstreetmap.org"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img src={openstreetmap} alt="OpenStreetMaps Logo" className="custom-icon" />{' '}
-            </a>
+          <li className="container neutral">
+            <input type="checkbox" name="FOSS" checked />
+            <label htmlFor="FOSS">Decentralized</label>
           </li>
-          <li>
-            <a
-              className="wrapper"
-              href="https://prolewiki.org"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img src={prolewiki} alt="ProleWiki Logo" className="custom-icon" />{' '}
-            </a>
-          </li>
-
-          <li>
-            <a
-              className="wrapper"
-              href="https://github.com/LemmyNet"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img src={lemmy} alt="Lemmy Logo" className="custom-icon" />{' '}
-            </a>
-          </li>
-
-          <li>
-            <a
-              className="wrapper"
-              href="https://chat.deepseek.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img src={deepseek} alt="deepseek Logo" className="custom-icon" />{' '}
-            </a>
-          </li>
-
-          <li>
-            <a
-              className="wrapper"
-              href="https://ollama.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img src={ollamaLogo} alt="ollama Logo" className="custom-icon" />{' '}
-            </a>
-          </li>
-
-          <li>
-            <a
-              className="wrapper"
-              href="https://wikipedia.org"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img src={natopedia} alt="Wikipedia Logo" className="custom-icon" />{' '}
-            </a>
-          </li>
-
-          <li>
-            <a
-              className="wrapper"
-              href="https://mastodon.social"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img src={mastodon} alt="Mastodon Logo" className="custom-icon" />{' '}
-            </a>
-          </li>
-          <li>
-            <a
-              className="wrapper"
-              href="https://openweather.co.uk"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img src={openweather} alt="Openweather Logo" className="custom-icon" />{' '}
-            </a>
+          <li className="container neutral">
+            <input type="checkbox" name="FOSS" checked />
+            <label htmlFor="FOSS">FOSS</label>
           </li>
         </ul>
+
+        <div className="wrapper">
+          <a href="https://github.com/hexatlas/redAtlas" target="_blank" rel="noopener noreferrer">
+            Github
+          </a>
+          <a
+            href="https://codeberg.org/hex_atlas/redAtlas"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Codeberg
+          </a>
+        </div>
+        <small className="mute">GNU AFFERO GENERAL PUBLIC LICENSE</small>
       </section>
     </LegendLayout>
   );

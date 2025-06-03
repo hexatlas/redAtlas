@@ -108,7 +108,7 @@ function Comment({
         </small>
       </div>
       <Collapsible.Content>
-        <>
+        <div className="comment__wrapper">
           {/* OP Post */}
           {commentDepth < 1 && (
             <a
@@ -170,27 +170,25 @@ function Comment({
                 }`}
               </p>
             )}
-
-            {/* Reply Comments */}
-            {replies &&
-              replies.map((reply, index) => {
-                const { comment, creator } = reply;
-                if (comment.id == commentView?.comment.id) return; // filter parent commment from API response
-                return (
-                  <Comment
-                    key={`${creator.id}${comment.id}${index}`}
-                    commentView={reply}
-                    lemmyInstance={lemmyInstance}
-                    commentDepth={commentDepth + 1}
-                    ratioDetector={commentView?.counts.score}
-                    commentSort={commentSort}
-                  />
-                );
-              })}
           </div>
-        </>
+          {/* Reply Comments */}
+          {replies &&
+            replies.map((reply, index) => {
+              const { comment, creator } = reply;
+              if (comment.id == commentView?.comment.id) return; // filter parent commment from API response
+              return (
+                <Comment
+                  key={`${creator.id}${comment.id}${index}`}
+                  commentView={reply}
+                  lemmyInstance={lemmyInstance}
+                  commentDepth={commentDepth + 1}
+                  ratioDetector={commentView?.counts.score}
+                  commentSort={commentSort}
+                />
+              );
+            })}
+        </div>
       </Collapsible.Content>
-      <hr />
     </Collapsible.Root>
   );
 }

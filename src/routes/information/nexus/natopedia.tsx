@@ -24,7 +24,7 @@ function RouteComponent() {
     <LegendLayout route={Route}>
       <>
         <h1>
-          <span></span>Natopedia
+          Natopedia<span></span>
         </h1>
         <>
           <p>

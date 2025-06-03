@@ -51,7 +51,7 @@
 }
 
 .community__button {
-  @include atlas-shadow(var(--shadow-atlas-inset));
+  @include atlas-shadow(var(--shadow-atlas-2));
   height: var(--size-atlas-08);
   background-color: var(--surface-atlas-option);
   color: var(--text-atlas-option);
@@ -215,6 +215,10 @@ summary.view-more {
   font-weight: initial;
 }
 
+.comment__wrapper {
+  padding: var(--size-atlas-10);
+}
+
 .comment button,
 .post button {
   background-color: transparent;
@@ -316,6 +320,7 @@ p.post-vote {
 }
 .comment__reply-button {
   padding: var(--size-atlas-09) var(--size-atlas-08);
+  margin: 0;
   font-style: italic;
   cursor: pointer;
 }
@@ -426,13 +431,19 @@ p.post-vote {
   }
 }
 
+.comment {
+  outline: var(--outline-atlas-1);
+}
+
 .comment__replies {
   margin-top: var(--size-atlas-15);
   margin-bottom: 0;
-  padding: 0 var(--size-atlas-15);
 
   border-top: none;
   border-bottom: none;
+  border-radius: var(--border-radius-atlas-1);
+  display: grid;
+  gap: var(--size-atlas-12);
 }
 
 .comment__replies--depth-1 {

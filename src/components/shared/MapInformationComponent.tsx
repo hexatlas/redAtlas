@@ -66,11 +66,24 @@ function MapInformationComponent({
 
   return (
     <LegendLayout route={route}>
+      <small className="mute">powered by Overpass-Turbo</small>
       <h1>
-        <span>{name} </span>
-        in {activeAdministrativeRegion['emoji']}{' '}
-        {activeAdministrativeRegion['country']}
+        {name} <span>{activeAdministrativeRegion['emoji']}</span>
       </h1>
+      <small>{activeAdministrativeRegion['country']}</small>
+      {filteredData && (
+        <h2>
+          {filteredData.length}{' '}
+          {Object.entries(selectedFilters).map(([key, value]) => {
+            if (!value) return true; // No filter applied for this key
+            return `${
+              iconMap && iconMap[value as string] != undefined
+                ? (iconMap[value as string]?.options?.html as ReactNode)
+                : ''
+            } ${value} `; // Element must match the filter
+          })}{' '}
+        </h2>
+      )}
       <AtlasOSMSettings {...clusterSettings} />
       {isLoading && <p className="map-info__loading-emoji">🔍</p>}
       {activeElement && (

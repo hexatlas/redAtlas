@@ -53,7 +53,7 @@ code {
   -webkit-box-shadow: $shadow;
   -moz-box-shadow: $shadow;
   box-shadow: $shadow;
-  text-shadow: var(--shadow-atlas-text);
+  outline: var(--outline-atlas-1);
 }
 
 /* colors */
@@ -256,11 +256,15 @@ code {
   --surface-atlas-error: hsl(var(--color-atlas-red-500));
 
   // Border System
+
+  --border-radius-atlas-1: var(--size-atlas-12) 0;
+  --border-radius-atlas-2: var(--size-atlas-14);
+
   --border-atlas-active: solid 1px hsl(var(--color-atlas-red-700));
   --border-atlas-disabled: solid 1px hsl(var(--color-atlas-neutral-200));
   --border-atlas-neutral: solid 1px hsl(var(--color-atlas-light) / var(--opacity-atlas-2));
 
-  --border-atlas-info: solid 1px hsl(var(--color-atlas-yellow-500));
+  --border-atlas-info: dashed var(--size-atlas-16) hsl(var(--color-atlas-yellow-500));
   --border-atlas-info-active: solid 1px hsl(var(--color-atlas-yellow-500));
   --border-atlas-action: solid 1px hsl(var(--color-atlas-blue-200));
   --border-atlas-action-active: solid 1px hsl(var(--color-atlas-blue-400));
@@ -271,8 +275,9 @@ code {
   --border-atlas-warning: solid 1px hsl(var(--color-atlas-yellow-100));
   --border-atlas-error: solid 1px hsl(var(--color-atlas-red-500));
 
-  --border-radius-atlas-1: var(--size-atlas-12) 0;
-  --border-radius-atlas-2: var(--size-atlas-14);
+  // Outline
+
+  --outline-atlas-1: 1px outset hsl(var(--color-atlas-red-700) / var(--opacity-atlas-1));
 
   // Timing
   --transition-atlas-fast: var(--time-atlas-1) var(--timing-atlas-function);
@@ -283,7 +288,16 @@ code {
     alternate-reverse;
 
   // Shadows
-  --shadow-atlas-1: 0 var(--size-atlas-16) var(--size-atlas-16) hsl(var(--color-atlas-dark) / 0.08),
+  --shadow-atlas-inset: inset var(--size-atlas-15) var(--size-atlas-15)
+    hsl(var(--color-atlas-red-950) / var(--opacity-atlas-1));
+
+  --shadow-atlas-1: var(--size-atlas-13) var(--size-atlas-13)
+    hsl(var(--color-atlas-red-950) / var(--opacity-atlas-1));
+
+  --shadow-atlas-2: var(--size-atlas-15) var(--size-atlas-15)
+    hsl(var(--color-atlas-red-950) / var(--opacity-atlas-2));
+
+  --shadow-atlas-3: 0 var(--size-atlas-16) var(--size-atlas-16) hsl(var(--color-atlas-dark) / 0.08),
     0 var(--size-atlas-15) var(--size-atlas-15) hsl(var(--color-atlas-dark) / 0.061),
     0 var(--size-atlas-14) var(--size-atlas-14) hsl(var(--color-atlas-dark) / 0.052),
     0 var(--size-atlas-13) var(--size-atlas-13) hsl(var(--color-atlas-dark) / 0.046),
@@ -292,33 +306,9 @@ code {
     0 var(--size-atlas-10) var(--size-atlas-10) hsl(var(--color-atlas-dark) / 0.028),
     0 var(--size-atlas-09) var(--size-atlas-09) hsl(var(--color-atlas-dark) / 0.019);
 
-  --shadow-atlas-inset: inset 0 var(--size-atlas-16) var(--size-atlas-16)
-      hsl(var(--color-atlas-dark) / 0.08),
-    inset 0 var(--size-atlas-15) var(--size-atlas-15) hsl(var(--color-atlas-dark) / 0.061),
-    inset 0 var(--size-atlas-14) var(--size-atlas-14) hsl(var(--color-atlas-dark) / 0.052),
-    inset 0 var(--size-atlas-13) var(--size-atlas-13) hsl(var(--color-atlas-dark) / 0.046),
-    inset 0 var(--size-atlas-12) var(--size-atlas-12) hsl(var(--color-atlas-dark) / 0.04),
-    inset 0 var(--size-atlas-11) var(--size-atlas-11) hsl(var(--color-atlas-dark) / 0.034),
-    inset 0 var(--size-atlas-10) var(--size-atlas-10) hsl(var(--color-atlas-dark) / 0.028),
-    inset 0 var(--size-atlas-09) var(--size-atlas-09) hsl(var(--color-atlas-dark) / 0.019);
-
   --intensity: 0.69;
-  --shadow-atlas-text: 0 var(--size-atlas-16) var(--size-atlas-16)
-      hsl(var(--color-atlas-dark) / calc(0.08 * var(--intensity))),
-    0 var(--size-atlas-15) var(--size-atlas-15)
-      hsl(var(--color-atlas-dark) / calc(0.061 * var(--intensity))),
-    0 var(--size-atlas-14) var(--size-atlas-14)
-      hsl(var(--color-atlas-dark) / calc(0.052 * var(--intensity))),
-    0 var(--size-atlas-13) var(--size-atlas-13)
-      hsl(var(--color-atlas-dark) / calc(0.046 * var(--intensity))),
-    0 var(--size-atlas-12) var(--size-atlas-12)
-      hsl(var(--color-atlas-dark) / calc(0.04 * var(--intensity))),
-    0 var(--size-atlas-11) var(--size-atlas-11)
-      hsl(var(--color-atlas-dark) / calc(0.034 * var(--intensity))),
-    0 var(--size-atlas-10) var(--size-atlas-10)
-      hsl(var(--color-atlas-dark) / calc(0.028 * var(--intensity))),
-    0 var(--size-atlas-09) var(--size-atlas-09)
-      hsl(var(--color-atlas-dark) / calc(0.019 * var(--intensity)));
+  --shadow-atlas-text: var(--size-atlas-16) var(--size-atlas-16)
+    hsl(var(--color-atlas-red-700) / var(--opacity-atlas-1));
 }
 
 [data-theme='dark'] {
@@ -429,7 +419,8 @@ body {
 }
 
 p {
-  margin-bottom: var(--size-atlas-12);
+  margin-top: var(--size-atlas-09);
+  margin-bottom: var(--size-atlas-08);
   max-width: var(--max-char-atlas);
   color: var(--text-atlas-body);
 }
@@ -459,28 +450,34 @@ h6 {
   font-family: var(--font-atlas-sans);
   font-weight: 400;
   line-height: 1;
-  margin-top: var(--size-atlas-08);
-  margin-bottom: var(--size-atlas-10);
+
   text-shadow: var(--shadow-atlas-text);
   color: var(--text-atlas-heading);
+  display: flex;
+  align-items: center;
+  justify-items: center;
 }
 
 /* Headings */
 
 h1 {
-  font-family: var(--font-atlas-cursive);
+  font-family: var(--font-atlas-sans);
   font-size: clamp(var(--size-atlas-09), 11.089vw + 1rem, var(--size-atlas-07));
   font-weight: 900;
-  background: var(--surface-atlas-info-muted);
+  background: var(--surface-atlas-info);
+  text-transform: uppercase;
   border-radius: var(--border-radius-atlas-1);
+  margin-top: var(--size-atlas-07);
+  margin-bottom: var(--size-atlas-08);
+  outline: var(--outline-atlas-1);
 
-  span:before {
-    content: '┤';
-    position: relative;
-    left: calc(var(--size-atlas-09) * -1);
-    font-size: var(--size-atlas-08);
-    color: var(--text-atlas-info-active);
-    text-shadow: none;
+  display: grid;
+  grid-auto-flow: column;
+  justify-items: flex-start;
+
+  span {
+    justify-self: flex-end;
+    font-size: var(--size-atlas-06);
   }
 }
 
@@ -488,10 +485,12 @@ h2 {
   text-transform: uppercase;
   font-size: clamp(var(--size-atlas-10), 6.854vw + 1rem, var(--size-atlas-08));
   font-weight: 900;
-  &:before {
-    content: '┤▓';
+  margin-top: var(--size-atlas-07);
+  margin-bottom: var(--size-atlas-08);
+  &:after {
+    content: '▓';
     position: relative;
-    left: calc(var(--size-atlas-10) * -1);
+    left: calc(var(--size-atlas-10) * 1);
     color: var(--text-atlas-info-active);
     text-shadow: none;
   }
@@ -502,10 +501,12 @@ h2 {
 h3 {
   font-size: clamp(var(--size-atlas-10), 4.236vw + 1rem, var(--size-atlas-08));
   font-weight: 400;
-  &:before {
-    content: '┤░';
+  margin-top: var(--size-atlas-08);
+  margin-bottom: var(--size-atlas-09);
+  &:after {
+    content: '░';
     position: relative;
-    left: calc(var(--size-atlas-10) * -1);
+    left: calc(var(--size-atlas-10) * 1);
     color: var(--text-atlas-info-active);
     text-shadow: none;
   }
@@ -515,10 +516,10 @@ h4 {
   font-size: clamp(var(--size-atlas-09), 2.618vw + 1rem, var(--size-atlas-08));
   text-transform: uppercase;
   font-weight: 900;
-  &:before {
-    content: '┤▒';
+  &:after {
+    content: '▒';
     position: relative;
-    left: calc(var(--size-atlas-10) * -1);
+    left: calc(var(--size-atlas-10) * 1);
     color: var(--text-atlas-info-active);
     text-shadow: none;
   }
@@ -570,10 +571,25 @@ progress {
   transition: border-radius var(--transition-atlas-fast);
 }
 
+button {
+  &:hover {
+    background: var(--surface-atlas-action);
+  }
+}
+
+select {
+  width: 100%;
+}
+
 textarea {
   padding: var(--size-atlas-10);
   height: var(--size-atlas-05);
   width: 100%;
+  @include atlas-shadow(var(--shadow-atlas-inset));
+}
+
+input {
+  @include atlas-shadow(var(--shadow-atlas-inset));
 }
 
 input[type='checkbox'],
@@ -600,19 +616,33 @@ td {
 }
 
 .layout {
-  padding: var(--size-atlas-12);
+  padding: var(--size-atlas-08);
+  padding-top: calc(var(--size-atlas-08) / var(--line-height-atlas));
   overflow: scroll;
-  > * {
-    margin-bottom: var(--size-atlas-10);
-  }
+
   a {
     background: none;
   }
 }
 
+ul {
+  padding: var(--size-atlas-09) var(--size-atlas-08);
+  border-left: var(--border-atlas-info);
+  padding-left: var(--size-atlas-09);
+}
+
+li {
+  margin-bottom: var(--size-atlas-09);
+}
+
 .container {
   @include atlas-shadow(var(--shadow-atlas-1));
-  padding: var(--size-atlas-09);
+
+  border-radius: var(--border-radius-atlas-1);
+  padding: var(--size-atlas-10);
+  padding-top: calc(var(--size-atlas-10) / var(--line-height-atlas));
+  margin-top: var(--size-atlas-10);
+  margin-bottom: var(--size-atlas-10);
   max-width: var(--max-width-atlas);
 }
 
@@ -625,8 +655,9 @@ td {
   flex-wrap: wrap;
   flex: auto;
   align-items: center;
-  gap: var(--size-atlas-10);
-  padding: var(--size-atlas-10);
+  gap: 0 var(--size-atlas-10);
+  margin-top: var(--size-atlas-09);
+  margin-bottom: var(--size-atlas-09);
 }
 
 @media only screen and (min-width: 768px) {

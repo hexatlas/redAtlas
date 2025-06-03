@@ -12,10 +12,7 @@ import { TimeAgo } from '../../hooks/useDataTransform';
 import Comment from './Comment';
 import LemmyUser from './User';
 import LemmyCommunity from './Community';
-import {
-  AtlasLemmyCommentSortType,
-  AtlasLemmyInstanceType,
-} from '../../types/api.types';
+import { AtlasLemmyCommentSortType, AtlasLemmyInstanceType } from '../../types/api.types';
 import { InformationContext } from '../../routes/information';
 import Markdown from '../shared/Markdown';
 import { AtlasContext } from '../../routes/__root';
@@ -38,11 +35,9 @@ function Post({
   const [openPost, setOpenPost] = useState(isOpen);
   const [replies, setReplies] = useState<CommentView[]>([]);
 
-  const { activeCommunity, activeListingType } =
-    useContext(InformationContext)!;
+  const { activeCommunity, activeListingType } = useContext(InformationContext)!;
 
-  const { activeAdministrativeRegion, activeGeographicIdentifier } =
-    useContext(AtlasContext)!;
+  const { activeAdministrativeRegion, activeGeographicIdentifier } = useContext(AtlasContext)!;
 
   function handleReplies() {
     const client: LemmyHttp = new LemmyHttp(lemmyInstance?.baseUrl);
@@ -62,17 +57,13 @@ function Post({
   return (
     <Collapsible.Root
       className={`post comment__collapsible-root
- ${
-   (postView?.post.featured_community || postView?.post.featured_local) &&
-   'post--featured'
- }`}
+ ${(postView?.post.featured_community || postView?.post.featured_local) && 'post--featured'}`}
       open={openPost}
       onOpenChange={setOpenPost}
     >
       <div className="post-info-container">
         <div>
-          {(postView?.post.featured_community ||
-            postView?.post.featured_local) && (
+          {(postView?.post.featured_community || postView?.post.featured_local) && (
             <small className="post--pinned">📌</small>
           )}
           {/* Score Count / Upvotes / Downvotes */}
@@ -93,9 +84,7 @@ function Post({
               {postView?.counts.score}
             </span>
             {Number(postView?.counts.downvotes) === 0 || (
-              <p className={`post-vote comment__votes--down`}>
-                {postView?.counts.downvotes}
-              </p>
+              <p className={`post-vote comment__votes--down`}>{postView?.counts.downvotes}</p>
             )}
           </p>
         </div>
@@ -106,19 +95,13 @@ function Post({
           onClick={() => setOpenPost(!openPost)}
           aria-label="Expand Post"
         >
-          <img
-            className="post__thumbnail--image"
-            src={postView?.post.thumbnail_url}
-            alt={`🪧`}
-          />
+          <img className="post__thumbnail--image" src={postView?.post.thumbnail_url} alt={`🪧`} />
         </Collapsible.Trigger>
         <div className="post__meta">
           {/* OP Post */}
           {commentDepth < 1 && (
             <div>
-              {postView?.post.locked && (
-                <small className="post--pinned">🔒</small>
-              )}
+              {postView?.post.locked && <small className="post--pinned">🔒</small>}
               <a
                 className="post-post"
                 href={postView?.post.ap_id}
@@ -136,8 +119,7 @@ function Post({
 
             {/* COMMUNITY */}
             {commentDepth < 1 &&
-              postView?.community?.id !=
-                activeCommunity?.counts?.community_id && (
+              postView?.community?.id != activeCommunity?.counts?.community_id && (
                 <LemmyCommunity
                   view={postView}
                   lemmyInstance={lemmyInstance as AtlasLemmyInstanceType}
@@ -174,39 +156,26 @@ function Post({
               onClick={() => setOpenPost(!openPost)}
               aria-label="Expand Post"
             >
-              <img
-                className="post-image"
-                src={postView?.post.thumbnail_url}
-                alt={`🧵`}
-              />
+              <img className="post-image" src={postView?.post.thumbnail_url} alt={`🧵`} />
             </button>
           )}
           {/* Post Body */}
-          {postView?.post?.removed && (
-            <p className="post-body">🚮 Comment removed.</p>
+          {postView?.post?.removed && <p className="post-body">🚮 Comment removed.</p>}
+          {postView?.post?.deleted && <p className="post-body">🗑️ Comment deleted.</p>}
+          {!(postView?.post?.removed || postView?.post?.deleted) && postView?.post.body && (
+            <Markdown
+              highlight={[
+                activeAdministrativeRegion[activeGeographicIdentifier as string],
+                activeAdministrativeRegion.country,
+              ]}
+              className="post-body"
+            >
+              {postView?.post.body}
+            </Markdown>
           )}
-          {postView?.post?.deleted && (
-            <p className="post-body">🗑️ Comment deleted.</p>
-          )}
-          {!(postView?.post?.removed || postView?.post?.deleted) &&
-            postView?.post.body && (
-              <Markdown
-                highlight={[
-                  activeAdministrativeRegion[
-                    activeGeographicIdentifier as string
-                  ],
-                  activeAdministrativeRegion.country,
-                ]}
-                className="post-body"
-              >
-                {postView?.post.body}
-              </Markdown>
-            )}
 
           {/* Replies */}
-          <div
-            className={`comment__replies comment__replies--depth-${(commentDepth % 7) + 1}`}
-          >
+          <div className={`comment__replies comment__replies--depth-${(commentDepth % 7) + 1}`}>
             {/* Reply Count */}
             {postView?.counts.comments > 0 && replies.length === 0 && (
               <p
@@ -222,9 +191,7 @@ function Post({
                 }}
               >
                 <span className="comment__reply-button__emoji">💬</span>
-                {`${postView?.counts.comments} comment${
-                  postView?.counts.comments > 1 ? 's' : ''
-                }`}
+                {`${postView?.counts.comments} comment${postView?.counts.comments > 1 ? 's' : ''}`}
               </p>
             )}
 
@@ -247,8 +214,6 @@ function Post({
           </div>
         </>
       </Collapsible.Content>
-
-      <hr />
     </Collapsible.Root>
   );
 }

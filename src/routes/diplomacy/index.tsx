@@ -10,14 +10,13 @@ function DiplomacyHomeComponent() {
   return (
     <LegendLayout route={Route}>
       <h1>
-        <span>🕊️</span> Diplomacy
+        Diplomacy<span>🕊️</span>
       </h1>
 
       <p>
-        This section provides tools for an analysis of diplomatic interactions
-        through a Marxist lens, focusing on the interplay between economic
-        structures and geopolitical relationships. The following points
-        highlight key contradictions and class dynamics that underpin
+        This section provides tools for an analysis of diplomatic interactions through a Marxist
+        lens, focusing on the interplay between economic structures and geopolitical relationships.
+        The following points highlight key contradictions and class dynamics that underpin
         international diplomacy.
       </p>
 
@@ -25,32 +24,31 @@ function DiplomacyHomeComponent() {
 
       <ul className="wrapper">
         <li>
-          <b>Capital vs Labor:</b> Explore the global class struggle and its
-          impact on international relations. The exploitation of labor in
-          developing nations often creates tensions between industrialized
-          powers and emerging economies.
+          <b>Capital vs Labor:</b> Explore the global class struggle and its impact on international
+          relations. The exploitation of labor in developing nations often creates tensions between
+          industrialized powers and emerging economies.
         </li>
 
         <li>
-          <b>Imperialism and Global Power Struggles:</b> Analyze how capitalist
-          nations compete for control over resources and markets, leading to
-          geopolitical conflicts and diplomatic crises.
+          <b>Imperialism and Global Power Struggles:</b> Analyze how capitalist nations compete for
+          control over resources and markets, leading to geopolitical conflicts and diplomatic
+          crises.
         </li>
 
         <li>
-          <b>Economic Inequality:</b> Examine the role of economic disparities
-          in shaping foreign policy. Wealthy nations often impose trade policies
-          that favor their interests while exploiting poorer countries.
+          <b>Economic Inequality:</b> Examine the role of economic disparities in shaping foreign
+          policy. Wealthy nations often impose trade policies that favor their interests while
+          exploiting poorer countries.
         </li>
       </ul>
 
       <h2>Material Context and Historical Analysis</h2>
 
       <p>
-        The Marxist perspective on diplomacy emphasizes the material conditions
-        that drive international conflict. By examining historical examples such
-        as colonialism, trade imbalances, and resource extraction, we can better
-        understand how economic systems shape geopolitical relations.
+        The Marxist perspective on diplomacy emphasizes the material conditions that drive
+        international conflict. By examining historical examples such as colonialism, trade
+        imbalances, and resource extraction, we can better understand how economic systems shape
+        geopolitical relations.
       </p>
 
       <h2>Menu</h2>

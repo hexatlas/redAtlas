@@ -24,7 +24,7 @@ function RouteComponent() {
     <LegendLayout route={Route}>
       <>
         <h1>
-          <span></span>ProleWiki
+          ProleWiki<span></span>
         </h1>
 
         <>

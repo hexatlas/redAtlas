@@ -335,8 +335,11 @@ function ChartsRouteComponent() {
 
   return (
     <LegendLayout route={Route}>
-      <div className="container">
-        <h3>Where does line go? </h3>
+      <div className="">
+        <h1>
+          Charts <span>📈</span>
+        </h1>
+        <h2>Where does line go? </h2>
         <select
           className="option"
           value={activeIndicator?.name}
@@ -358,11 +361,13 @@ function ChartsRouteComponent() {
       {isLoading && <p className="map-info__loading-emoji">🔍</p>}
 
       {IMFData && (
-        <YearsList
-          data={IMFData}
-          indicator={activeIndicator}
-          country={activeAdministrativeRegion['ISO3166-3']}
-        />
+        <div className="container">
+          <YearsList
+            data={IMFData}
+            indicator={activeIndicator}
+            country={activeAdministrativeRegion['ISO3166-3']}
+          />
+        </div>
       )}
 
       <Collapsible.Root className="CollapsibleRoot" open={open} onOpenChange={setOpen}>

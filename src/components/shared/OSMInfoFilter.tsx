@@ -41,17 +41,7 @@ function AtlasOSMInfoFilter({
     <>
       {data && (
         <Collapsible.Root>
-          <p>
-            {filteredData.length}{' '}
-            {Object.entries(selectedFilters).map(([key, value]) => {
-              if (!value) return true; // No filter applied for this key
-              return `${
-                iconMap && iconMap[value as string] != undefined
-                  ? (iconMap[value as string]?.options?.html as ReactNode)
-                  : ''
-              } ${value} `; // Element must match the filter
-            })}{' '}
-          </p>
+          <p></p>
           <Collapsible.Trigger className="filter-title emoji-label">🎚️</Collapsible.Trigger>
           <Collapsible.Content
             className="filter-menu"
