@@ -67,7 +67,7 @@ function MapInformationComponent({
 
   return (
     <LegendLayout route={route}>
-      <small className="mute">powered by Overpass-Turbo</small>
+      <small className="mute">powered by Overpass</small>
       <h1>
         {name} <span>{activeAdministrativeRegion['emoji']}</span>
       </h1>

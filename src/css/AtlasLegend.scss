@@ -342,7 +342,7 @@
   max-width: var(--size-atlas-06);
   background: var(--surface-atlas-info-active);
   white-space: pre;
-  outline: var(--outline-atlas-1);
+  outline: var(--outline-atlas-info-active);
 }
 
 // MENUBAR
@@ -627,7 +627,7 @@
 
 .tabs__trigger {
   height: var(--size-atlas-07);
-  outline: var(--outline-atlas-1);
+  outline: var(--outline-atlas-option-active);
   width: var(--size-atlas-04);
   font-family: var(--font-atlas-emoji);
   line-height: 1;
@@ -669,6 +669,7 @@
 
 .tabs__trigger:hover {
   background-color: var(--surface-atlas-action) !important;
+  outline: var(--outline-atlas-option);
 }
 .tabs__trigger[data-status='active'] {
   @include atlas-shadow(var(--shadow-atlas-inset));
@@ -677,10 +678,9 @@
   border-left: var(--size-atlas-14) solid hsl(var(--color-atlas-accent) / var(--opacity-atlas-3));
   border-bottom: none;
   background-color: var(--surface-atlas-info-active);
+  outline: var(--outline-atlas-option);
 }
 .tabs__trigger:focus {
-  position: relative;
-  @include atlas-shadow(var(--shadow-atlas-1));
   background-color: var(--surface-atlas-action) !important;
 }
 

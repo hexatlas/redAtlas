@@ -137,7 +137,18 @@ function ChatRouteComponent() {
     setActiveModel: setActiveToolModel,
   };
 
-  if (!consent) return <LLMao consent={consent} setConsent={setConsent} />;
+  if (!consent)
+    return (
+      <LegendLayout
+        footer={
+          <blockquote>
+            <b>Cognito Hazard:</b> AI generated content
+          </blockquote>
+        }
+      >
+        <LLMao consent={consent} setConsent={setConsent} />
+      </LegendLayout>
+    );
 
   function resetConfig() {
     setActiveReasoningModel('open-ai');
@@ -147,7 +158,14 @@ function ChatRouteComponent() {
   }
 
   return (
-    <LegendLayout className="chat__layout">
+    <LegendLayout
+      className="chat__layout"
+      footer={
+        <blockquote>
+          <b>Cognito Hazard:</b> AI generated content
+        </blockquote>
+      }
+    >
       <h1>
         LLMao<span>🗨️</span>
       </h1>

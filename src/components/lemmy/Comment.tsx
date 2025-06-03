@@ -37,7 +37,7 @@ function Comment({
   const [open, setOpen] = useState(isOpen);
   const [replies, setReplies] = useState<CommentView[]>();
 
-  const { activeCommunity } = useContext(InformationContext)!;
+  const { activeCommunity, locationQuery } = useContext(InformationContext)!;
   const { activeAdministrativeRegion, activeGeographicIdentifier } = useContext(AtlasContext)!;
 
   function handleReplies() {
@@ -142,6 +142,7 @@ function Comment({
                 highlight={[
                   activeAdministrativeRegion[activeGeographicIdentifier as string],
                   activeAdministrativeRegion.country,
+                  locationQuery,
                 ]}
               >
                 {commentView?.comment.content}

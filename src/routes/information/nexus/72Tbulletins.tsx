@@ -11,12 +11,9 @@ export const Route = createFileRoute('/information/nexus/72Tbulletins')({
 });
 
 function RouteComponent() {
-  const { activeAdministrativeRegion, activeGeographicIdentifier } =
-    useContext(AtlasContext)!;
+  const { activeAdministrativeRegion, activeGeographicIdentifier } = useContext(AtlasContext)!;
 
-  const { newsBulletinsPosts, isLoading } = useNewsBulletins(
-    activeAdministrativeRegion,
-  );
+  const { newsBulletinsPosts, isLoading } = useNewsBulletins(activeAdministrativeRegion);
 
   return (
     <LegendLayout route={Route}>
@@ -31,8 +28,7 @@ function RouteComponent() {
         rel="noopener noreferrer"
       >
         📚📕 Hexbear Reading List:
-        {activeAdministrativeRegion?.country != 'country' &&
-          activeAdministrativeRegion?.country}
+        {activeAdministrativeRegion?.country != 'country' && activeAdministrativeRegion?.country}
       </a>
 
       {isLoading && <p className="map-info__loading-emoji">🔍</p>}
@@ -41,11 +37,7 @@ function RouteComponent() {
         <>
           <h3>{newsBulletinsPosts.title}</h3>
           <p> {newsBulletinsPosts.description}</p>
-          <a
-            href={newsBulletinsPosts.link as string}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href={newsBulletinsPosts.link as string} target="_blank" rel="noopener noreferrer">
             🔗 {newsBulletinsPosts.link}
           </a>
           {newsBulletinsPosts.items &&
@@ -65,9 +57,7 @@ function RouteComponent() {
                   </a>
                   <Markdown
                     highlight={[
-                      activeAdministrativeRegion[
-                        activeGeographicIdentifier as string
-                      ],
+                      activeAdministrativeRegion[activeGeographicIdentifier as string],
                       activeAdministrativeRegion.country,
                     ]}
                   >{`📰 ${bulletin.description}`}</Markdown>

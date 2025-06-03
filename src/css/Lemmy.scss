@@ -200,13 +200,13 @@ summary.view-more {
 
 .user__pronouns p,
 .community__stats p {
-  @include atlas-shadow(var(--shadow-atlas-inset));
   margin: 0;
   font-size: var(--size-atlas-09);
   font-weight: 900;
   padding: var(--size-atlas-12) var(--size-atlas-10);
 
   background-color: var(--surface-atlas-page-inverse);
+  outline: var(--outline-atlas-neutral);
   color: var(--text-atlas-body-inverse);
   border-radius: var(--border-radius-atlas-1);
 }
@@ -432,7 +432,7 @@ p.post-vote {
 }
 
 .comment {
-  outline: var(--outline-atlas-1);
+  outline: var(--outline-atlas-option);
 }
 
 .comment__replies {
@@ -495,16 +495,17 @@ p.post-vote {
 .user__avatar,
 .community__avatar-container,
 .post__thumbnail {
-  @include atlas-shadow(var(--shadow-atlas-inset));
   overflow: hidden;
   user-select: none;
+  line-height: none !important;
 
   width: var(--size-atlas-08);
   height: var(--size-atlas-08);
 
   cursor: pointer;
-  background-color: var(--surface-atlas-info);
-  color: var(--text-atlas-info);
+  outline: var(--outline-atlas-neutral);
+  background-color: var(--surface-atlas-disabled);
+  color: var(--text-atlas-body);
   text-align: center;
   font-weight: 900;
   border-radius: var(--border-radius-atlas-1);
@@ -643,11 +644,11 @@ a.user__name {
 
 .user__info-card-content .user__pronouns p,
 .community__info-card-content .community__stats p {
-  @include atlas-shadow(var(--shadow-atlas-inset));
   padding: var(--size-atlas-12) var(--size-atlas-10);
   margin-bottom: var(--size-atlas-12);
   background-color: var(--surface-atlas-info);
   color: var(--text-atlas-info);
+  outline: var(--outline-atlas-info-active);
 }
 
 .user__info-card-content .user__posts .user__pronouns p {

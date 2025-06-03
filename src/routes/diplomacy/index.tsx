@@ -24,19 +24,19 @@ function DiplomacyHomeComponent() {
 
       <ul className="wrapper">
         <li>
-          <b>Capital vs Labor:</b> Explore the global class struggle and its impact on international
-          relations. The exploitation of labor in developing nations often creates tensions between
-          industrialized powers and emerging economies.
+          <h3>Capital vs Labor:</h3> Explore the global class struggle and its impact on
+          international relations. The exploitation of labor in developing nations often creates
+          tensions between industrialized powers and emerging economies.
         </li>
 
         <li>
-          <b>Imperialism and Global Power Struggles:</b> Analyze how capitalist nations compete for
-          control over resources and markets, leading to geopolitical conflicts and diplomatic
+          <h3>Imperialism and Global Power Struggles:</h3> Analyze how capitalist nations compete
+          for control over resources and markets, leading to geopolitical conflicts and diplomatic
           crises.
         </li>
 
         <li>
-          <b>Economic Inequality:</b> Examine the role of economic disparities in shaping foreign
+          <h3>Economic Inequality:</h3> Examine the role of economic disparities in shaping foreign
           policy. Wealthy nations often impose trade policies that favor their interests while
           exploiting poorer countries.
         </li>

@@ -53,7 +53,7 @@ code {
   -webkit-box-shadow: $shadow;
   -moz-box-shadow: $shadow;
   box-shadow: $shadow;
-  outline: var(--outline-atlas-1);
+  outline: var(--outline-atlas-option);
 }
 
 /* colors */
@@ -221,7 +221,7 @@ code {
 
   // Text Colors
   --text-atlas-heading: hsl(var(--color-atlas-red-950));
-  --text-atlas-body: hsl(var(--color-atlas-dark));
+  --text-atlas-body: hsl(var(--color-atlas-dark) / var(--opacity-atlas-3));
   --text-atlas-body-inverse: hsl(var(--color-atlas-light) / var(--opacity-atlas-3));
   --text-atlas-mute: hsl(var(--color-atlas-dark) / var(--opacity-atlas-2));
   --text-atlas-disabled: hsl(var(--color-atlas-dark) / var(--opacity-atlas-1));
@@ -241,7 +241,7 @@ code {
   --surface-atlas-page: hsl(var(--color-atlas-red-100) / var(--opacity-atlas-2));
   --surface-atlas-page-inverse: hsl(var(--color-atlas-red-700) / var(--opacity-atlas-2));
   --surface-atlas-chart: hsl(var(--color-atlas-red-300));
-  --surface-atlas-disabled: hsl(var(--color-atlas-neutral-100));
+  --surface-atlas-disabled: hsl(var(--color-atlas-light) / var(--opacity-atlas-2));
 
   --surface-atlas-info: hsl(var(--color-atlas-yellow-500));
   --surface-atlas-info-active: hsl(var(--color-atlas-yellow-500));
@@ -277,7 +277,23 @@ code {
 
   // Outline
 
-  --outline-atlas-1: 1px outset hsl(var(--color-atlas-red-700) / var(--opacity-atlas-1));
+  --outline-atlas-active: 1px outset hsl(var(--color-atlas-red-100) / var(--opacity-atlas-1));
+  --outline-atlas-disabled: 1px outset hsl(var(--color-atlas-neutral-200) / var(--opacity-atlas-1));
+  --outline-atlas-neutral: 1px outset hsl(var(--color-atlas-light) / var(--opacity-atlas-1));
+
+  --outline-atlas-info: dashed var(--size-atlas-16)
+    hsl(var(--color-atlas-yellow-500) / var(--opacity-atlas-1));
+  --outline-atlas-info-active: 1px outset
+    hsl(var(--color-atlas-yellow-500) / var(--opacity-atlas-2));
+  --outline-atlas-action: 1px outset hsl(var(--color-atlas-blue-200) / var(--opacity-atlas-2));
+  --outline-atlas-action-active: 1px outset
+    hsl(var(--color-atlas-blue-400) / var(--opacity-atlas-1));
+  --outline-atlas-option: 1px outset hsl(var(--color-atlas-red-700) / var(--opacity-atlas-1));
+  --outline-atlas-option-active: 1px outset hsl(var(--color-atlas-red-800) / var(--opacity-atlas-1));
+
+  --outline-atlas-success: 1px outset hsl(var(--color-atlas-yellow-100) / var(--opacity-atlas-1));
+  --outline-atlas-warning: 1px outset hsl(var(--color-atlas-yellow-100) / var(--opacity-atlas-1));
+  --outline-atlas-error: 1px outset hsl(var(--color-atlas-red-500) / var(--opacity-atlas-1));
 
   // Timing
   --transition-atlas-fast: var(--time-atlas-1) var(--timing-atlas-function);
@@ -467,9 +483,9 @@ h1 {
   background: var(--surface-atlas-info);
   text-transform: uppercase;
   border-radius: var(--border-radius-atlas-1);
-  margin-top: var(--size-atlas-07);
+  margin-top: var(--size-atlas-08);
   margin-bottom: var(--size-atlas-08);
-  outline: var(--outline-atlas-1);
+  outline: var(--outline-atlas-info-active);
 
   display: grid;
   grid-auto-flow: column;
@@ -478,6 +494,7 @@ h1 {
   span {
     justify-self: flex-end;
     font-size: var(--size-atlas-06);
+    z-index: 9;
   }
 }
 
@@ -574,6 +591,7 @@ progress {
 button {
   &:hover {
     background: var(--surface-atlas-action);
+    outline: var(--outline-atlas-action);
   }
 }
 
@@ -616,8 +634,8 @@ td {
 }
 
 .layout {
-  padding: var(--size-atlas-08);
-  padding-top: calc(var(--size-atlas-08) / var(--line-height-atlas));
+  padding: var(--size-atlas-09);
+  padding-top: calc(var(--size-atlas-09) / var(--line-height-atlas));
   overflow: scroll;
 
   a {
@@ -681,13 +699,14 @@ li {
 }
 
 .highlight {
-  @include atlas-shadow(var(--shadow-atlas-inset));
   background: var(--surface-atlas-info-active);
+  outline: var(--outline-atlas-info-active);
   color: var(--text-atlas-info);
-  padding: 0 var(--size-atlas-10);
+  padding: 0 var(--size-atlas-12);
   border-radius: var(--border-radius-atlas-1);
   margin-right: var(--size-atlas-12);
   font-weight: 900;
+  font-size: var(--size-atlas-09);
 }
 
 .mute {

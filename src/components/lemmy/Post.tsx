@@ -35,7 +35,7 @@ function Post({
   const [openPost, setOpenPost] = useState(isOpen);
   const [replies, setReplies] = useState<CommentView[]>([]);
 
-  const { activeCommunity, activeListingType } = useContext(InformationContext)!;
+  const { activeCommunity, activeListingType, locationQuery } = useContext(InformationContext)!;
 
   const { activeAdministrativeRegion, activeGeographicIdentifier } = useContext(AtlasContext)!;
 
@@ -167,6 +167,7 @@ function Post({
               highlight={[
                 activeAdministrativeRegion[activeGeographicIdentifier as string],
                 activeAdministrativeRegion.country,
+                locationQuery,
               ]}
               className="post-body"
             >
