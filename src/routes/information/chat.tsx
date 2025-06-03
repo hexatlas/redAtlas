@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { createFileRoute } from '@tanstack/react-router';
 import LLMao from '../../components/shared/LLMao';
 import LegendLayout from '../../components/shared/LegendLayout';
@@ -77,14 +77,20 @@ const defaultToolModelConfig = {
 
 function ChatRouteComponent() {
   const [consent, setConsent] = useStateStorage('consent', false);
-  const [activeReasoningModel, setActiveReasoningModel] = useState('open-ai');
+  const [activeReasoningModel, setActiveReasoningModel] = useStateStorage<string>(
+    'chat-activeReasoningModel',
+    'open-ai',
+  );
   const [reasoningModelConfig, setReasoningModelConfig] = useStateStorage<ModelConfig>(
     // Default Config
     'reasoningModelConfig',
     defaultReasoningModelConfig,
     true,
   );
-  const [activeToolModel, setActiveToolModel] = useState('open-ai');
+  const [activeToolModel, setActiveToolModel] = useStateStorage<string>(
+    'chat-activeToolModel',
+    'open-ai',
+  );
   const [toolModelConfig, setToolModelConfig] = useStateStorage<ModelConfig>(
     // Default Config
     'toolModelConfig',
@@ -159,7 +165,6 @@ function ChatRouteComponent() {
 
   return (
     <LegendLayout
-      className="chat__layout"
       footer={
         <blockquote>
           <b>Cognito Hazard:</b> AI generated content

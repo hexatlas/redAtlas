@@ -4,6 +4,7 @@ import OpenAI from 'openai';
 
 import { MessageWithThinking, ModelConfig } from '../types/atlas.types';
 import { ChatCompletionMessageParam } from 'openai/resources/index.mjs';
+import { useStateStorage } from './useUtils';
 
 function useChat({
   activeModel,
@@ -30,8 +31,8 @@ function useChat({
 
   const [models, setModels] = useState<ListResponse>({ models: [] });
 
-  const [userPrompt, setUserPrompt] = useState('');
-  const [messages, setMessages] = useState([
+  const [userPrompt, setUserPrompt] = useStateStorage<string>('chat-userPrompt', '');
+  const [messages, setMessages] = useStateStorage<Message[]>('chat-messages', [
     { role: 'system', content: systemPrompt },
   ]);
   const [loading, setLoading] = useState(false);
@@ -43,10 +44,7 @@ function useChat({
     setUserPrompt('');
     setLoading(true);
 
-    const messagesWithInput: Message[] = [
-      ...messages,
-      { role: 'user', content: userPrompt },
-    ];
+    const messagesWithInput: Message[] = [...messages, { role: 'user', content: userPrompt }];
     setMessages(() => messagesWithInput);
 
     // OPEN AI
@@ -144,10 +142,7 @@ function useMessagesWithThinking(messages: Message[]) {
             return {
               ...m,
               finishedThinking: true,
-              think: m.content
-                .split('</think>')[0]
-                .replace('</think>', '')
-                .replace('<think>', ''),
+              think: m.content.split('</think>')[0].replace('</think>', '').replace('<think>', ''),
               content: m.content.split('</think>')[1],
             };
           } else if (m.content.includes('<think>')) {

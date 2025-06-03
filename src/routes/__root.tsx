@@ -67,9 +67,7 @@ function AtlasRootComponent() {
   return (
     <AtlasContext.Provider value={atlasInterfaceProps}>
       <main
-        className={`atlas ${
-          activeAdministrativeRegion?.country !== 'country' && 'atlas--active'
-        }`}
+        className={`atlas ${activeAdministrativeRegion?.country !== 'country' && 'atlas--active'}`}
         style={{
           gridTemplateColumns: `1.6180339887498948482fr ${legendSize}px`,
         }}
@@ -90,10 +88,7 @@ function AtlasRootComponent() {
           aria-description="Find useful information pertaining to the selected location"
         >
           {isMobile && <AtlasInterface {...atlasInterfaceProps} />}
-          <LegendNavigation
-            links={navigationLinks}
-            route={Route}
-          ></LegendNavigation>
+          <LegendNavigation links={navigationLinks} route={Route}></LegendNavigation>
           {!isMobile && (
             <>
               <button

@@ -54,20 +54,6 @@
     }
   }
 
-  .legend__resize {
-    @include atlas-shadow(var(--shadow-atlas-1));
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    margin: auto 0;
-    transform: translateX(calc(-100% + var(--size-atlas-12)));
-    background-color: var(--surface-atlas-option);
-
-    &:hover {
-      background-color: var(--surface-atlas-option-active);
-    }
-  }
-
   .hero {
     position: relative;
     background: hsla(var(--color-atlas-red-700) / var(--opacity-atlas-3));
@@ -78,6 +64,7 @@
       }
       background: none;
       color: var(--text-atlas-info-active);
+      outline: none;
     }
     .background {
       position: absolute;
@@ -631,7 +618,7 @@
   border-left: var(--size-atlas-14) solid hsl(var(--color-atlas-accent) / var(--opacity-atlas-3));
   border-bottom: none;
   background-color: var(--surface-atlas-info-active);
-  outline: var(--outline-atlas-neutral);
+  outline: var(--outline-atlas-neutral-inverse);
 }
 .tabs__trigger:focus {
   background-color: var(--surface-atlas-action) !important;
@@ -661,4 +648,17 @@
 
 .class-structure {
   overflow-x: scroll;
+}
+.legend__resize {
+  @include atlas-shadow(var(--shadow-atlas-1));
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
+  transform: translateX(calc(-100% + var(--size-atlas-12)));
+  background-color: var(--surface-atlas-option);
+
+  &:hover {
+    background-color: var(--surface-atlas-option-active);
+  }
 }

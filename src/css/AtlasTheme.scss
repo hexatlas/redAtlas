@@ -198,6 +198,7 @@ code {
   --min-width-atlas: 12.5rem; /* Mobile: 250px / 16px */
   --max-width-atlas: 85.375rem; /* Desktop: 1920px / 16px */
   --max-char-atlas: 80ch;
+  --atlas-legend-height: calc(100dvh - var(--size-atlas-02));
 
   /* opacities */
 
@@ -278,8 +279,8 @@ code {
   // Outline
 
   --outline-atlas-active: 1px outset hsl(var(--color-atlas-red-100) / var(--opacity-atlas-1));
-  --outline-atlas-disabled: 1px outset hsl(var(--color-atlas-neutral-200) / var(--opacity-atlas-1));
   --outline-atlas-neutral: 1px outset hsl(var(--color-atlas-light) / var(--opacity-atlas-2));
+  --outline-atlas-neutral-inverse: 1px inset hsl(var(--color-atlas-light) / var(--opacity-atlas-2));
 
   --outline-atlas-info: dashed var(--size-atlas-16)
     hsl(var(--color-atlas-yellow-500) / var(--opacity-atlas-1));
@@ -608,6 +609,7 @@ textarea {
 
 input {
   @include atlas-shadow(var(--shadow-atlas-inset));
+  outline: var(--outline-atlas-neutral-inverse);
 }
 
 input[type='checkbox'],
@@ -634,7 +636,7 @@ td {
 }
 
 .layout {
-  min-height: calc(100dvh - var(--size-atlas-02));
+  min-height: var(--atlas-legend-height);
   background-color: var(--surface-atlas-page);
   outline: var(--outline-atlas-neutral);
   padding: var(--size-atlas-09);

@@ -68,7 +68,7 @@
   .map {
     transition: all var(--transition-atlas-slow);
     height: calc(100vh - var(--size-atlas-04));
-    height: calc(100dvh - var(--size-atlas-02));
+    height: var(--atlas-legend-height);
     top: 0;
     position: sticky;
   }

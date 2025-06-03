@@ -13,7 +13,8 @@
   display: grid;
 }
 
-.chat__message {
+.chat__user {
+  background: var(--surface-atlas-page-inverse);
   word-wrap: break-word;
   justify-self: flex-end;
   width: fit-content;

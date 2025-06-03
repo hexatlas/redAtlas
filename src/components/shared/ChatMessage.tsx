@@ -41,7 +41,10 @@ const ChatMessage: React.FC<{
   map,
   loading,
 }) => {
-  const [locations, setLocations] = useState<GeneratedLocations[]>([]);
+  const [locations, setLocations] = useStateStorage<GeneratedLocations[]>(
+    `chat-${sha256(message)}-locations`,
+    [],
+  );
   const [initialLoad, setInitialLoad] = useStateStorage(sha256(message.think), true);
 
   useEffect(() => {
@@ -220,6 +223,7 @@ const ChatMessage: React.FC<{
       }
     } catch (error) {
       console.error('Error showing locations:', error);
+      setLocations([]);
     }
   };
 
@@ -259,7 +263,7 @@ const ChatMessage: React.FC<{
   };
 
   return (
-    <div className={`${message.role === 'user' && 'container chat__message'}`}>
+    <div className={`${message.role === 'user' && 'container chat__user '}`}>
       <span className="">
         {message.role === 'user' ? '🚩' : !message.finishedThinking ? '⏳' : '🤖'}
 
@@ -301,6 +305,11 @@ const ChatMessage: React.FC<{
             </button>
           )}
         </>
+      )}{' '}
+      {locations.length > 0 && (
+        <button className="loading" onClick={() => setLocations([])}>
+          🌐 reset
+        </button>
       )}
     </div>
   );
