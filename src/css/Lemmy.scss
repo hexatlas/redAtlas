@@ -52,6 +52,7 @@
 
 .community__button {
   @include atlas-shadow(var(--shadow-atlas-2));
+  outline: var(--outline-atlas-option);
   height: var(--size-atlas-08);
   background-color: var(--surface-atlas-option);
   color: var(--text-atlas-option);
@@ -319,6 +320,7 @@ p.post-vote {
   display: inline;
 }
 .comment__reply-button {
+  outline: var(--outline-atlas-neutral);
   padding: var(--size-atlas-09) var(--size-atlas-08);
   margin: 0;
   font-style: italic;
@@ -432,7 +434,7 @@ p.post-vote {
 }
 
 .comment {
-  outline: var(--outline-atlas-option);
+  outline: var(--outline-atlas-neutral);
 }
 
 .comment__replies {

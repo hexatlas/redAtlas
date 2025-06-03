@@ -79,7 +79,13 @@ function LemmyRouteComponent() {
         <h1>
           Hexbear<span></span>
         </h1>
-        {editLemmyInstance ? (
+        <details
+          className={'config'}
+          open={editLemmyInstance}
+          onClick={() => setEditLemmyInstance(!editLemmyInstance)}
+        >
+          <summary>{activeLemmyInstance.baseUrl}</summary>
+
           <div className="wrapper">
             <button
               role="button"
@@ -90,7 +96,7 @@ function LemmyRouteComponent() {
                 setActiveLemmyInstance(defaultInstance);
               }}
             >
-              {activeLemmyInstance.baseUrl} ⨯
+              🔄
             </button>
 
             <form className="search-form" role="search">
@@ -118,21 +124,7 @@ function LemmyRouteComponent() {
               {/* <button type="submit"></button> */}
             </form>
           </div>
-        ) : (
-          <div className="edit-instance">
-            <button
-              role="button"
-              title="Change Lemmy Instance"
-              aria-label="Change Lemmy Instance"
-              onClick={() => setEditLemmyInstance(!editLemmyInstance)}
-            >
-              🔻
-            </button>
-            <a href={activeLemmyInstance.baseUrl} target="_blank" rel="noopener noreferrer">
-              <span>{activeLemmyInstance.baseUrl}</span>
-            </a>
-          </div>
-        )}
+        </details>
         {activeCommunity && activeCommunity?.community?.banner && (
           <CommunityInfoCard
             lemmyInstance={activeLemmyInstance}

@@ -20,9 +20,7 @@ async function sha256(message) {
   const hashArray = Array.from(new Uint8Array(hashBuffer));
 
   // convert bytes to hex string
-  const hashHex = hashArray
-    .map((b) => ('00' + b.toString(16)).slice(-2))
-    .join('');
+  const hashHex = hashArray.map((b) => ('00' + b.toString(16)).slice(-2)).join('');
   return hashHex;
 }
 
@@ -44,10 +42,7 @@ const ChatMessage: React.FC<{
   loading,
 }) => {
   const [locations, setLocations] = useState([]);
-  const [initialLoad, setInitialLoad] = useStateStorage(
-    sha256(message.think),
-    true,
-  );
+  const [initialLoad, setInitialLoad] = useStateStorage(sha256(message.think), true);
 
   useEffect(() => {
     if (!loading && initialLoad) {
@@ -82,28 +77,74 @@ const ChatMessage: React.FC<{
             },
             emoji: {
               type: 'string',
-              description:
-                'Emoji symbolizing primary contextual theme (e.g., 🏭 for industrial)',
+              description: 'Emoji symbolizing primary contextual theme (e.g., 🏭 for industrial)',
               required: true,
             },
+            // New category field added here
+            category: {
+              type: 'object',
+              description: 'Classification of location based on primary function',
+              properties: {
+                category_emoji: {
+                  type: 'string',
+                  description: 'Emoji representing category type (e.g., 🏙️ for Industrial)',
+                  required: true,
+                },
+                category_name: {
+                  type: 'string',
+                  description: 'Formal category name (e.g., "Industrial Center")',
+                  required: true,
+                },
+                category_description: {
+                  type: 'string',
+                  description: 'Brief explanation of classification rationale',
+                  required: true,
+                },
+              },
+              required: ['category_emoji', 'category_name', 'category_description'],
+            },
           },
-          required: ['name', 'nominatim', 'description', 'emoji'],
+          required: ['name', 'nominatim', 'description', 'emoji', 'category'], // Added category to required
         },
       },
     };
+
     const locationToolPrompt = JSON.stringify(locationTool);
 
     const systemPrompt = `
-    You will act as a specialized geographic location analyzer to systematically identify and 
-    classify mentions of geographic locations within any provided text. 
-    For each location detected, extract its contextual description (e.g., "economic hub," "rural area," "coastal region") and 
-    return the results in a structured JSON format. 
-    If no locations are mentioned, return an empty array. Ensure accuracy by avoiding assumptions—only include locations explicitly stated or strongly implied by the text. 
-    Respond only with valid JSON matching the required schema.
-    
-    Required Schema START
-    ${locationToolPrompt}
-    Required Schema END
+      You will act as a specialized geographic location analyzer to systematically identify, 
+      describe, and classify mentions of geographic locations within any provided text. 
+
+      Key Requirements:
+      1. For each location, assign exactly ONE category
+      2. You should find max. unique 7 abstracted categories. Recatogrize until you have a maximum of 7.
+      3. Categorization MUST be:
+        - Context-dependent (based on user prompt)
+        - Relative to other locations in the same analysis
+        - Distinctive (different locations should get different categories when justified) 
+      4. If no locations mentioned, return empty
+
+      Analysis Process:
+      1. Identify all geographic locations explicitly mentioned or strongly implied
+      2. For each location:
+        a. Extract core contextual features
+        b. Compare against other locations in text
+        c. Assign the MOST relevant category
+        d. Note: A category may be reused only if contextually justified
+      3. Ensure category assignments reflect:
+        - Relative importance in the text
+        - Functional differences between locations
+        - Dominant aspects mentioned
+
+      Output Requirements:
+      - Strictly valid JSON matching schema
+      - category_name must be unique an treated like an enum
+      - Maintain category consistency across similar locations
+      - Never invent categories outside that are not contextually relevant
+
+      Required Schema START
+      ${locationToolPrompt}
+      Required Schema END
     `;
 
     let LLMlocations = [];
@@ -132,9 +173,7 @@ const ChatMessage: React.FC<{
 
       console.log(response);
 
-      const { locations } = await JSON.parse(
-        response.choices[0].message.content as string,
-      );
+      const { locations } = await JSON.parse(response.choices[0].message.content as string);
       LLMlocations = locations;
     }
 
@@ -159,14 +198,13 @@ const ChatMessage: React.FC<{
   }, [locations]);
 
   const showLocationsOnMap = async () => {
-    if (locations.length === 0) return;
-
-    const LLMboundingbox = L.latLngBounds(
-      null as unknown as LatLngExpression,
-      null as unknown as LatLngExpression,
-    );
-
     try {
+      if (locations.length === 0) return;
+
+      const LLMboundingbox = L.latLngBounds(
+        null as unknown as LatLngExpression,
+        null as unknown as LatLngExpression,
+      );
       for (const location of locations) {
         const { name, description, emoji, nominatim } = location;
         const nominatimResponse = await getNominatimLocation(nominatim);
@@ -220,15 +258,9 @@ const ChatMessage: React.FC<{
   };
 
   return (
-    <div
-      className={`${message.role === 'user' && 'container neutral chat__message'}`}
-    >
+    <div className={`${message.role === 'user' && 'container chat__message'}`}>
       <span className="">
-        {message.role === 'user'
-          ? '🚩'
-          : !message.finishedThinking
-            ? '⏳'
-            : '🤖'}
+        {message.role === 'user' ? '🚩' : !message.finishedThinking ? '⏳' : '🤖'}
 
         <span>
           {message.role === 'user'
@@ -237,10 +269,8 @@ const ChatMessage: React.FC<{
         </span>
       </span>
       {message.role === 'assistant' && (
-        <details open={!message.finishedThinking}>
-          <summary>
-            {message.finishedThinking ? 'Thoughts' : 'Thinking...'}
-          </summary>{' '}
+        <details open={!message.finishedThinking} className="thoughts">
+          <summary>{message.finishedThinking ? 'Thoughts' : 'Thinking...'}</summary>{' '}
           {message.think && (
             <blockquote className="">
               <Markdown highlight={highlightArray}>{message.think}</Markdown>
@@ -252,7 +282,7 @@ const ChatMessage: React.FC<{
         <Markdown highlight={highlightArray}>{message.content}</Markdown>
       </article>
       {locations.length > 0 && (
-        <details>
+        <details className="locations">
           <summary>{locations.length} locations</summary>
           <pre>{JSON.stringify(locations, null, 2)}</pre>
         </details>

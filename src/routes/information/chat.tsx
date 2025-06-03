@@ -169,7 +169,7 @@ function ChatRouteComponent() {
       <h1>
         LLMao<span>🗨️</span>
       </h1>
-      <details className={'chat__config'} open={true}>
+      <details className={'config'} open={true}>
         <summary>LLM Model Config</summary>
 
         {/* Troubleshoot  */}
@@ -196,19 +196,19 @@ function ChatRouteComponent() {
             </ul>
           </div>
         )}
+        <ChatModelConfig
+          chatModelConfigProps={ReasoningModelConfigProps}
+          purpose={'Reasoning LLM'}
+        />
+        <ChatModelConfig chatModelConfigProps={ToolModelConfigProps} purpose={'Tool LLM'} />
         <button
           type={'button'}
           className="new__button warning"
           onClick={resetConfig}
           title="Reset Model Configs"
         >
-          🆕
+          🔄
         </button>
-        <ChatModelConfig
-          chatModelConfigProps={ReasoningModelConfigProps}
-          purpose={'Reasoning LLM'}
-        />
-        <ChatModelConfig chatModelConfigProps={ToolModelConfigProps} purpose={'Tool LLM'} />
       </details>
 
       {/* Default Prompts */}

@@ -53,7 +53,7 @@ code {
   -webkit-box-shadow: $shadow;
   -moz-box-shadow: $shadow;
   box-shadow: $shadow;
-  outline: var(--outline-atlas-option);
+  outline: var(--outline-atlas-neutral);
 }
 
 /* colors */
@@ -252,7 +252,7 @@ code {
   --surface-atlas-option-active: hsl(var(--color-atlas-red-800));
 
   --surface-atlas-success: hsl(var(--color-atlas-green-100));
-  --surface-atlas-warning: hsl(var(--color-atlas-yellow-500));
+  --surface-atlas-warning: hsl(var(--color-atlas-red-500));
   --surface-atlas-error: hsl(var(--color-atlas-red-500));
 
   // Border System
@@ -272,14 +272,14 @@ code {
   --border-atlas-option-active: solid 1px hsl(var(--color-atlas-red-800));
 
   --border-atlas-success: solid 1px hsl(var(--color-atlas-yellow-100));
-  --border-atlas-warning: solid 1px hsl(var(--color-atlas-yellow-100));
+  --border-atlas-warning: solid 1px hsl(var(--color-atlas-red-400));
   --border-atlas-error: solid 1px hsl(var(--color-atlas-red-500));
 
   // Outline
 
   --outline-atlas-active: 1px outset hsl(var(--color-atlas-red-100) / var(--opacity-atlas-1));
   --outline-atlas-disabled: 1px outset hsl(var(--color-atlas-neutral-200) / var(--opacity-atlas-1));
-  --outline-atlas-neutral: 1px outset hsl(var(--color-atlas-light) / var(--opacity-atlas-1));
+  --outline-atlas-neutral: 1px outset hsl(var(--color-atlas-light) / var(--opacity-atlas-2));
 
   --outline-atlas-info: dashed var(--size-atlas-16)
     hsl(var(--color-atlas-yellow-500) / var(--opacity-atlas-1));
@@ -288,7 +288,7 @@ code {
   --outline-atlas-action: 1px outset hsl(var(--color-atlas-blue-200) / var(--opacity-atlas-2));
   --outline-atlas-action-active: 1px outset
     hsl(var(--color-atlas-blue-400) / var(--opacity-atlas-1));
-  --outline-atlas-option: 1px outset hsl(var(--color-atlas-red-700) / var(--opacity-atlas-1));
+  --outline-atlas-option: 1px outset hsl(var(--color-atlas-red-400) / var(--opacity-atlas-2));
   --outline-atlas-option-active: 1px outset hsl(var(--color-atlas-red-800) / var(--opacity-atlas-1));
 
   --outline-atlas-success: 1px outset hsl(var(--color-atlas-yellow-100) / var(--opacity-atlas-1));
@@ -307,7 +307,7 @@ code {
   --shadow-atlas-inset: inset var(--size-atlas-15) var(--size-atlas-15)
     hsl(var(--color-atlas-red-950) / var(--opacity-atlas-1));
 
-  --shadow-atlas-1: var(--size-atlas-13) var(--size-atlas-13)
+  --shadow-atlas-1: var(--size-atlas-15) var(--size-atlas-15)
     hsl(var(--color-atlas-red-950) / var(--opacity-atlas-1));
 
   --shadow-atlas-2: var(--size-atlas-15) var(--size-atlas-15)
@@ -637,7 +637,6 @@ td {
   padding: var(--size-atlas-09);
   padding-top: calc(var(--size-atlas-09) / var(--line-height-atlas));
   overflow: scroll;
-
   a {
     background: none;
   }
@@ -725,14 +724,15 @@ li {
   border: 0;
 }
 
-// Read More
+// READMORE
 
 details {
-  @include atlas-shadow(var(--shadow-atlas-inset));
+  outline: var(--outline-atlas-info-active);
   border-radius: var(--border-radius-atlas-1);
-
+  margin-bottom: var(--size-atlas-10);
+  background-color: var(--surface-atlas-page);
   summary {
-    padding: var(--size-atlas-10);
+    padding: var(--size-atlas-09);
     background-color: var(--surface-atlas-info-active);
     color: var(--text-atlas-info);
     border-radius: var(--border-radius-atlas-1);
@@ -750,11 +750,52 @@ details {
     }
   }
   &[open] {
-    @include atlas-shadow(var(--shadow-atlas-inset));
     summary {
+      @include atlas-shadow(var(--shadow-atlas-inset));
     }
     summary:before {
       transform: rotate(90deg);
     }
+  }
+}
+
+// Config
+.config {
+  outline: var(--outline-atlas-option);
+
+  > fieldset {
+    margin: var(--size-atlas-12);
+  }
+  summary {
+    margin: 0;
+    background-color: var(--surface-atlas-option);
+    color: var(--text-atlas-option);
+  }
+  summary::before {
+    content: '⚙️ ';
+  }
+}
+
+// Thoughts
+.thoughts {
+  summary {
+    margin: 0;
+  }
+  summary::before {
+    transform: none !important;
+    content: '💭 ';
+  }
+}
+
+// Locations
+.locations {
+  outline: var(--outline-atlas-action);
+  summary {
+    background-color: var(--surface-atlas-action);
+    margin: 0;
+  }
+  summary::before {
+    transform: none !important;
+    content: '🧭 ';
   }
 }

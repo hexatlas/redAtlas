@@ -9,17 +9,6 @@
   }
 }
 
-.chat__config {
-  background-color: var(--surface-atlas-page);
-  summary {
-    background-color: var(--surface-atlas-option);
-    color: var(--text-atlas-option);
-  }
-  summary::before {
-    content: '⚙️ ';
-  }
-}
-
 .chat__layout {
   display: grid;
 }

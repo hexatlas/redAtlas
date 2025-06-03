@@ -8,8 +8,7 @@ function ChatModelConfig({
   chatModelConfigProps: ChatModelConfigProps;
   purpose;
 }) {
-  const { modelConfig, setModelConfig, models, activeModel, setActiveModel } =
-    chatModelConfigProps;
+  const { modelConfig, setModelConfig, models, activeModel, setActiveModel } = chatModelConfigProps;
 
   function handleSetOpenAIModel(e: React.FormEvent) {
     e.preventDefault();
@@ -41,11 +40,7 @@ function ChatModelConfig({
       {/* Ollama Model Selection */}
 
       <label className="wrapper">
-        <select
-          id="models"
-          onChange={(e) => setActiveModel(e.target.value)}
-          value={activeModel}
-        >
+        <select id="models" onChange={(e) => setActiveModel(e.target.value)} value={activeModel}>
           <option value={'ollama'} disabled>
             ### ollama ###
           </option>
@@ -65,11 +60,7 @@ function ChatModelConfig({
 
       {/* OpenAI Model Selection */}
 
-      <form
-        name="modelConfig"
-        onSubmit={handleSetOpenAIModel}
-        className="container wrapper chat__config"
-      >
+      <form name="modelConfig" onSubmit={handleSetOpenAIModel} className="wrapper">
         {activeModel === 'open-ai' && (
           <>
             <input
@@ -108,9 +99,7 @@ function ChatModelConfig({
                 }));
               }}
             />
-            <label htmlFor="max_tokens">
-              Max Tokens: {modelConfig.max_tokens}
-            </label>
+            <label htmlFor="max_tokens">Max Tokens: {modelConfig.max_tokens}</label>
             <input
               name="max_tokens"
               type="range"
