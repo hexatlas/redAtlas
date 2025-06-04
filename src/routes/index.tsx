@@ -26,7 +26,9 @@ function AtlasHomeComponent() {
     { value: 'dark', label: '🌙 Dark' },
     { value: 'light', label: '☀️ Light' },
     { value: 'red', label: '✊ Red' },
-    { value: 'old', label: '🧭 Old' },
+    { value: 'lgbtq', label: '🏳️‍🌈 LGBTQ' },
+    { value: 'antifa', label: '🏴 Antifa' },
+    { value: 'retro', label: '💾 Retro' },
     { value: 'system', label: '⚙️ System' },
   ];
 

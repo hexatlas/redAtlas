@@ -339,7 +339,13 @@ code {
 [data-theme='red'] {
 }
 
-[data-theme='old'] {
+[data-theme='lgbtq'] {
+}
+
+[data-theme='antifa'] {
+}
+
+[data-theme='retro'] {
 }
 
 /* Info */
@@ -808,6 +814,14 @@ details {
 }
 
 .loading {
+  background-color: var(--surface-atlas-page);
+  background-image: linear-gradient(90deg, var(--surface-atlas-page));
+  background-size: var(--size-atlas-00) 100%;
+  background-repeat: no-repeat;
+  background-position: left calc(var(--size-atlas-00) * -1) top 0;
+  animation: shine var(--timing-atlas-slow);
+  outline: var(--outline-atlas-neutral);
+
   summary {
     background-color: var(--surface-atlas-page);
     background-image: linear-gradient(90deg, var(--surface-atlas-page));
