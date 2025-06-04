@@ -25,6 +25,7 @@ async function sha256(message) {
 }
 
 const ChatMessage: React.FC<{
+  messageIndex: number;
   activeToolModel: string;
   activeReasoningModel: string;
   message: MessageWithThinking;
@@ -33,6 +34,7 @@ const ChatMessage: React.FC<{
   map?;
   loading?;
 }> = ({
+  messageIndex,
   activeToolModel,
   activeReasoningModel,
   message,
@@ -42,19 +44,25 @@ const ChatMessage: React.FC<{
   loading,
 }) => {
   const [locations, setLocations] = useStateStorage<GeneratedLocations[]>(
-    `chat-${sha256(message)}-locations`,
+    `chat-${messageIndex}-locations`,
     [],
   );
-  const [initialLoad, setInitialLoad] = useStateStorage(sha256(message.think), true);
+  const [initialLoad, setInitialLoad] = useStateStorage<boolean>(
+    `chat-${messageIndex}-initialLoad`,
+    true,
+  );
+  const [isExctractingLocation, setIsExctractingLocation] = useState(false);
 
   useEffect(() => {
-    if (!loading && initialLoad) {
+    if (!loading && initialLoad && locations.length === 0) {
       extractLocations();
       setInitialLoad(false);
     }
+    if (locations.length > 0) showLocationsOnMap();
   }, [loading]);
 
   const extractLocations = async () => {
+    setIsExctractingLocation(true);
     // Mistral tool definition for location extraction
     const locationTool = {
       locations: {
@@ -193,6 +201,7 @@ const ChatMessage: React.FC<{
       const { locations } = await JSON.parse(response.response);
       LLMlocations = locations;
     }
+    setIsExctractingLocation(false);
     return setLocations(LLMlocations);
   };
 
@@ -208,47 +217,105 @@ const ChatMessage: React.FC<{
         null as unknown as LatLngExpression,
         null as unknown as LatLngExpression,
       );
+
       for (const location of locations) {
-        const { name, description, emoji, nominatim } = location;
-        const nominatimResponse = await getNominatimLocation(nominatim);
+        const { nominatim } = location;
+        const handleMap = (nominatimResponse) => {
+          LLMboundingbox.extend([nominatimResponse.lat, nominatimResponse.lon]);
+          map?.flyToBounds(LLMboundingbox, { padding: [100, 100] });
+          createMapPopup(nominatimResponse, location);
+        };
+        if (location?.nominatimResponse !== undefined) {
+          const { nominatimResponse } = location;
 
-        if (!nominatimResponse) continue;
-        location.nominatimResponse = nominatimResponse;
-
-        LLMboundingbox.extend([nominatimResponse.lat, nominatimResponse.lon]);
-        map?.flyToBounds(LLMboundingbox, { padding: [100, 100] });
-        createMapPopup(nominatimResponse, name, description, emoji);
-
-        await new Promise((resolve) => setTimeout(resolve, 250));
+          handleMap(nominatimResponse);
+        } else {
+          const nominatimResponse = await getNominatimLocation(nominatim);
+          if (!nominatimResponse) continue;
+          location.nominatimResponse = nominatimResponse;
+          handleMap(nominatimResponse);
+          await new Promise((resolve) => setTimeout(resolve, 250));
+        }
       }
+      setLocations(locations);
     } catch (error) {
       console.error('Error showing locations:', error);
       setLocations([]);
     }
   };
 
-  const createMapPopup = (nominatimResponse, name, description, emoji) => {
+  const clusterGroups = {};
+  const allMarkersLayer = L.layerGroup().addTo(map);
+  // Helper function: Create or get cluster group for a group
+  const getClusterGroup = (group_name, group_emoji) => {
+    if (!clusterGroups[group_name]) {
+      clusterGroups[group_name] = L.markerClusterGroup({
+        polygonOptions: { weight: 1.5, color: '#FFCC0D', opacity: 0.5 },
+        iconCreateFunction: (cluster) => {
+          const count = cluster.getChildCount();
+          return L.divIcon({
+            html: `
+            <div class="cluster-container">
+              <span class="cluster-count accent--invert">${count}</span>
+              <span class="cluster-emoji">${group_emoji}</span>
+              <div class="cluster-tooltip">${group_name}</div>
+            </div>`,
+            className: 'cluster-info',
+          });
+        },
+      });
+      allMarkersLayer.addLayer(clusterGroups[group_name]);
+    }
+    return clusterGroups[group_name];
+  };
+
+  const createMapPopup = (nominatimResponse, location) => {
+    const {
+      description,
+      emoji,
+      category: { category_name, category_emoji, category_description },
+      nominatimResponse: { name },
+    } = location;
+
     const emojiIcon = L.divIcon({
-      html: `<div class="cluster-info">${emoji}</div>`,
+      html: `<div class="marker-info">${emoji}</div>`,
       className: 'emoji-icon',
     });
 
     const marker = L.marker([nominatimResponse.lat, nominatimResponse.lon], {
       icon: emojiIcon,
     });
+
     const popupContent = `
-          <h1 class="emoji">${emoji}</h1>
-          <h4>${name || 'Unnamed'}</h4>
-          <p>${description}</p>
-        `;
+    <div>
+      <h1><small>${category_name || 'Unnamed'}</small><span>${category_emoji}</span></h1>
+      <small>${name}</small>
+      <span class="container">${emoji}</span>
+      <p>${description}</p>
+    </div>
+    <div class="group-description">${category_description}</div>
+  `;
+
     const popup = L.popup().setContent(popupContent);
     marker.bindPopup(popup);
 
+    // Add to appropriate cluster group
+    const clusterGroup = getClusterGroup(category_name, category_emoji);
+    clusterGroup.addLayer(marker);
+
     // Add event listener for popup open
     marker.on('popupopen', () => {
-      console.log({ name, description, emoji, nominatim: nominatimResponse });
+      console.log({
+        name,
+        description,
+        emoji,
+        category_name,
+        category_emoji,
+        category_description,
+        nominatim: nominatimResponse,
+      });
     });
-    map?.addLayer(marker);
+
     return marker;
   };
 
@@ -260,6 +327,19 @@ const ChatMessage: React.FC<{
     }
     const results = await response.json();
     return results[0]; // return first location search result
+  };
+
+  const resetMap = () => {
+    // Clear all cluster groups
+    for (const groupName in clusterGroups) {
+      clusterGroups[groupName].clearLayers();
+      allMarkersLayer.removeLayer(clusterGroups[groupName]);
+      delete clusterGroups[groupName];
+    }
+
+    // Clear any remaining markers
+    allMarkersLayer.clearLayers();
+    setLocations([]);
   };
 
   return (
@@ -294,22 +374,20 @@ const ChatMessage: React.FC<{
       )}
       {message.role !== 'user' && !loading && (
         <>
-          {locations.length === 0 && (
-            <button className="loading" onClick={extractLocations}>
-              🌐 extractLocations
-            </button>
+          {locations.length === 0 && !isExctractingLocation && (
+            <button onClick={extractLocations}>🌐 extractLocations</button>
           )}
           {locations.length > 0 && (
-            <button className="loading" onClick={showLocationsOnMap}>
-              🌐 showLocationsOnMap
-            </button>
+            <button onClick={showLocationsOnMap}>🌐 showLocationsOnMap</button>
           )}
         </>
       )}{' '}
-      {locations.length > 0 && (
-        <button className="loading" onClick={() => setLocations([])}>
-          🌐 reset
-        </button>
+      {locations.length > 0 && <button onClick={resetMap}>🌐 reset</button>}{' '}
+      {isExctractingLocation && (
+        <details className="locations loading">
+          <summary>🌐 extracting locations..</summary>
+          <pre>This can take a few minutes.</pre>
+        </details>
       )}
     </div>
   );

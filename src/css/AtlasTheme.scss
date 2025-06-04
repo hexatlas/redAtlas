@@ -249,6 +249,7 @@ code {
   --surface-atlas-info-muted: hsl(var(--color-atlas-yellow-200));
   --surface-atlas-action: hsl(var(--color-atlas-blue-200));
   --surface-atlas-action-active: hsl(var(--color-atlas-blue-400));
+  --surface-atlas-action-muted: hsl(var(--color-atlas-blue-50));
   --surface-atlas-option: hsl(var(--color-atlas-red-700));
   --surface-atlas-option-active: hsl(var(--color-atlas-red-800));
 
@@ -263,10 +264,11 @@ code {
 
   --border-atlas-active: solid 1px hsl(var(--color-atlas-red-700));
   --border-atlas-disabled: solid 1px hsl(var(--color-atlas-neutral-200));
-  --border-atlas-neutral: solid 1px hsl(var(--color-atlas-light) / var(--opacity-atlas-2));
+  --border-atlas-neutral: solid var(--size-atlas-16)
+    hsl(var(--color-atlas-dark) / var(--opacity-atlas-1));
 
   --border-atlas-info: dashed var(--size-atlas-16) hsl(var(--color-atlas-yellow-500));
-  --border-atlas-info-active: solid 1px hsl(var(--color-atlas-yellow-500));
+  --border-atlas-info-active: dashed var(--size-atlas-16) hsl(var(--color-atlas-yellow-950));
   --border-atlas-action: solid 1px hsl(var(--color-atlas-blue-200));
   --border-atlas-action-active: solid 1px hsl(var(--color-atlas-blue-400));
   --border-atlas-option: solid 1px hsl(var(--color-atlas-red-700));
@@ -278,7 +280,7 @@ code {
 
   // Outline
 
-  --outline-atlas-active: 1px outset hsl(var(--color-atlas-red-100) / var(--opacity-atlas-1));
+  --outline-atlas-page: 1px outset hsl(var(--color-atlas-red-100) / var(--opacity-atlas-2));
   --outline-atlas-neutral: 1px outset hsl(var(--color-atlas-light) / var(--opacity-atlas-2));
   --outline-atlas-neutral-inverse: 1px inset hsl(var(--color-atlas-light) / var(--opacity-atlas-2));
 
@@ -553,7 +555,7 @@ h5 {
 }
 
 blockquote {
-  border-left: var(--size-atlas-15) solid var(--border-atlas-neutral);
+  border-left: var(--border-atlas-neutral);
   padding-left: var(--size-atlas-10);
   margin-top: var(--size-atlas-09);
   margin-bottom: var(--size-atlas-12);
@@ -738,7 +740,7 @@ details {
   background-color: var(--surface-atlas-page);
   summary {
     padding: var(--size-atlas-09);
-    background-color: var(--surface-atlas-info-active);
+    background-color: var(--surface-atlas-info);
     color: var(--text-atlas-info);
     border-radius: var(--border-radius-atlas-1);
     list-style: none;
@@ -767,7 +769,6 @@ details {
 // Config
 .config {
   outline: var(--outline-atlas-option);
-
   > fieldset {
     margin: var(--size-atlas-12);
   }
@@ -795,6 +796,7 @@ details {
 // Locations
 .locations {
   outline: var(--outline-atlas-action);
+  background-color: var(--surface-atlas-action-muted);
   summary {
     background-color: var(--surface-atlas-action);
     margin: 0;
@@ -802,5 +804,23 @@ details {
   summary::before {
     transform: none !important;
     content: '🧭 ';
+  }
+}
+
+.loading {
+  summary {
+    background-color: var(--surface-atlas-page);
+    background-image: linear-gradient(90deg, var(--surface-atlas-page));
+    background-size: var(--size-atlas-00) 100%;
+    background-repeat: no-repeat;
+    background-position: left calc(var(--size-atlas-00) * -1) top 0;
+    animation: shine var(--timing-atlas-slow);
+    outline: var(--outline-atlas-neutral);
+  }
+}
+
+@keyframes shine {
+  to {
+    background-position: right calc(var(--size-atlas-00) * -1) top 0;
   }
 }

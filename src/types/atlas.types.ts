@@ -234,6 +234,9 @@ export interface GeneratedLocations {
   emoji: string;
   nominatim: string;
   nominatimResponse?: unknown;
+  group_name?: string;
+  group_emoji?: string;
+  group_description?: string;
 }
 
 export interface ModelConfig {

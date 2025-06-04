@@ -251,6 +251,7 @@ function ChatRouteComponent() {
         ?.map((m, index) => (
           <ChatMessage
             key={index}
+            messageIndex={index}
             message={m}
             activeToolModel={activeToolModel}
             activeReasoningModel={activeReasoningModel}

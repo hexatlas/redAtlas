@@ -24,7 +24,7 @@ export default function useOverpassLayer(
           return L.divIcon({
             html: `
             <div class="cluster-container">
-              <span class="cluster-count accent--invert">${count}</span>
+              <span class="cluster-count">${count}</span>
               <span class="cluster-emoji">${
                 iconMap[clusterKey]?.options?.html ||
                 `<small class="cluster-text">${clusterKey}</small>`

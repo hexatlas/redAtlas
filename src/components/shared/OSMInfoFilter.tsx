@@ -41,7 +41,6 @@ function AtlasOSMInfoFilter({
     <>
       {data && (
         <Collapsible.Root>
-          <p></p>
           <Collapsible.Trigger className="filter-title emoji-label">🎚️</Collapsible.Trigger>
           <Collapsible.Content
             className="filter-menu"

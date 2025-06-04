@@ -260,26 +260,22 @@ p.post-vote {
   color: var(--text-atlas-warning);
 }
 
-.post-highlight > div > .comment__body {
-  @include atlas-shadow(var(--shadow-atlas-inset));
-  background: var(--surface-atlas-info-active);
-
-  padding: var(--size-atlas-10);
-  margin: var(--size-atlas-10);
-  position: relative;
-}
-.post-highlight > div > .comment__body,
-.post-highlight > div > .comment__body p,
-.post-highlight > div > .comment__body li,
-.post-highlight > div > .comment__body a {
-  color: hsl(var(--color-atlas-dark) / var(--opacity-atlas-3));
-}
-
-.post-highlight blockquote {
-  border-color: hsl(var(--color-atlas-dark) / var(--opacity-atlas-2));
+.post-highlight {
+  .comment__body {
+    background: var(--surface-atlas-info);
+    outline: var(--outline-atlas-neutral);
+    border-radius: var(--border-radius-atlas-1);
+    padding: var(--size-atlas-09);
+  }
+  .comment__body,
+  .comment__body p,
+  .comment__body li,
+  .comment__body a {
+    color: var(--text-atlas-action);
+  }
 }
 
-.comment__timestamp,
+.post-highlight .comment__timestamp,
 .comment__count {
   opacity: var(--opacity-atlas-2);
   margin: 0 var(--size-atlas-12);
@@ -322,6 +318,7 @@ p.post-vote {
 .comment__reply-button {
   outline: var(--outline-atlas-neutral);
   padding: var(--size-atlas-09) var(--size-atlas-08);
+  border-radius: var(--border-radius-atlas-1);
   margin: 0;
   font-style: italic;
   cursor: pointer;
@@ -332,6 +329,7 @@ p.post-vote {
 }
 .comment__reply-button:hover {
   color: var(--surface-atlas-action-active);
+  outline: var(--outline-atlas-neutral-inverse);
 }
 
 .comment__reply-button__emoji {

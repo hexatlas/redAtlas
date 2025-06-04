@@ -2,6 +2,7 @@
 
 .emoji-icon {
   @include atlas-shadow(var(--shadow-atlas-text));
+  outline: none;
   font-size: var(--size-atlas-08);
   font-family: var(--font-atlas-emoji);
   z-index: 9999;
@@ -10,12 +11,13 @@
 .cluster-info {
   display: flex;
   .cluster-container {
-    @include atlas-shadow(var(--shadow-atlas-1));
+    @include atlas-shadow(var(--shadow-atlas-2));
+    background-color: var(--surface-atlas-page);
     display: flex;
     position: relative;
     height: var(--size-atlas-07);
     padding: var(--size-atlas-10);
-    background-color: hsl(var(--color-atlas-light) / var(--opacity-atlas-3));
+    border-radius: var(--border-radius-atlas-1);
   }
   .cluster-emoji {
     font-size: var(--size-atlas-08);
@@ -24,17 +26,19 @@
   .cluster-text {
     text-transform: uppercase;
     font-weight: bold;
-    color: hsl(var(--color-atlas-dark) / var(--opacity-atlas-3));
+    color: var(--text-atlas-info);
   }
   .cluster-count {
-    @include atlas-shadow(var(--shadow-atlas-1));
+    @include atlas-shadow(var(--shadow-atlas-2));
+    border-radius: var(--border-radius-atlas-1);
     transform: translate(calc(var(--size-atlas-08) * 1), calc(var(--size-atlas-08) * -1));
     position: absolute;
     padding: var(--size-atlas-10);
     font-weight: bold;
     font-size: var(--size-atlas-09);
-    color: var(--surface-atlas-info-active);
-    background-color: hsl(var(--color-atlas-dark) / var(--opacity-atlas-3));
+    color: var(--text-atlas-info);
+    background-color: var(--surface-atlas-info);
+    outline: var(--outline-atlas-info);
   }
 }
 
@@ -210,14 +214,12 @@
 .leaflet-control-zoom,
 .leaflet-control-layers-toggle,
 .leaflet-popup-content-wrapper {
-  box-shadow: var(--shadow-atlas-1) !important;
+  @include atlas-shadow(var(--shadow-atlas-1));
   border-radius: var(--border-radius-atlas-1) !important;
-  background: hsl(var(--color-atlas-light) / var(--opacity-atlas-2)) !important;
+  background: var(--surface-atlas-page) !important;
 
   border-right: var(--size-atlas-14) solid
     hsl(var(--color-atlas-secondary) / var(--opacity-atlas-3)) !important;
-
-  border: 1px solid hsl(var(--color-atlas-light) / var(--opacity-atlas-3));
 }
 
 .leaflet-popup-content-wrapper,

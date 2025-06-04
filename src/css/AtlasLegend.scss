@@ -25,6 +25,7 @@
     var(--size-atlas-07) var(--size-atlas-07),
     var(--size-atlas-12) var(--size-atlas-12),
     var(--size-atlas-12) var(--size-atlas-12);
+  outline: var(--outline-atlas-page);
 
   .settings {
     @include atlas-shadow(var(--shadow-atlas-1));
