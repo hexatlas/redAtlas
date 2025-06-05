@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import Markdown from '../../components/shared/Markdown';
 import { MessageWithThinking, GeneratedLocations } from '../../types/atlas.types';
@@ -45,24 +45,23 @@ const ChatMessage: React.FC<{
     `chat-${message.timestamp}-location`,
     [],
   );
+
+  const clusterGroups = useRef({});
+
   const [initialLoad, setInitialLoad] = useStateStorage<boolean>(
     `chat-${message.timestamp}-initialLoad`,
     true,
   );
   const [isExctractingLocation, setIsExctractingLocation] = useState(false);
 
-  useEffect(() => {
-    if (!loading && initialLoad && locations.length === 0) {
-      extractLocations();
-      setInitialLoad(false);
-    }
-  }, [loading]);
-
-  useEffect(() => {
-    if (locations.length > 0) showLocationsOnMap();
-  }, [locations]);
+  // useEffect(() => {
+  //   if (!loading && initialLoad && locations.length === 0) {
+  //     extractLocations();
+  //   }
+  // }, [loading]);
 
   const extractLocations = async () => {
+    setInitialLoad(false);
     setIsExctractingLocation(true);
     // Mistral tool definition for location extraction
     const locationTool = {
@@ -202,34 +201,48 @@ const ChatMessage: React.FC<{
       const { locations } = await JSON.parse(response.response);
       LLMlocations = locations;
     }
+    console.log(LLMlocations);
+
     setIsExctractingLocation(false);
-    return setLocations(LLMlocations);
+    setLocations(LLMlocations);
   };
 
   const showLocationsOnMap = async () => {
-    try {
-      if (locations.length === 0) return;
+    if (locations.length === 0) {
+      alert(`
+      No Locations to show!
 
+      Step 1: extractLocations 
+      Step 2: Wait a few mins until the ToolLLM extracted the Locations 
+      Step 3: showLocationsOnMap
+      
+      If you done that already: Check if LLMao's answer contains locations.
+      `);
+      return;
+    }
+    try {
       const LLMboundingbox = L.latLngBounds(
         null as unknown as LatLngExpression,
         null as unknown as LatLngExpression,
       );
+      const handleMap = (nominatimResponseArg) => {
+        LLMboundingbox.extend([nominatimResponseArg.lat, nominatimResponseArg.lon]);
+        console.log(LLMboundingbox);
+        map?.flyToBounds(LLMboundingbox, { padding: [100, 100] });
+      };
 
       // Create a new array to store updated locations
       const updatedLocations = [...locations];
 
       for (let i = 0; i < updatedLocations.length; i++) {
         const location = updatedLocations[i];
-        const { nominatim } = location;
-
-        const handleMap = (nominatimResponse) => {
-          LLMboundingbox.extend([nominatimResponse.lat, nominatimResponse.lon]);
-          map?.flyToBounds(LLMboundingbox, { padding: [100, 100] });
-        };
 
         if (typeof location?.nominatimResponse === 'object') {
-          handleMap(location.nominatimResponse);
+          const { nominatimResponse } = location;
+          createMapPopup(nominatimResponse, updatedLocations[i]);
+          handleMap(nominatimResponse);
         } else {
+          const { nominatim } = location;
           const nominatimResponse = await getNominatimLocation(nominatim);
           if (!nominatimResponse) continue;
 
@@ -239,8 +252,8 @@ const ChatMessage: React.FC<{
             nominatimResponse, // Add nominatimResponse to the location
           };
 
-          handleMap(nominatimResponse);
           createMapPopup(nominatimResponse, updatedLocations[i]);
+          handleMap(nominatimResponse);
           await new Promise((resolve) => setTimeout(resolve, 250));
         }
       }
@@ -249,16 +262,15 @@ const ChatMessage: React.FC<{
       setLocations(updatedLocations);
     } catch (error) {
       console.error('Error showing locations:', error);
-      setLocations([]);
+      // setLocations([]);
     }
   };
 
-  const clusterGroups = {};
   const allMarkersLayer = L.layerGroup().addTo(map);
   // Helper function: Create or get cluster group for a group
   const getClusterGroup = (group_name, group_emoji) => {
-    if (!clusterGroups[group_name]) {
-      clusterGroups[group_name] = L.markerClusterGroup({
+    if (!clusterGroups.current[group_name]) {
+      clusterGroups.current[group_name] = L.markerClusterGroup({
         polygonOptions: { weight: 1.5, color: '#FFCC0D', opacity: 0.5 },
         iconCreateFunction: (cluster) => {
           const count = cluster.getChildCount();
@@ -273,9 +285,9 @@ const ChatMessage: React.FC<{
           });
         },
       });
-      allMarkersLayer.addLayer(clusterGroups[group_name]);
+      allMarkersLayer.addLayer(clusterGroups.current[group_name]);
     }
-    return clusterGroups[group_name];
+    return clusterGroups.current[group_name];
   };
 
   const createMapPopup = (nominatimResponse, location) => {
@@ -343,17 +355,29 @@ const ChatMessage: React.FC<{
     return results[0]; // return first location search result
   };
 
-  const resetMap = () => {
+  const resetLocations = () => {
     // Clear all cluster groups
-    for (const groupName in clusterGroups) {
-      clusterGroups[groupName].clearLayers();
-      allMarkersLayer.removeLayer(clusterGroups[groupName]);
-      delete clusterGroups[groupName];
+    for (const groupName in clusterGroups.current) {
+      clusterGroups.current[groupName].clearLayers();
+      allMarkersLayer.removeLayer(clusterGroups.current[groupName]);
+      delete clusterGroups.current[groupName];
     }
 
     // Clear any remaining markers
     allMarkersLayer.clearLayers();
     setLocations([]);
+  };
+
+  const removeLocationMarkers = () => {
+    // Clear all cluster groups
+    for (const groupName in clusterGroups.current) {
+      clusterGroups.current[groupName].clearLayers();
+      allMarkersLayer.removeLayer(clusterGroups.current[groupName]);
+      delete clusterGroups.current[groupName];
+    }
+
+    // Clear any remaining markers
+    allMarkersLayer.clearLayers();
   };
 
   return (
@@ -389,15 +413,18 @@ const ChatMessage: React.FC<{
       )}
       {message.role !== 'user' && !loading && (
         <>
-          {locations.length === 0 && !isExctractingLocation && (
-            <>
-              <label htmlFor="">0 Locations Identified</label>
+          <div className="wrapper">
+            {locations.length === 0 && !isExctractingLocation && (
               <button onClick={extractLocations}>🌐 extractLocations</button>
-            </>
-          )}
-          {locations.length > 0 && typeof locations[0]?.nominatimResponse === 'object' && (
-            <button onClick={showLocationsOnMap}>🌐 showLocationsOnMap</button>
-          )}
+            )}
+            {!isExctractingLocation && (
+              <button onClick={showLocationsOnMap}>🌐 showLocationsOnMap</button>
+            )}
+            {locations.length > 0 && (
+              <button onClick={removeLocationMarkers}>🌐 removeLocationMarkers</button>
+            )}
+            {locations.length > 0 && <button onClick={resetLocations}>🌐 resetLocations</button>}
+          </div>
           {isExctractingLocation && (
             <details className="locations loading">
               <summary>🌐 extracting locations..</summary>
@@ -406,7 +433,6 @@ const ChatMessage: React.FC<{
           )}
         </>
       )}
-      {locations.length > 0 && <button onClick={resetMap}>🌐 reset</button>}{' '}
     </div>
   );
 };
