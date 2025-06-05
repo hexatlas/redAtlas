@@ -395,7 +395,7 @@ const ChatMessage: React.FC<{
               <button onClick={extractLocations}>🌐 extractLocations</button>
             </>
           )}
-          {locations.length > 0 && locations[0]?.nominatimResponse && (
+          {locations.length > 0 && typeof locations[0]?.nominatimResponse === 'object' && (
             <button onClick={showLocationsOnMap}>🌐 showLocationsOnMap</button>
           )}
           {isExctractingLocation && (
@@ -405,7 +405,7 @@ const ChatMessage: React.FC<{
             </details>
           )}
         </>
-      )}{' '}
+      )}
       {locations.length > 0 && <button onClick={resetMap}>🌐 reset</button>}{' '}
     </div>
   );
