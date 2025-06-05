@@ -108,7 +108,7 @@
 .legend__footer {
   outline: var(--outline-atlas-neutral);
   padding: var(--size-atlas-10);
-  background-color: var(--surface-atlas-page-inverse);
+  background-color: var(--surface-atlas-page);
   color: var(--text-atlas-body-inverse);
 }
 
@@ -130,7 +130,7 @@
   max-width: calc(100% - var(--size-atlas-06));
   width: fit-content;
 
-  background-color: var(--surface-atlas-page);
+  background-color: var(--surface-atlas-page-transparent);
 
   border-right: var(--size-atlas-14) solid
     hsl(var(--color-atlas-secondary) / var(--opacity-atlas-3));
@@ -313,7 +313,7 @@
   .map-button {
     @include atlas-shadow(var(--shadow-atlas-1));
     font-size: var(--size-atlas-08);
-    background-color: var(--surface-atlas-page);
+    background-color: var(--surface-atlas-page-transparent);
     padding: var(--size-atlas-10);
     text-shadow: var(--shadow-atlas-text);
     min-width: var(--size-atlas-07);
@@ -369,7 +369,7 @@
   max-height: 90vh;
   overflow-y: scroll;
 
-  border: 1px solid var(--surface-atlas-page);
+  border: 1px solid var(--surface-atlas-page-transparent);
   border-right: var(--size-atlas-14) solid
     hsl(var(--color-atlas-secondary) / var(--opacity-atlas-3));
 
@@ -411,7 +411,7 @@
 
 .dropdown-menu-subtrigger[data-state='open'] {
   background-color: var(--surface-atlas-option);
-  color: var(--surface-atlas-page);
+  color: var(--surface-atlas-page-transparent);
 }
 
 .dropdown-menu-item[data-disabled],
@@ -428,7 +428,7 @@
 .dropdown-menu-subtrigger[data-highlighted] {
   @include atlas-shadow(var(--shadow-atlas-inset));
   background-color: var(--surface-atlas-option);
-  color: var(--surface-atlas-page);
+  color: var(--surface-atlas-page-transparent);
 }
 
 .dropdown-menu-label {
@@ -473,7 +473,7 @@
 }
 .expand {
   font-family: var(--font-atlas-emoji);
-  color: var(--surface-atlas-page);
+  color: var(--surface-atlas-page-transparent);
   background-color: transparent;
   max-width: var(--size-atlas-07);
   justify-self: flex-end;
@@ -482,7 +482,7 @@
 .button-emoji:hover {
   @include atlas-shadow(var(--shadow-atlas-inset));
   background-color: var(--surface-atlas-option);
-  color: var(--surface-atlas-page);
+  color: var(--surface-atlas-page-transparent);
   transition: var(--transition-atlas-slow);
 }
 .button-emoji:focus {
@@ -541,7 +541,7 @@
   flex-direction: column;
   position: relative;
   header {
-    background-color: var(--surface-atlas-page);
+    background-color: var(--surface-atlas-page-transparent);
   }
 }
 

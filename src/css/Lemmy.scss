@@ -74,7 +74,7 @@
   transition: var(--transition-atlas-fast);
 
   &:hover {
-    background-color: var(--surface-atlas-page);
+    background-color: var(--surface-atlas-page-transparent);
     transition: var(--transition-atlas-slow);
   }
 }
@@ -160,6 +160,7 @@ summary.view-more {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  outline: none;
   /* gap: var(--size-atlas-12); */
 }
 
@@ -482,12 +483,15 @@ p.post-vote {
   align-items: center;
   gap: 0 var(--size-atlas-12);
   margin-right: var(--size-atlas-12);
+  a {
+    outline: none;
+  }
 }
 
 /* User Info Card */
 
 .user__card-tabs {
-  background-color: var(--surface-atlas-page);
+  background-color: var(--surface-atlas-page-transparent);
   border-radius: var(--border-radius-atlas-1);
   @include atlas-shadow(var(--shadow-atlas-1));
 }
@@ -594,7 +598,7 @@ a.user__name {
   /* width: 100%; */
   /* min-width: var(--size-atlas-00); */
 
-  background-color: var(--surface-atlas-page);
+  background-color: var(--surface-atlas-page-transparent);
   border: var(--border-atlas-neutral);
   border-left: var(--size-atlas-14) solid var(--surface-atlas-info-active);
 
@@ -698,7 +702,7 @@ a.user__name {
 /* Collapse */
 
 .comment__collapsible-root {
-  background-color: var(--surface-atlas-page);
+  background-color: var(--surface-atlas-page-transparent);
   border-radius: var(--border-radius-atlas-1);
 }
 

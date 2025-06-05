@@ -34,12 +34,19 @@ function MapInformationComponent({
 
   const [activeElement, setActiveElement] = useState(null);
   const [selectedFilters, setSelectedFilters] = useState({}); // Store selected values for each filterKey
+
   const filteredData = data?.elements?.filter((element) => {
     return Object.entries(selectedFilters).every(([key, value]) => {
       if (!value) return true; // No filter applied for this key
       return element?.tags[key] === value; // Element must match the filter
     });
   });
+
+  useEffect(() => {
+    console.log('selectedFilters', selectedFilters);
+    console.log('filterKeys', filterKeys);
+    return () => {};
+  }, [selectedFilters]);
 
   useEffect(() => {
     let layerObjects;
@@ -70,7 +77,6 @@ function MapInformationComponent({
       <h1>
         {name} <span>{activeAdministrativeRegion['emoji']}</span>
       </h1>
-      <small>{activeAdministrativeRegion['country']}</small>
       {filteredData && (
         <h2>
           {filteredData.length}{' '}
@@ -93,6 +99,7 @@ function MapInformationComponent({
           activeElement={activeElement}
         />
       )}
+
       <AtlasOSMInfoFilter
         data={data}
         selectedFilters={selectedFilters}
@@ -101,7 +108,44 @@ function MapInformationComponent({
         iconMap={iconMap}
         filterKeys={filterKeys}
       />
-      {filteredData && (
+
+      {data &&
+        (() => {
+          const groupByKey = filterKeys[0];
+
+          const filterObj = { ...selectedFilters };
+          const filteredData = (data.elements || []).filter((element) => {
+            return Object.entries(filterObj).every(([key, filterValue]) => {
+              if (key === groupByKey) return true;
+              if (!filterValue) return true;
+              return element?.tags?.[key] === filterValue;
+            });
+          });
+
+          const groups = {};
+          filteredData.forEach((element) => {
+            const groupValue = element.tags?.[groupByKey];
+            if (groupValue != null) {
+              groups[groupValue] = groups[groupValue] || [];
+              groups[groupValue].push(element);
+            }
+          });
+          return Object.entries(groups).map(([groupValue, groupData]) => (
+            <AtlasOSMInfoList
+              key={groupValue}
+              listName={groupValue}
+              map={map}
+              data={groupData}
+              iconMap={iconMap}
+              activeAdministrativeRegion={activeAdministrativeRegion}
+              filterKeys={filterKeys}
+              activeElement={activeElement}
+              setActiveElement={setActiveElement}
+            />
+          ));
+        })()}
+
+      {/* {filteredData && (
         <AtlasOSMInfoList
           listName={name}
           map={map}
@@ -112,7 +156,7 @@ function MapInformationComponent({
           activeElement={activeElement}
           setActiveElement={setActiveElement}
         ></AtlasOSMInfoList>
-      )}
+      )} */}
     </LegendLayout>
   );
 }

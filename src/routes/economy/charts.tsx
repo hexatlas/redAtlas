@@ -288,7 +288,7 @@ function ChartsRouteComponent() {
           >
             <Collapsible.Trigger asChild>
               <button
-                className="button-emoji"
+                className="emoji"
                 role="button"
                 aria-label={open ? 'Hide information' : 'Show more Information'}
               >

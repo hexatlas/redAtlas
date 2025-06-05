@@ -15,7 +15,8 @@ Geopolitical visualization platform for socioeconomic, military, and infrastruct
   - **Government**: Public infrastructure, class structure
   - **Diplomacy**: Embassy networks, diplomatic corps
 - 🎨 Consistent visual language with semantic coloring
-- 🔗 Real-time data integration from multiple sources
+
+// Todo - 🔗 Real-time data integration from multiple sources
 
 ## Atlas Component Hierarchy
 

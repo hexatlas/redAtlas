@@ -23,13 +23,13 @@ function AtlasHomeComponent() {
   const [currentTheme, setCurrentTheme] = useStateStorage<string>('AtlasTheme', 'system', true);
 
   const themes = [
-    { value: 'dark', label: '🌙 Dark' },
+    { value: 'system', label: '⚙️ System' },
     { value: 'light', label: '☀️ Light' },
+    { value: 'dark', label: '🌙 Dark' },
     { value: 'red', label: '✊ Red' },
     { value: 'lgbtq', label: '🏳️‍🌈 LGBTQ' },
     { value: 'antifa', label: '🏴 Antifa' },
     { value: 'retro', label: '💾 Retro' },
-    { value: 'system', label: '⚙️ System' },
   ];
 
   // Effect to handle theme changes
@@ -72,7 +72,6 @@ function AtlasHomeComponent() {
       route={Route}
       footer={
         <section id="credits">
-          <small>Powered by:</small>
           <ul className="wrapper">
             <li>
               <a href="https://hexbear.net" target="_blank" rel="noopener noreferrer">
@@ -139,9 +138,8 @@ function AtlasHomeComponent() {
           red🅰️TLAS
         </h1>
         <div className="background">🧭</div>
-        <div className="background">🗺️</div>
+        <div className="background">🗺️</div>{' '}
       </section>
-
       {/* INSTRUCTIONS */}
       <section>
         <h2>Instructions</h2>
@@ -153,69 +151,57 @@ function AtlasHomeComponent() {
         <AtlasLocationSearch />
         <li>
           <h3>State Power Options</h3>
-          <ul className="wrapper">
-            <li className="container option">
-              💵{' '}
-              <Link
-                search={search}
-                className="legend__link"
-                to={'/economy'}
-                aria-label={'economy link'}
-              >
-                Economy
-              </Link>
-            </li>
-            <li className="container option">
-              ℹ️{' '}
-              <Link
-                search={search}
-                className="legend__link"
-                to={'/information'}
-                aria-label={'information link'}
-              >
-                Information
-              </Link>
-            </li>
-            <li className="container option">
-              🕊️{' '}
-              <Link
-                search={search}
-                className="legend__link"
-                to={'/diplomacy'}
-                aria-label={'diplomacy link'}
-              >
-                Diplomacy
-              </Link>
-            </li>
-            <li className="container option">
-              🛡️{' '}
-              <Link
-                search={search}
-                className="legend__link"
-                to={'/military'}
-                aria-label={'security link'}
-              >
-                Military Power
-              </Link>
-            </li>
-            <li className="container option">
-              🏛️{' '}
-              <Link
-                search={search}
-                className="legend__link"
-                to={'/government'}
-                aria-label={'government link'}
-              >
-                Government
-              </Link>
-            </li>
-          </ul>
+          <div className="wrapper">
+            <Link
+              search={search}
+              className="container option"
+              to={'/economy'}
+              aria-label={'economy link'}
+            >
+              💵 Economy
+            </Link>
+
+            <Link
+              search={search}
+              className="container option"
+              to={'/information'}
+              aria-label={'information link'}
+            >
+              ℹ️ Information
+            </Link>
+
+            <Link
+              search={search}
+              className="container option"
+              to={'/diplomacy'}
+              aria-label={'diplomacy link'}
+            >
+              🕊️ Diplomacy
+            </Link>
+
+            <Link
+              search={search}
+              className="container option"
+              to={'/military'}
+              aria-label={'security link'}
+            >
+              🛡️ Military Power
+            </Link>
+
+            <Link
+              search={search}
+              className="container option"
+              to={'/government'}
+              aria-label={'government link'}
+            >
+              🏛️ Government
+            </Link>
+          </div>
         </li>
         <h3>Map Layers 🗺️</h3>
 
         <p>Switch between satellite, terrain, or boundaries.</p>
       </section>
-
       {/* THEME */}
       <section>
         <h2>Theme</h2>
@@ -229,14 +215,13 @@ function AtlasHomeComponent() {
             onChange={handleThemeChange}
             className="theme-select option"
           >
-            {themes.map((theme) => (
-              <option key={theme.value} value={theme.value}>
+            {themes.map((theme, index) => (
+              <option key={theme.value} value={theme.value} disabled={index > 2}>
                 {theme.label}
               </option>
             ))}
           </select>
         </div>
-
         <blockquote className="container light">
           <i className="action">Attention:</i> Select an{' '}
           <span className="option">
@@ -249,43 +234,88 @@ function AtlasHomeComponent() {
           .
         </blockquote>
       </section>
-
-      {/* CONTRIBUTE */}
+      {/* ABOUT */}
       <section>
-        <h2>Contribute</h2>
+        <h2>About</h2>
+        <blockquote>
+          "What is now happening to Marx’s theory has, in the course of history, happened repeatedly
+          to the theories of revolutionary thinkers and leaders of oppressed classes fighting for
+          emancipation. During the lifetime of great revolutionaries, the oppressing classes
+          constantly hounded them, received their theories with the most savage malice, the most
+          furious hatred and the most unscrupulous campaigns of lies and slander. After their death,
+          attempts are made to convert them into harmless icons, to canonize them, so to say, and to
+          hallow their names to a certain extent for the “consolation” of the oppressed classes and
+          with the object of duping the latter, while at the same time robbing the revolutionary
+          theory of its substance, blunting its revolutionary edge and vulgarizing it."
+        </blockquote>
+        <small>
+          ― Vladimir Ilyich Lenin,
+          <a
+            href={'https://www.marxists.org/archive/lenin/works/1917/staterev/ch01.htm'}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            The State and Revolution
+          </a>
+        </small>
+
+        <h3>Features</h3>
         <ul className="wrapper">
           <li className="container neutral">
-            <input type="checkbox" name="FOSS" checked />
-            <label htmlFor="FOSS">Self-Hostable</label>
+            <input type="checkbox" name="privacy" title="Get uBlock" checked />
+            <label htmlFor="privacy">No Ads</label>
           </li>
           <li className="container neutral">
-            <input type="checkbox" name="FOSS" checked />
-            <label htmlFor="FOSS">Privacy</label>
+            <input type="checkbox" name="decentral" checked title="but kinda centralized as well" />
+            <label htmlFor="decentral">Decentralized</label>
           </li>
           <li className="container neutral">
-            <input type="checkbox" name="FOSS" checked />
-            <label htmlFor="FOSS">Decentralized</label>
+            <input type="checkbox" name="self" checked title="Resilience" />
+            <label htmlFor="self">Self-Hostable</label>
           </li>
           <li className="container neutral">
-            <input type="checkbox" name="FOSS" checked />
+            <input type="checkbox" name="FOSS" checked title="For the people" />
             <label htmlFor="FOSS">FOSS</label>
           </li>
         </ul>
 
+        <h3>Development</h3>
         <div className="wrapper">
-          <a href="https://github.com/hexatlas/redAtlas" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://github.com/hexatlas/redAtlas"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="container action"
+          >
             Github
           </a>
           <a
             href="https://codeberg.org/hex_atlas/redAtlas"
             target="_blank"
             rel="noopener noreferrer"
+            className="container action"
           >
             Codeberg
           </a>
         </div>
-        <small className="mute">GNU AFFERO GENERAL PUBLIC LICENSE</small>
-      </section>
+
+        <h3>Discussions</h3>
+        <div className="wrapper">
+          <a
+            href="https://hexbear.net/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="container action"
+          >
+            Hexbear.net
+          </a>
+        </div>
+        <p>
+          A leftist social platform centered around community building through discussion,
+          shitposting memes, and sharing content.
+        </p>
+      </section>{' '}
+      <small className="mute">GNU AFFERO GENERAL PUBLIC LICENSE</small>
     </LegendLayout>
   );
 }

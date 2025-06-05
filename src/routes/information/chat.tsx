@@ -9,7 +9,6 @@ import { AtlasContext } from '../__root';
 import { useStateStorage } from '../../hooks/useUtils';
 import { ChatModelConfigProps, ModelConfig } from '../../types/atlas.types';
 import ChatModelConfig from '../../components/shared/ChatModelConfig';
-import { Model } from 'openai/resources/models.mjs';
 
 export const Route = createFileRoute('/information/chat')({
   component: ChatRouteComponent,
@@ -174,9 +173,9 @@ function ChatRouteComponent() {
       <h1>
         LLMao<span>🗨️</span>
       </h1>
+
       <details className={'config'} open={true}>
         <summary>LLM Model Config</summary>
-
         {/* Troubleshoot  */}
 
         {models?.length === 0 && (
@@ -251,7 +250,6 @@ function ChatRouteComponent() {
         ?.map((m, index) => (
           <ChatMessage
             key={index}
-            messageIndex={index}
             message={m}
             activeToolModel={activeToolModel}
             activeReasoningModel={activeReasoningModel}
@@ -281,12 +279,12 @@ function ChatRouteComponent() {
             onChange={(e) => setUserPrompt(e.target.value)}
           />
           <button
-            className="ask__button action"
+            className={`ask__button action ${loading && 'loading'}`}
             type="submit"
             disabled={loading || !userPrompt.trim()}
             title="Send Message"
           >
-            {loading ? <div className="loading">💬</div> : '📨'}
+            {loading ? '💬' : '📨'}
           </button>
           <button
             type={'button'}

@@ -213,7 +213,7 @@ export interface OSMInfoCardProps {
 export interface OSMInfoListProps {
   listName: string;
   map: L.Map | null;
-  iconMap?: {
+  iconMap: {
     [key: string]: L.DivIcon;
   };
   filterKeys: string[];
@@ -226,6 +226,7 @@ export interface OSMInfoListProps {
 export type MessageWithThinking = Message & {
   finishedThinking?: boolean;
   think?: string;
+  timestamp?: number;
 };
 
 export interface GeneratedLocations {

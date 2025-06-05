@@ -11,7 +11,7 @@
 .cluster-info {
   display: flex;
   .cluster-container {
-    @include atlas-shadow(var(--shadow-atlas-2));
+    @include atlas-shadow(var(--shadow-atlas-1));
     background-color: var(--surface-atlas-page);
     display: flex;
     position: relative;
@@ -39,6 +39,9 @@
     color: var(--text-atlas-info);
     background-color: var(--surface-atlas-info);
     outline: var(--outline-atlas-info);
+  }
+  &:hover {
+    z-index: 9999 !important;
   }
 }
 
@@ -216,10 +219,8 @@
 .leaflet-popup-content-wrapper {
   @include atlas-shadow(var(--shadow-atlas-1));
   border-radius: var(--border-radius-atlas-1) !important;
-  background: var(--surface-atlas-page) !important;
-
-  border-right: var(--size-atlas-14) solid
-    hsl(var(--color-atlas-secondary) / var(--opacity-atlas-3)) !important;
+  background: var(--surface-atlas-page-transparent) !important;
+  border: none !important;
 }
 
 .leaflet-popup-content-wrapper,
@@ -281,10 +282,10 @@
 }
 
 .leaflet-control-zoom > a:hover {
-  background: var(--surface-atlas-option) !important;
+  background: var(--surface-atlas-action) !important;
   color: hsl(var(--color-atlas-light) / var(--opacity-atlas-3)) !important;
   border-radius: var(--size-atlas-14);
-
+  outline: var(--outline-atlas-action) !important;
   opacity: 1;
 }
 
@@ -293,6 +294,10 @@
   border: 1px solid hsl(var(--color-atlas-light) / var(--opacity-atlas-3)) !important;
   border-right: var(--size-atlas-14) solid
     hsl(var(--color-atlas-secondary) / var(--opacity-atlas-3)) !important;
+}
+
+.leaflet-bar a {
+  background: none;
 }
 
 /* no politics */

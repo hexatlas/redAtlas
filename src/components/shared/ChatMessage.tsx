@@ -25,7 +25,6 @@ async function sha256(message) {
 }
 
 const ChatMessage: React.FC<{
-  messageIndex: number;
   activeToolModel: string;
   activeReasoningModel: string;
   message: MessageWithThinking;
@@ -34,7 +33,6 @@ const ChatMessage: React.FC<{
   map?;
   loading?;
 }> = ({
-  messageIndex,
   activeToolModel,
   activeReasoningModel,
   message,
@@ -44,11 +42,11 @@ const ChatMessage: React.FC<{
   loading,
 }) => {
   const [locations, setLocations] = useStateStorage<GeneratedLocations[]>(
-    `chat-${messageIndex}-locations`,
+    `chat-${message.timestamp}-location`,
     [],
   );
   const [initialLoad, setInitialLoad] = useStateStorage<boolean>(
-    `chat-${messageIndex}-initialLoad`,
+    `chat-${message.timestamp}-initialLoad`,
     true,
   );
   const [isExctractingLocation, setIsExctractingLocation] = useState(false);
@@ -58,8 +56,11 @@ const ChatMessage: React.FC<{
       extractLocations();
       setInitialLoad(false);
     }
-    if (locations.length > 0) showLocationsOnMap();
   }, [loading]);
+
+  useEffect(() => {
+    if (locations.length > 0) showLocationsOnMap();
+  }, [locations]);
 
   const extractLocations = async () => {
     setIsExctractingLocation(true);
@@ -205,10 +206,6 @@ const ChatMessage: React.FC<{
     return setLocations(LLMlocations);
   };
 
-  useEffect(() => {
-    showLocationsOnMap();
-  }, [locations]);
-
   const showLocationsOnMap = async () => {
     try {
       if (locations.length === 0) return;
@@ -218,26 +215,38 @@ const ChatMessage: React.FC<{
         null as unknown as LatLngExpression,
       );
 
-      for (const location of locations) {
+      // Create a new array to store updated locations
+      const updatedLocations = [...locations];
+
+      for (let i = 0; i < updatedLocations.length; i++) {
+        const location = updatedLocations[i];
         const { nominatim } = location;
+
         const handleMap = (nominatimResponse) => {
           LLMboundingbox.extend([nominatimResponse.lat, nominatimResponse.lon]);
           map?.flyToBounds(LLMboundingbox, { padding: [100, 100] });
-          createMapPopup(nominatimResponse, location);
         };
-        if (location?.nominatimResponse !== undefined) {
-          const { nominatimResponse } = location;
 
-          handleMap(nominatimResponse);
+        if (typeof location?.nominatimResponse === 'object') {
+          handleMap(location.nominatimResponse);
         } else {
           const nominatimResponse = await getNominatimLocation(nominatim);
           if (!nominatimResponse) continue;
-          location.nominatimResponse = nominatimResponse;
+
+          // Update the location IMMUTABLY
+          updatedLocations[i] = {
+            ...location,
+            nominatimResponse, // Add nominatimResponse to the location
+          };
+
           handleMap(nominatimResponse);
+          createMapPopup(nominatimResponse, updatedLocations[i]);
           await new Promise((resolve) => setTimeout(resolve, 250));
         }
       }
-      setLocations(locations);
+
+      // Set state with the new array
+      setLocations(updatedLocations);
     } catch (error) {
       console.error('Error showing locations:', error);
       setLocations([]);
@@ -271,10 +280,11 @@ const ChatMessage: React.FC<{
 
   const createMapPopup = (nominatimResponse, location) => {
     const {
+      name,
       description,
       emoji,
       category: { category_name, category_emoji, category_description },
-      nominatimResponse: { name },
+      nominatimResponse: { display_name },
     } = location;
 
     const emojiIcon = L.divIcon({
@@ -288,12 +298,16 @@ const ChatMessage: React.FC<{
 
     const popupContent = `
     <div>
+      <small>🤖 LLMao (${activeToolModel})</small>
       <h1><small>${category_name || 'Unnamed'}</small><span>${category_emoji}</span></h1>
-      <small>${name}</small>
-      <span class="container">${emoji}</span>
-      <p>${description}</p>
+      <p>${category_description}</p>
+      <div class="container">
+        <h4>${name}<span class="container"> ${emoji}</span></h4>
+        <p>${description}</p>
+        <small>📍 <span class="mute">${display_name}</span></small>
+      </div>
     </div>
-    <div class="group-description">${category_description}</div>
+    
   `;
 
     const popup = L.popup().setContent(popupContent);
@@ -353,18 +367,19 @@ const ChatMessage: React.FC<{
             : `LLMao (${activeReasoningModel || toolModelConfig.model})`}
         </span>
       </span>
+      <span className="mute">{message.timestamp}</span>
       {message.role === 'assistant' && (
         <details open={!message.finishedThinking} className="thoughts">
           <summary>{message.finishedThinking ? 'Thoughts' : 'Thinking...'}</summary>{' '}
           {message.think && (
             <blockquote className="">
-              <Markdown highlight={highlightArray}>{message.think}</Markdown>
+              <Markdown highlight={[...highlightArray]}>{message.think}</Markdown>
             </blockquote>
           )}
         </details>
       )}
       <article className={`${message.role === 'user' ? '' : ''}`}>
-        <Markdown highlight={highlightArray}>{message.content}</Markdown>
+        <Markdown highlight={[...highlightArray]}>{message.content}</Markdown>
       </article>
       {locations.length > 0 && (
         <details className="locations">
@@ -375,20 +390,23 @@ const ChatMessage: React.FC<{
       {message.role !== 'user' && !loading && (
         <>
           {locations.length === 0 && !isExctractingLocation && (
-            <button onClick={extractLocations}>🌐 extractLocations</button>
+            <>
+              <label htmlFor="">0 Locations Identified</label>
+              <button onClick={extractLocations}>🌐 extractLocations</button>
+            </>
           )}
-          {locations.length > 0 && (
+          {locations.length > 0 && locations[0]?.nominatimResponse && (
             <button onClick={showLocationsOnMap}>🌐 showLocationsOnMap</button>
+          )}
+          {isExctractingLocation && (
+            <details className="locations loading">
+              <summary>🌐 extracting locations..</summary>
+              <pre>This can take a few minutes.</pre>
+            </details>
           )}
         </>
       )}{' '}
       {locations.length > 0 && <button onClick={resetMap}>🌐 reset</button>}{' '}
-      {isExctractingLocation && (
-        <details className="locations loading">
-          <summary>🌐 extracting locations..</summary>
-          <pre>This can take a few minutes.</pre>
-        </details>
-      )}
     </div>
   );
 };

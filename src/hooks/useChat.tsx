@@ -44,7 +44,10 @@ function useChat({
     setUserPrompt('');
     setLoading(true);
 
-    const messagesWithInput: Message[] = [...messages, { role: 'user', content: userPrompt }];
+    const messagesWithInput: MessageWithThinking[] = [
+      ...messages,
+      { role: 'user', content: userPrompt },
+    ];
     setMessages(() => messagesWithInput);
 
     // OPEN AI
@@ -76,6 +79,7 @@ function useChat({
             {
               role: 'assistant',
               content: assistantResponse,
+              timestamp: Date.now(),
             },
           ]);
         }
@@ -98,6 +102,7 @@ function useChat({
             {
               role: 'assistant',
               content: assistantResponse,
+              timestamp: Date.now(),
             },
           ]);
         }

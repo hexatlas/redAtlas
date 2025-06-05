@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react';
 // https://www.radix-ui.com/primitives/docs/components/accordion
+import * as Collapsible from '@radix-ui/react-collapsible';
 import * as Accordion from '@radix-ui/react-accordion';
 import AtlasOSMInfoCard from './OSMInfoCard';
 
@@ -16,9 +17,9 @@ function AtlasOSMInfoList({
   activeElement,
   setActiveElement,
 }: OSMInfoListProps) {
-  const [lastMapBounds, setLastMapBounds] = useState<
-    LatLngBoundsExpression | undefined
-  >(map?.getBounds());
+  const [lastMapBounds, setLastMapBounds] = useState<LatLngBoundsExpression | undefined>(
+    map?.getBounds(),
+  );
 
   const showOnMap = useCallback((element) => {
     if (element.lat && element.lon) {
@@ -69,33 +70,54 @@ function AtlasOSMInfoList({
 
   return (
     <>
-      <Accordion.Root
-        type="multiple"
-        className="list"
-        role="list"
-        aria-label={`${listName} in ${activeAdministrativeRegion['country']}`}
+      <Collapsible.Root
+        className="item container "
+        aria-label={`${data.length} ${listName} in ${activeAdministrativeRegion['country']}`}
         aria-description={`List of ${listName} in ${activeAdministrativeRegion['country']}`}
         aria-live="polite"
-        id="list"
       >
-        {data &&
-          data.map((element, index) => {
-            return (
-              <AtlasOSMInfoCard
-                key={index}
-                index={index}
-                element={element}
-                // map={map}
-                iconMap={iconMap}
-                filterKeys={filterKeys}
-                handleMouseEnter={handleMouseEnter}
-                handleMouseLeave={handleMouseLeave}
-                handleClick={handleClick}
-                activeElement={activeElement}
-              ></AtlasOSMInfoCard>
-            );
-          })}
-      </Accordion.Root>
+        <div aria-label="list header">
+          <div className="item__filterkey" aria-label="Filterkey">
+            <span className="emoji" aria-hidden="true">
+              {`${iconMap[listName]?.options?.html}`}
+            </span>
+            <div>
+              <small aria-label="plant:source">oil</small>
+            </div>
+            <Collapsible.Trigger className="wrapper action">
+              <span>{`${data.length}`}</span>
+            </Collapsible.Trigger>
+          </div>
+        </div>
+
+        <Collapsible.Content className={'item__container'}>
+          <Accordion.Root
+            type="multiple"
+            role="list"
+            aria-label={`${listName} in ${activeAdministrativeRegion['country']}`}
+            aria-description={`List of ${listName} in ${activeAdministrativeRegion['country']}`}
+            aria-live="polite"
+            id="list"
+          >
+            {data &&
+              data.map((element, index) => {
+                return (
+                  <AtlasOSMInfoCard
+                    key={index}
+                    index={index}
+                    element={element}
+                    iconMap={iconMap}
+                    filterKeys={filterKeys}
+                    handleMouseEnter={handleMouseEnter}
+                    handleMouseLeave={handleMouseLeave}
+                    handleClick={handleClick}
+                    activeElement={activeElement}
+                  ></AtlasOSMInfoCard>
+                );
+              })}
+          </Accordion.Root>
+        </Collapsible.Content>
+      </Collapsible.Root>
     </>
   );
 }

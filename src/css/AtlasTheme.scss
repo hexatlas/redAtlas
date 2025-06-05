@@ -60,28 +60,28 @@ code {
 
 @mixin color_background_setting($name, $color_text, $color_surface, $color_border, $opacity) {
   .#{$name} {
-    color: $color_text;
-    background: $color_surface;
-    border-color: $color_border;
-    border-radius: var(--border-radius-atlas-1);
+    color: $color_text !important;
+    background-color: $color_surface !important;
+    border-color: $color_border !important;
+    border-radius: var(--border-radius-atlas-1) !important;
   }
   .#{$name}:focus,
   .#{$name}:hover,
   .#{$name}:hover a {
-    background: $color_text;
-    color: $color_surface;
+    background-color: $color_text !important;
+    color: $color_surface !important;
   }
   .#{$name} a {
-    color: $color_text;
+    color: $color_text !important;
   }
   .#{$name}--invert {
-    background: $color_text;
-    color: $color_surface;
-    border-color: $color_border;
-    border-radius: var(--border-radius-atlas-1);
+    background-color: $color_text !important;
+    color: $color_surface !important;
+    border-color: $color_border !important;
+    border-radius: var(--border-radius-atlas-1) !important;
   }
   .#{$name}--invert a {
-    color: $color_surface;
+    color: $color_surface !important;
   }
 }
 
@@ -91,9 +91,9 @@ code {
 
 @font-face {
   font-family: 'Noto Color Emoji';
-  src: url('../src/assets/fonts/NotoColorEmoji-Regular.ttf') format('truetype');
-  font-weight: normal;
+  src: url('../assets/fonts/NotoColorEmoji-Regular.ttf') format('truetype');
   font-style: normal;
+  font-weight: normal;
   font-display: optional;
 }
 
@@ -239,8 +239,9 @@ code {
   --text-atlas-error: hsl(var(--color-atlas-red-50));
 
   // Surface Colors
-  --surface-atlas-page: hsl(var(--color-atlas-red-100) / var(--opacity-atlas-2));
+  --surface-atlas-page: hsl(var(--color-atlas-red-100) / var(--opacity-atlas-3));
   --surface-atlas-page-inverse: hsl(var(--color-atlas-red-700) / var(--opacity-atlas-2));
+  --surface-atlas-page-transparent: hsl(var(--color-atlas-red-100) / var(--opacity-atlas-2));
   --surface-atlas-chart: hsl(var(--color-atlas-red-300));
   --surface-atlas-disabled: hsl(var(--color-atlas-light) / var(--opacity-atlas-2));
 
@@ -269,7 +270,7 @@ code {
 
   --border-atlas-info: dashed var(--size-atlas-16) hsl(var(--color-atlas-yellow-500));
   --border-atlas-info-active: dashed var(--size-atlas-16) hsl(var(--color-atlas-yellow-950));
-  --border-atlas-action: solid 1px hsl(var(--color-atlas-blue-200));
+  --border-atlas-action: solid 1px hsl(var(--color-atlas-blue-200) / var(--opacity-atlas-2));
   --border-atlas-action-active: solid 1px hsl(var(--color-atlas-blue-400));
   --border-atlas-option: solid 1px hsl(var(--color-atlas-red-700));
   --border-atlas-option-active: solid 1px hsl(var(--color-atlas-red-800));
@@ -406,7 +407,7 @@ code {
 @include color_background_setting(
   'neutral',
   var(--text-atlas-body),
-  var(--surface-atlas-page),
+  var(--surface-atlas-page-transparent),
   var(--border-atlas-neutral),
   var(--opacity-atlas-3)
 );
@@ -435,7 +436,7 @@ body {
     var(--size-atlas-07) var(--size-atlas-07),
     var(--size-atlas-12) var(--size-atlas-12),
     var(--size-atlas-12) var(--size-atlas-12);
-  background-color: var(--surface-atlas-page);
+  background-color: var(--surface-atlas-page-transparent);
   font-family: var(--font-atlas-sans);
   font-weight: 400;
   line-height: var(--line-height-atlas);
@@ -455,9 +456,13 @@ a {
   border-radius: var(--border-radius-atlas-1);
   transition: var(--transition-atlas-slow);
   &:hover {
-    color: var(--text-atlas-action-active);
+    color: var(--text-atlas-action) !important;
+    background: var(--surface-atlas-action) !important;
     transition: var(--transition-atlas-fast);
   }
+
+  padding: 0 var(--size-atlas-12);
+  border-radius: var(--border-radius-atlas-1);
 }
 
 span,
@@ -645,12 +650,14 @@ td {
 
 .layout {
   min-height: var(--atlas-legend-height);
-  background-color: var(--surface-atlas-page);
+  background-color: var(--surface-atlas-page-transparent);
   outline: var(--outline-atlas-neutral);
   padding: var(--size-atlas-09);
   padding-top: calc(var(--size-atlas-09) / var(--line-height-atlas));
   overflow: scroll;
   a {
+    outline: var(--outline-atlas-action);
+    margin: 0 var(--size-atlas-12);
     background: none;
   }
 }
@@ -743,7 +750,7 @@ details {
   outline: var(--outline-atlas-info-active);
   border-radius: var(--border-radius-atlas-1);
   margin-bottom: var(--size-atlas-10);
-  background-color: var(--surface-atlas-page);
+  background-color: var(--surface-atlas-page-transparent);
   summary {
     padding: var(--size-atlas-09);
     background-color: var(--surface-atlas-info);
@@ -814,17 +821,27 @@ details {
 }
 
 .loading {
-  background-color: var(--surface-atlas-page);
-  background-image: linear-gradient(90deg, var(--surface-atlas-page));
+  background-image: linear-gradient(
+    90deg,
+    hsl(var(--color-atlas-light) / 0) 0%,
+    hsl(var(--color-atlas-light) / var(--opacity-atlas-3)) 50%,
+    hsl(var(--color-atlas-light) / 0) 100%
+  ) !important;
   background-size: var(--size-atlas-00) 100%;
   background-repeat: no-repeat;
   background-position: left calc(var(--size-atlas-00) * -1) top 0;
   animation: shine var(--timing-atlas-slow);
   outline: var(--outline-atlas-neutral);
 
-  summary {
-    background-color: var(--surface-atlas-page);
-    background-image: linear-gradient(90deg, var(--surface-atlas-page));
+  summary,
+  button {
+    background-color: var(--surface-atlas-page-transparent);
+    background-image: linear-gradient(
+      90deg,
+      hsl(var(--color-atlas-light) / 0) 0%,
+      hsl(var(--color-atlas-light) / var(--opacity-atlas-2)) 50%,
+      hsl(var(--color-atlas-light) / 0) 100%
+    ) !important;
     background-size: var(--size-atlas-00) 100%;
     background-repeat: no-repeat;
     background-position: left calc(var(--size-atlas-00) * -1) top 0;

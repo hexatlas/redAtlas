@@ -16,31 +16,19 @@ function AtlasOSMInfoDetail({
   iconMap;
   filterKeys;
 }) {
-  const {
-    name,
-    wikidata,
-    'name:en': nameEN,
-    source,
-    website,
-  } = activeElement?.tags || {};
+  const { name, wikidata, 'name:en': nameEN, source, website } = activeElement?.tags || {};
 
   const [imagesArray] = useWikiDataImages(wikidata);
 
   return (
-    <div className="container neutral sticky">
+    <div className="container neutral">
       {iconMap && filterKeys && (
         <div className="wrapper">
           {/* FILTER EMOJI */}
-          <div
-            className="container container--inset info"
-            aria-label={`Filterkey`}
-          >
+          <div className="container container--inset info" aria-label={`Filterkey`}>
             {iconMap[activeElement?.tags[filterKeys[0]]]?.options?.html ? (
               <span className="emoji-label" aria-hidden="true">
-                {
-                  iconMap[activeElement?.tags[filterKeys[0]]]?.options
-                    ?.html as ReactNode
-                }
+                {iconMap[activeElement?.tags[filterKeys[0]]]?.options?.html as ReactNode}
               </span>
             ) : (
               <span className="emoji-label" aria-hidden="true">
@@ -74,11 +62,7 @@ function AtlasOSMInfoDetail({
               className="wikidata"
               aria-label="wikidata"
             >
-              <img
-                src={wikidataIcon}
-                alt="Lemmy Logo"
-                className="custom-icon"
-              />{' '}
+              <img src={wikidataIcon} alt="Lemmy Logo" className="custom-icon" />{' '}
             </a>
           )}
           {imagesArray && imagesArray.length > 0 && (
@@ -121,12 +105,7 @@ function AtlasOSMInfoDetail({
             return (
               <div key={index}>
                 {isUrl && (
-                  <a
-                    key={index}
-                    href={isUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
+                  <a key={index} href={isUrl} target="_blank" rel="noopener noreferrer">
                     🔗 {url.toString()}
                   </a>
                 )}
@@ -141,9 +120,7 @@ function AtlasOSMInfoDetail({
       </div>
 
       <Collapsible.Root>
-        <Collapsible.Trigger className="container light">
-          🗃️
-        </Collapsible.Trigger>
+        <Collapsible.Trigger className="container light">🗃️</Collapsible.Trigger>
 
         <Collapsible.Content className="container light dark">
           <pre>{JSON.stringify(activeElement?.tags, null, 2)}</pre>
