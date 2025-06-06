@@ -433,6 +433,11 @@ const ChatMessage: React.FC<{
           )}
         </>
       )}
+      {message.role !== 'user' && (
+        <blockquote className="container mute">
+          <b>⚠️ Cognito Hazard:</b> This response is AI-generated, for reference only.
+        </blockquote>
+      )}
     </div>
   );
 };

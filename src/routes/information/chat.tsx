@@ -163,13 +163,7 @@ function ChatRouteComponent() {
   }
 
   return (
-    <LegendLayout
-      footer={
-        <blockquote>
-          <b>Cognito Hazard:</b> AI generated content
-        </blockquote>
-      }
-    >
+    <LegendLayout>
       <h1>
         LLMao<span>🗨️</span>
       </h1>
