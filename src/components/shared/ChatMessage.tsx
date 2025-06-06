@@ -408,6 +408,7 @@ const ChatMessage: React.FC<{
       {locations.length > 0 && (
         <details className="locations">
           <summary>{locations.length} locations</summary>
+          <button onClick={resetLocations}>🌐 resetLocations</button>
           <pre>{JSON.stringify(locations, null, 2)}</pre>
         </details>
       )}
@@ -423,7 +424,6 @@ const ChatMessage: React.FC<{
             {locations.length > 0 && (
               <button onClick={removeLocationMarkers}>🌐 removeLocationMarkers</button>
             )}
-            {locations.length > 0 && <button onClick={resetLocations}>🌐 resetLocations</button>}
           </div>
           {isExctractingLocation && (
             <details className="locations loading">
