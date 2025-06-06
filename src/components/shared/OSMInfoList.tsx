@@ -16,24 +16,11 @@ function AtlasOSMInfoList({
   activeAdministrativeRegion,
   activeElement,
   setActiveElement,
+  showOnMap,
 }: OSMInfoListProps) {
   const [lastMapBounds, setLastMapBounds] = useState<LatLngBoundsExpression | undefined>(
     map?.getBounds(),
   );
-
-  const showOnMap = useCallback((element) => {
-    if (element.lat && element.lon) {
-      map?.flyTo([element.lat, element.lon], 15, { duration: 2.7 });
-    } else if (element?.bounds) {
-      map?.flyToBounds(
-        [
-          [element.bounds.minlat, element.bounds.minlon],
-          [element.bounds.maxlat, element.bounds.maxlon],
-        ],
-        { duration: 2.7 },
-      );
-    }
-  }, []);
 
   const handleClick = useCallback((element) => {
     if (element.lat && element.lon) {
@@ -71,26 +58,22 @@ function AtlasOSMInfoList({
   return (
     <>
       <Collapsible.Root
-        className="container"
+        className="container neutral"
         aria-label={`${data.length} ${listName} in ${activeAdministrativeRegion['country']}`}
         aria-description={`List of ${listName} in ${activeAdministrativeRegion['country']}`}
         aria-live="polite"
       >
-        <div className="wrapper">
-          <b className="container info">{data.length}</b>
+        <Collapsible.Trigger className="legend__item">
+          {iconMap[listName]?.options?.html && (
+            <span className="emoji" aria-hidden="true">
+              {`${iconMap[listName]?.options?.html}`}
+            </span>
+          )}
 
-          <div className="list__key" aria-label="Filterkey">
-            {iconMap[listName]?.options?.html && (
-              <span className="emoji" aria-hidden="true">
-                {`${iconMap[listName]?.options?.html}`}
-              </span>
-            )}
-            <div>
-              <small aria-label="plant:source">{listName}</small>
-            </div>
-          </div>
-          <Collapsible.Trigger>Show</Collapsible.Trigger>
-        </div>
+          <h5 aria-label="plant:source">{listName}</h5>
+
+          <b className="container info">{data.length}</b>
+        </Collapsible.Trigger>
 
         <Collapsible.Content>
           <Accordion.Root
@@ -100,7 +83,7 @@ function AtlasOSMInfoList({
             aria-description={`List of ${listName} in ${activeAdministrativeRegion['country']}`}
             aria-live="polite"
             id="list"
-            className={'list neutral'}
+            className={'list'}
           >
             {data &&
               data.map((element, index) => {

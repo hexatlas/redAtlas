@@ -221,6 +221,7 @@ export interface OSMInfoListProps {
   activeAdministrativeRegion: AdministrativeRegionObject;
   activeElement;
   setActiveElement;
+  showOnMap;
 }
 
 export type MessageWithThinking = Message & {

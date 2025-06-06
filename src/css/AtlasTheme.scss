@@ -249,7 +249,7 @@ code {
   --surface-atlas-info-muted: hsl(var(--color-atlas-yellow-200));
   --surface-atlas-action: hsl(var(--color-atlas-blue-200));
   --surface-atlas-action-active: hsl(var(--color-atlas-blue-400));
-  --surface-atlas-action-muted: hsl(var(--color-atlas-blue-50));
+  --surface-atlas-action-muted: hsl(var(--color-atlas-blue-100));
   --surface-atlas-option: hsl(var(--color-atlas-red-700));
   --surface-atlas-option-active: hsl(var(--color-atlas-red-800));
 
@@ -470,10 +470,12 @@ a {
   color: var(--text-atlas-action);
   border-radius: var(--border-radius-atlas-1);
   transition: var(--transition-atlas-slow);
+
   &:hover {
     color: var(--text-atlas-action) !important;
-    background: var(--surface-atlas-action) !important;
+    background: var(--surface-atlas-action-active) !important;
     transition: var(--transition-atlas-fast);
+    outline: var(--outline-atlas-action-active);
   }
 
   padding: 0 var(--size-atlas-12);
@@ -578,6 +580,7 @@ h5 {
 
 .emoji {
   font-family: var(--font-atlas-emoji) !important;
+  font-size: var(--size-atlas-07);
 }
 
 blockquote {
@@ -615,12 +618,16 @@ progress {
   border-radius: var(--border-radius-atlas-1);
   flex: auto;
   transition: border-radius var(--transition-atlas-fast);
+  background: var(--surface-atlas-action-muted);
 }
 
 button {
+  outline: var(--outline-atlas-action);
+  background: var(--surface-atlas-action);
   &:hover {
-    background: var(--surface-atlas-action);
-    outline: var(--outline-atlas-action);
+    outline: var(--outline-atlas-action-active);
+    background: var(--surface-atlas-action-active);
+    cursor: pointer;
   }
 }
 

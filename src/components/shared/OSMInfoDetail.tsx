@@ -9,19 +9,24 @@ import useWikiDataImages from '../../data/shared/useWikiDataImages';
 
 function AtlasOSMInfoDetail({
   activeElement,
+  setActiveElement,
   iconMap,
   filterKeys,
+  showOnMap,
 }: {
   activeElement;
+  setActiveElement;
   iconMap;
   filterKeys;
+  showOnMap;
 }) {
   const { name, wikidata, 'name:en': nameEN, source, website } = activeElement?.tags || {};
 
   const [imagesArray] = useWikiDataImages(wikidata);
 
   return (
-    <div className="container neutral">
+    <>
+      {name && <h2>{name}</h2>}
       {iconMap && filterKeys && (
         <div className="wrapper">
           {/* FILTER EMOJI */}
@@ -50,50 +55,50 @@ function AtlasOSMInfoDetail({
               );
             })}
           </div>
-          <div className="container">
-            {name && <h2>{name}</h2>}
-            {nameEN && <h6>{nameEN}</h6>}
-          </div>
-          {wikidata && (
-            <a
-              href={`https://www.wikidata.org/wiki/${wikidata}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="wikidata"
-              aria-label="wikidata"
-            >
-              <img src={wikidataIcon} alt="Lemmy Logo" className="custom-icon" />{' '}
-            </a>
-          )}
           {imagesArray && imagesArray.length > 0 && (
             <div className="wikidata__container">
               {imagesArray.map((image, index) => {
                 return <img src={image} key={index} alt="WikiData Image" />;
               })}
             </div>
-          )}
+          )}{' '}
         </div>
+      )}{' '}
+      {wikidata && (
+        <a
+          href={`https://www.wikidata.org/wiki/${wikidata}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="wikidata"
+          aria-label="wikidata"
+        >
+          <img src={wikidataIcon} alt="Wikidata Logo" className="custom-icon" />{' '}
+        </a>
       )}
+      {nameEN && <small>{nameEN}</small>}{' '}
+      <div className="neutral">
+        {iconMap && filterKeys && (
+          <div className="container info">
+            {filterKeys.map((filterKey, index) => {
+              if (index < 1) return;
+              return (
+                <div
+                  key={index}
+                  aria-label={activeElement?.tags[filterKey]}
+                  aria-description={filterKey}
+                >
+                  {activeElement?.tags[filterKey] && (
+                    <div className="wrapper">
+                      <b key={index}>{activeElement?.tags[filterKey]}</b>
+                      <span>{filterKey}</span>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        )}
 
-      {iconMap && filterKeys && (
-        <div className="container info">
-          {filterKeys.map((filterKey, index) => {
-            if (index < 1) return;
-            return (
-              <p
-                key={index}
-                aria-label={activeElement?.tags[filterKey]}
-                aria-description={filterKey}
-              >
-                {activeElement?.tags[filterKey] && (
-                  <small key={index}>{activeElement?.tags[filterKey]}</small>
-                )}
-              </p>
-            );
-          })}
-        </div>
-      )}
-      <div className="container container--inset">
         {source &&
           [...new Set(source.split(';'))].map((url: string, index) => {
             let isUrl;
@@ -117,16 +122,24 @@ function AtlasOSMInfoDetail({
               </div>
             );
           })}
+
+        <div className="wrapper ">
+          <Collapsible.Root>
+            <Collapsible.Trigger className="container light" aria-label="toggle details">
+              🗃️
+            </Collapsible.Trigger>
+
+            <Collapsible.Content className="container light dark">
+              <pre>{JSON.stringify(activeElement?.tags, null, 2)}</pre>
+            </Collapsible.Content>
+          </Collapsible.Root>
+          <button onClick={() => setActiveElement(null)} aria-label="close detailview">
+            🧹
+          </button>
+          <button onClick={() => showOnMap(activeElement)}>📍</button>
+        </div>
       </div>
-
-      <Collapsible.Root>
-        <Collapsible.Trigger className="container light">🗃️</Collapsible.Trigger>
-
-        <Collapsible.Content className="container light dark">
-          <pre>{JSON.stringify(activeElement?.tags, null, 2)}</pre>
-        </Collapsible.Content>
-      </Collapsible.Root>
-    </div>
+    </>
   );
 }
 

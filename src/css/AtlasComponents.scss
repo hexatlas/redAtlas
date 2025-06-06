@@ -1,10 +1,30 @@
+.legend__item {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: auto 1fr auto;
+  justify-content: space-between;
+  justify-items: flex-start;
+  align-items: center;
+  gap: var(--size-atlas-10);
+  width: 100%;
+  min-height: var(--size-atlas-06);
+  background: none;
+  outline: none;
+  border-radius: var(--border-radius-atlas-1);
+  margin-bottom: var(--size-atlas-10);
+}
+
 .list {
   @include atlas-shadow(var(--shadow-atlas-inset));
   max-height: 50vh;
   overflow-y: scroll;
   border-radius: var(--border-radius-atlas-1);
   display: grid;
-  gap: var(--size-atlas-12);
+}
+
+.list__expand {
+  max-width: var(--size-atlas-06);
+  justify-self: flex-end;
 }
 
 .list__key {
@@ -91,9 +111,8 @@
   }
 
   &:hover,
-  &.active:hover,
-  &.active {
-    background: var(--surface-atlas-info-active);
+  &.active:hover {
+    background: var(--surface-atlas-action-active) !important;
     color: hsl(var(--color-atlas-dark) / var(--opacity-atlas-3));
 
     a {
@@ -106,6 +125,9 @@
     .item__filterkeys {
       color: hsl(var(--color-atlas-dark) / var(--opacity-atlas-3));
     }
+  }
+  &.active {
+    background-color: var(--surface-atlas-info-active);
   }
 
   &:hover {
@@ -176,11 +198,12 @@
     grid-column: 1 / -1;
   }
 
-  .wikidata {
-    max-width: var(--size-atlas-06);
-    padding: var(--size-atlas-09);
-    display: block;
-    float: right;
+  .wikidata a {
+    // max-width: var(--size-atlas-06);
+    padding: none !important;
+    margin: none !important;
+    // display: block;
+    // float: right;
   }
 }
 
