@@ -71,26 +71,28 @@ function AtlasOSMInfoList({
   return (
     <>
       <Collapsible.Root
-        className="item container "
+        className="container"
         aria-label={`${data.length} ${listName} in ${activeAdministrativeRegion['country']}`}
         aria-description={`List of ${listName} in ${activeAdministrativeRegion['country']}`}
         aria-live="polite"
       >
-        <div aria-label="list header">
-          <div className="item__filterkey" aria-label="Filterkey">
-            <span className="emoji" aria-hidden="true">
-              {`${iconMap[listName]?.options?.html}`}
-            </span>
+        <div className="wrapper">
+          <b className="container info">{data.length}</b>
+
+          <div className="list__key" aria-label="Filterkey">
+            {iconMap[listName]?.options?.html && (
+              <span className="emoji" aria-hidden="true">
+                {`${iconMap[listName]?.options?.html}`}
+              </span>
+            )}
             <div>
-              <small aria-label="plant:source">oil</small>
+              <small aria-label="plant:source">{listName}</small>
             </div>
-            <Collapsible.Trigger className="wrapper action">
-              <span>{`${data.length}`}</span>
-            </Collapsible.Trigger>
           </div>
+          <Collapsible.Trigger>Show</Collapsible.Trigger>
         </div>
 
-        <Collapsible.Content className={'item__container'}>
+        <Collapsible.Content>
           <Accordion.Root
             type="multiple"
             role="list"
@@ -98,21 +100,25 @@ function AtlasOSMInfoList({
             aria-description={`List of ${listName} in ${activeAdministrativeRegion['country']}`}
             aria-live="polite"
             id="list"
+            className={'list neutral'}
           >
             {data &&
               data.map((element, index) => {
                 return (
-                  <AtlasOSMInfoCard
-                    key={index}
-                    index={index}
-                    element={element}
-                    iconMap={iconMap}
-                    filterKeys={filterKeys}
-                    handleMouseEnter={handleMouseEnter}
-                    handleMouseLeave={handleMouseLeave}
-                    handleClick={handleClick}
-                    activeElement={activeElement}
-                  ></AtlasOSMInfoCard>
+                  <>
+                    <AtlasOSMInfoCard
+                      key={index}
+                      index={index}
+                      element={element}
+                      iconMap={iconMap}
+                      filterKeys={filterKeys}
+                      handleMouseEnter={handleMouseEnter}
+                      handleMouseLeave={handleMouseLeave}
+                      handleClick={handleClick}
+                      activeElement={activeElement}
+                    ></AtlasOSMInfoCard>
+                    <hr />
+                  </>
                 );
               })}
           </Accordion.Root>

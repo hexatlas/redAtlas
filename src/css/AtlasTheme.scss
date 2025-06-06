@@ -65,9 +65,7 @@ code {
     border-color: $color_border !important;
     border-radius: var(--border-radius-atlas-1) !important;
   }
-  .#{$name}:focus,
-  .#{$name}:hover,
-  .#{$name}:hover a {
+  .#{$name}:focus {
     background-color: $color_text !important;
     color: $color_surface !important;
   }
@@ -722,7 +720,6 @@ li {
 
 .settings__label {
   @include atlas-shadow(var(--shadow-atlas-1));
-  position: absolute;
 
   padding: var(--size-atlas-10);
   transform: translate(calc(var(--size-atlas-08) * 1), calc(var(--size-atlas-08) * -1));

@@ -1,3 +1,18 @@
+.list {
+  @include atlas-shadow(var(--shadow-atlas-inset));
+  max-height: 50vh;
+  overflow-y: scroll;
+  border-radius: var(--border-radius-atlas-1);
+  display: grid;
+  gap: var(--size-atlas-12);
+}
+
+.list__key {
+  display: grid;
+  grid-template-columns: var(--size-atlas-04);
+  justify-items: center;
+}
+
 .item__filter {
   position: sticky;
   top: 0;
@@ -52,14 +67,9 @@
 }
 
 .item {
-  @include atlas-shadow(var(--shadow-atlas-1));
-  padding: var(--size-atlas-14);
+  padding: var(--size-atlas-10);
+  border-radius: var(--border-radius-atlas-1);
   margin-bottom: var(--size-atlas-11);
-
-  display: grid;
-  grid-template-columns: minmax(var(--size-atlas-08), 1fr) 4fr;
-  align-items: center;
-  gap: 0 var(--size-atlas-10);
   cursor: zoom-in;
   h4,
   h6 {

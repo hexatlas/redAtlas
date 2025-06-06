@@ -76,9 +76,18 @@ function MapInformationComponent({
     <LegendLayout route={route}>
       <h1>
         {name} <span>{activeAdministrativeRegion['emoji']}</span>
-      </h1>
+      </h1>{' '}
+      <h2>Filter</h2>
+      <AtlasOSMInfoFilter
+        data={data}
+        selectedFilters={selectedFilters}
+        setSelectedFilters={setSelectedFilters}
+        filteredData={filteredData}
+        iconMap={iconMap}
+        filterKeys={filterKeys}
+      />
       {filteredData && (
-        <h2>
+        <p>
           {filteredData.length}{' '}
           {Object.entries(selectedFilters).map(([key, value]) => {
             if (!value) return true; // No filter applied for this key
@@ -88,27 +97,22 @@ function MapInformationComponent({
                 : ''
             } ${value} `; // Element must match the filter
           })}{' '}
-        </h2>
+          results
+        </p>
       )}
       <AtlasOSMSettings {...clusterSettings} />
       {isLoading && <p className="map-info__loading-emoji">🔍</p>}
       {activeElement && (
-        <AtlasOSMInfoDetail
-          filterKeys={filterKeys}
-          iconMap={iconMap}
-          activeElement={activeElement}
-        />
+        <>
+          <h2>DetailView</h2>
+          <AtlasOSMInfoDetail
+            filterKeys={filterKeys}
+            iconMap={iconMap}
+            activeElement={activeElement}
+          />
+        </>
       )}
-
-      <AtlasOSMInfoFilter
-        data={data}
-        selectedFilters={selectedFilters}
-        setSelectedFilters={setSelectedFilters}
-        filteredData={filteredData}
-        iconMap={iconMap}
-        filterKeys={filterKeys}
-      />
-
+      <h2>Legend</h2>
       {data &&
         (() => {
           const groupByKey = filterKeys[0];
@@ -144,19 +148,6 @@ function MapInformationComponent({
             />
           ));
         })()}
-
-      {/* {filteredData && (
-        <AtlasOSMInfoList
-          listName={name}
-          map={map}
-          data={filteredData}
-          iconMap={iconMap}
-          activeAdministrativeRegion={activeAdministrativeRegion}
-          filterKeys={filterKeys}
-          activeElement={activeElement}
-          setActiveElement={setActiveElement}
-        ></AtlasOSMInfoList>
-      )} */}
     </LegendLayout>
   );
 }

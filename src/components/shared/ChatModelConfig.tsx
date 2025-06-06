@@ -60,7 +60,7 @@ function ChatModelConfig({
 
       {/* OpenAI Model Selection */}
 
-      <form name="modelConfig" onSubmit={handleSetOpenAIModel} className="wrapper">
+      <form name="modelConfig" onChange={handleSetOpenAIModel} className="wrapper">
         {activeModel === 'open-ai' && (
           <>
             <input

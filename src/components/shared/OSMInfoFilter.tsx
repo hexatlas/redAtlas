@@ -48,30 +48,33 @@ function AtlasOSMInfoFilter({
             role="toolbar"
           >
             {filterKeys &&
-              filterKeys.map((key, index) => (
-                <div key={index} className="filter-field" aria-label={`${key} filter option`}>
-                  <label htmlFor={key} className="sr-only">
-                    {getFilterOptions(key).length}
-                  </label>
-                  <select
-                    id={key}
-                    value={selectedFilters[key] || ''}
-                    onChange={(e) => handleFilterChange(key, e.target.value)}
-                    aria-controls="list"
-                    className="option"
-                  >
-                    <option value="" className="filter-field-reset" defaultChecked>
-                      ({getFilterOptions(key).length}) {key}
-                    </option>
-                    {getFilterOptions(key).map((option: string, index) => (
-                      <option key={index} value={option.toString()}>
-                        {iconMap && (iconMap[option]?.options?.html as ReactNode)}{' '}
-                        {option.toString()}
+              filterKeys.map((key, index) => {
+                if (index === 0) return;
+                return (
+                  <div key={index} className="filter-field" aria-label={`${key} filter option`}>
+                    <label htmlFor={key} className="sr-only">
+                      {getFilterOptions(key).length}
+                    </label>
+                    <select
+                      id={key}
+                      value={selectedFilters[key] || ''}
+                      onChange={(e) => handleFilterChange(key, e.target.value)}
+                      aria-controls="list"
+                      className="option"
+                    >
+                      <option value="" className="filter-field-reset" defaultChecked>
+                        ({getFilterOptions(key).length}) {key}
                       </option>
-                    ))}
-                  </select>
-                </div>
-              ))}
+                      {getFilterOptions(key).map((option: string, index) => (
+                        <option key={index} value={option.toString()}>
+                          {iconMap && (iconMap[option]?.options?.html as ReactNode)}{' '}
+                          {option.toString()}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                );
+              })}
           </Collapsible.Content>{' '}
         </Collapsible.Root>
       )}
