@@ -238,27 +238,25 @@ function AtlasHomeComponent() {
       <section>
         <h2>About</h2>
         <blockquote>
-          "What is now happening to Marx’s theory has, in the course of history, happened repeatedly
-          to the theories of revolutionary thinkers and leaders of oppressed classes fighting for
-          emancipation. During the lifetime of great revolutionaries, the oppressing classes
-          constantly hounded them, received their theories with the most savage malice, the most
-          furious hatred and the most unscrupulous campaigns of lies and slander. After their death,
-          attempts are made to convert them into harmless icons, to canonize them, so to say, and to
-          hallow their names to a certain extent for the “consolation” of the oppressed classes and
-          with the object of duping the latter, while at the same time robbing the revolutionary
-          theory of its substance, blunting its revolutionary edge and vulgarizing it."
-        </blockquote>
-        <small>
-          ― Vladimir Ilyich Lenin,
+          "What is now happening to{' '}
           <a
             href={'https://www.marxists.org/archive/lenin/works/1917/staterev/ch01.htm'}
             target="_blank"
             rel="noopener noreferrer"
           >
-            The State and Revolution
+            Lenin
           </a>
-        </small>
-
+          ’s theory has, in the course of history, happened repeatedly to the theories of
+          revolutionary thinkers and leaders of oppressed classes fighting for emancipation. During
+          the lifetime of great revolutionaries, the oppressing classes constantly hounded them,
+          received their theories with the most savage malice, the most furious hatred and the most
+          unscrupulous campaigns of lies and slander. After their death, attempts are made to
+          convert them into harmless icons, to canonize them, so to say, and to hallow their names
+          to a certain extent for the “consolation” of the oppressed classes and with the object of
+          duping the latter, while at the same time robbing the revolutionary theory of its
+          substance, blunting its revolutionary edge and vulgarizing it."
+        </blockquote>
+        <small>― redAtlas, 2025</small>
         <h3>Features</h3>
         <ul className="wrapper">
           <li className="container neutral">

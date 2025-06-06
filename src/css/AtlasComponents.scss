@@ -1,7 +1,7 @@
 .legend__item {
   display: grid;
   grid-auto-flow: column;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: var(--size-atlas-05) 1fr auto;
   justify-content: space-between;
   justify-items: flex-start;
   align-items: center;

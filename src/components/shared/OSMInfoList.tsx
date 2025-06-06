@@ -64,10 +64,12 @@ function AtlasOSMInfoList({
         aria-live="polite"
       >
         <Collapsible.Trigger className="legend__item">
-          {iconMap[listName]?.options?.html && (
+          {iconMap[listName]?.options?.html ? (
             <span className="emoji" aria-hidden="true">
               {`${iconMap[listName]?.options?.html}`}
             </span>
+          ) : (
+            <span></span>
           )}
 
           <h5 aria-label="plant:source">{listName}</h5>
